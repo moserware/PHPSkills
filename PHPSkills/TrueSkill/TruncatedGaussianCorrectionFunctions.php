@@ -103,7 +103,7 @@ class TruncatedGaussianCorrectionFunctions
     // the multiplicative correction of a double-sided truncated Gaussian with unit variance
     public static function wWithinMarginScaled($teamPerformanceDifference, $drawMargin, $c)
     {
-        return self::wWithinMargin(teamPerformanceDifference/c, drawMargin/c);
+        return self::wWithinMargin($teamPerformanceDifference/$c, $drawMargin/$c);
     }
 
     // From F#:
@@ -119,7 +119,7 @@ class TruncatedGaussianCorrectionFunctions
             return 1.0;
         }
 
-        $vt = vWithinMargin($teamPerformanceDifferenceAbsoluteValue, $drawMargin);
+        $vt = self::vWithinMargin($teamPerformanceDifferenceAbsoluteValue, $drawMargin);
 
         return $vt*$vt +
                (

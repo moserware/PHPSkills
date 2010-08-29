@@ -2,6 +2,7 @@
 
 namespace Moserware\Skills\TrueSkill;
 
+require_once(dirname(__FILE__) . "/../Guard.php");
 require_once(dirname(__FILE__) . "/../PairwiseComparison.php");
 require_once(dirname(__FILE__) . "/../RankSorter.php");
 require_once(dirname(__FILE__) . "/../Rating.php");
@@ -16,6 +17,7 @@ require_once(dirname(__FILE__) . "/../Numerics/BasicMath.php");
 require_once(dirname(__FILE__) . "/DrawMargin.php");
 require_once(dirname(__FILE__) . "/TruncatedGaussianCorrectionFunctions.php");
 
+use Moserware\Skills\Guard;
 use Moserware\Skills\PairwiseComparison;
 use Moserware\Skills\RankSorter;
 use Moserware\Skills\Rating;
@@ -44,7 +46,8 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
                                         array $teams,
                                         array $teamRanks)
     {
-        // Basic argument checking        
+        // Basic argument checking
+        Guard::argumentNotNull($gameInfo, "gameInfo");
         $this->validateTeamCountAndPlayersCountPerTeam($teams);
 
         // Make sure things are in order
@@ -136,7 +139,8 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
 
     /// <inheritdoc/>
     public function calculateMatchQuality($gameInfo, array $teams)
-    {        
+    {
+        Guard::argumentNotNull($gameInfo, "gameInfo");
         $this->validateTeamCountAndPlayersCountPerTeam($teams);
 
         $team1 = $teams[0];
