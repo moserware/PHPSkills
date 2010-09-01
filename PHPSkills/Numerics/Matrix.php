@@ -9,34 +9,13 @@ class Matrix
     private $_rowCount;
     private $_columnCount;
 
-    public function __construct($rows = 0, $columns = 0, $allRowValues = null)
+    public function __construct($rows = 0, $columns = 0, $matrixData = null)
     {
         $this->_rowCount = $rows;
         $this->_columnCount = $columns;
-
-        $currentIndex = 0;
-        $this->_matrixRowData = array();
-
-        for($currentRow; $currentRow < $rows; $currentRow++)
-        {
-            $currentRowData = array();
-            $this->_matrixRowData[] = $currentRowData;
-
-            for($currentCol = 0; $currentCol < $columns; $currentCol++)
-            {
-                $currentRowData[] = ($allRowValues != null) ? $allRowValues[$currentIndex++] : 0;
-            }
-        }
+        $this->_matrixRowData = $matrixData;
     }
 
-    public static function fromRowValues(&$rowValues)
-    {
-        $result = new Matrix();
-        $result->_matrixRowData = $rowValues;
-        $result->_rowCount = count($rowValues);
-        $result->_columnCount = count($rowValues[0]);
-        return $result;
-    }
 
     public function getRowCount()
     {
@@ -74,7 +53,7 @@ class Matrix
                  $currentColumnTransposeMatrix < $this->_rowCount;
                  $currentColumnTransposeMatrix++)
             {
-                $transposeMatrixCurrentRowColumnValues[$currentColumnTransposeMatrix] =
+                $transposeMatrix[$currentRowTransposeMatrix][$currentColumnTransposeMatrix] =
                     $this->_matrixRowData[$currentColumnTransposeMatrix][$currentRowTransposeMatrix];
             }
         }
@@ -84,7 +63,7 @@ class Matrix
 
     private function isSquare()
     {
-        return ($this->_rowCount == $this->_column) && ($this->_rowCount > 0);
+        return ($this->_rowCount == $this->_columnCount) && ($this->_rowCount > 0);
     }
 
     public function getDeterminant()
@@ -167,12 +146,9 @@ class Matrix
 
         for ($currentColumn = 0; $currentColumn < $this->_columns; $currentColumn++)
         {
-            $currentColumnData = array();
-            $result[] = $currentColumnData;
-
             for ($currentRow = 0; $currentRow < $this->_rowCount; $currentRow++)
             {
-                $currentColumnData[$currentRow] = $this->getCofactor($currentRow, $currentColumn);
+                $result[$currentColumn][$currentRow] = $this->getCofactor($currentRow, $currentColumn);
             }
         }
 
@@ -202,12 +178,9 @@ class Matrix
 
         for ($currentRow = 0; $currentRow < $rows; $currentRow++)
         {
-            $newRowColumnValues = array();
-            $newValues[$currentRow] = $newRowColumnValues;
-
             for ($currentColumn = 0; $currentColumn < $columns; $currentColumn++)
             {
-                $newRowColumnValues[$currentColumn] = $scalarValue*$matrix->getValue(currentRow, currentColumn);
+                $newValues[$currentRow][$currentColumn] = $scalarValue*$matrix->getValue($currentRow, $currentColumn);
             }
         }
 
@@ -231,13 +204,12 @@ class Matrix
 
         for ($currentRow = 0; $currentRow < $left->getRowCount(); $currentRow++)
         {
-            $rowColumnValues = array();
-            $resultMatrix[$currentRow] = $rowColumnValues;
             for ($currentColumn = 0; $currentColumn < $right->getColumnCount(); $currentColumn++)
             {
-                $rowColumnValues[$currentColumn] = $left->getValue($currentRow, $currentColumn)
-                                                   +
-                                                   $right->getValue($currentRow, $currentColumn);
+                $resultMatrix[$currentRow][$currentColumn] =
+                   $left->getValue($currentRow, $currentColumn)
+                   +
+                   $right->getValue($currentRow, $currentColumn);
             }
         }
 
@@ -260,10 +232,7 @@ class Matrix
         $resultMatrix = array();
 
         for ($currentRow = 0; $currentRow < $resultRows; $currentRow++)
-        {
-            $currentRowValues = array();
-            $resultMatrix[$currentRow] = $currentRowValues;
-
+        {            
             for ($currentColumn = 0; $currentColumn < $resultColumns; $currentColumn++)
             {
                 $productValue = 0;
@@ -276,7 +245,7 @@ class Matrix
                     $productValue = $productValue + $vectorIndexProduct;
                 }
 
-                $resultMatrix[] = $productValue;
+                $resultMatrix[$currentRow][$currentColumn] = $productValue;
             }
         }
 
@@ -288,7 +257,9 @@ class Matrix
         // See http://en.wikipedia.org/wiki/Minor_(linear_algebra)
 
         // I'm going to use a horribly naïve algorithm... because I can :)
-        $result = array();        
+        $result = array();
+
+        $actualRow = 0;
 
         for ($currentRow = 0; $currentRow < $this->_rowCount; $currentRow++)
         {
@@ -297,8 +268,7 @@ class Matrix
                 continue;
             }
 
-            $columnData = array();
-            $result[] = $columnData;
+            $actualCol = 0;
 
             for ($currentColumn = 0; $currentColumn < $this->_columnCount; $currentColumn++)
             {
@@ -307,8 +277,12 @@ class Matrix
                     continue;
                 }
 
-                $columnData[] = $this->_matrixRowData[$currentRow][$currentColumn];
-            }            
+                $result[$currentRow][$currentColumn] = $this->_matrixRowData[$currentRow][$currentColumn];
+
+                $actualCol++;
+            }
+
+            $actualRow++;
         }
 
         return new Matrix($this->_rowCount - 1, $this->_columnCount - 1, $result);
@@ -342,21 +316,20 @@ class Vector extends Matrix
 
 class SquareMatrix extends Matrix
 {
-    public function __construct(array $allValues)
+    public function __construct()
     {
+        $allValues = \func_get_args();
         $rows = (int) sqrt(count($allValues));
         $cols = $rows;
         
         $matrixData = array();
-        
-        for ($currentRow = 0; $currentRow < $rows; $currentRow++)
-        {
-            $currentRowValues = array();
-            $matrixData[] = currentRowValues;
+        $allValuesIndex = 0;
 
+        for ($currentRow = 0; $currentRow < $rows; $currentRow++)
+        {        
             for ($currentColumn = 0; $currentColumn < $cols; $currentColumn++)
             {
-                $currentRowValues[] = $allValues[$allValuesIndex++];
+                $matrixData[$currentRow][$currentColumn] = $allValues[$allValuesIndex++];
             }
         }
                 
