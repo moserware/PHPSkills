@@ -105,7 +105,7 @@ class Matrix
         // I expand along the first row
         for ($currentColumn = 0; $currentColumn < $this->_columnCount; $currentColumn++)
         {
-            $firstRowColValue = $this->_matrixRowValues[0][$currentColumn];
+            $firstRowColValue = $this->_matrixRowData[0][$currentColumn];
             $cofactor = $this->getCofactor(0, $currentColumn);
             $itemToAdd = $firstRowColValue*$cofactor;
             $result = $result + $itemToAdd;
@@ -277,7 +277,7 @@ class Matrix
                     continue;
                 }
 
-                $result[$currentRow][$currentColumn] = $this->_matrixRowData[$currentRow][$currentColumn];
+                $result[$actualRow][$actualCol] = $this->_matrixRowData[$currentRow][$currentColumn];
 
                 $actualCol++;
             }
