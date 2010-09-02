@@ -5,6 +5,7 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once(dirname(__FILE__) . '/../../PHPSkills/Numerics/Matrix.php');
 
 use \PHPUnit_Framework_TestCase;
+use Moserware\Numerics\Matrix;
 use Moserware\Numerics\SquareMatrix;
 
 class MatrixTest extends PHPUnit_Framework_TestCase
@@ -90,12 +91,48 @@ class MatrixTest extends PHPUnit_Framework_TestCase
         // Verified against http://www.wolframalpha.com/input/?i=det+%7B%7B3%2C1%2C4%2C1%2C5%2C9%2C2%2C6%7D%2C%7B5%2C3%2C5%2C8%2C9%2C7%2C9%2C3%7D%2C%7B2%2C3%2C8%2C4%2C6%2C2%2C6%2C4%7D%2C%7B3%2C3%2C8%2C3%2C2%2C7%2C9%2C5%7D%2C%7B0%2C2%2C8%2C8%2C4%2C1%2C9%2C7%7D%2C%7B1%2C6%2C9%2C3%2C9%2C9%2C3%2C7%7D%2C%7B5%2C1%2C0%2C5%2C8%2C2%2C0%2C9%7D%2C%7B7%2C4%2C9%2C4%2C4%2C5%2C9%2C2%7D%7D
         $this->assertEquals(1378143, $pi->getDeterminant());
     }
+
+    public function testEquals()
+    {
+        $a = new SquareMatrix(1, 2,
+                              3, 4);
+
+        $b = new SquareMatrix(1, 2,
+                              3, 4);
+
+        $this->assertTrue($a->equals($b));
+
+        $c = Matrix::fromRowsColumns(2, 3,
+                                     1, 2, 3,
+                                     4, 5, 6);
+
+        $d = Matrix::fromRowsColumns(2, 3,
+                                     1, 2, 3,
+                                     4, 5, 6);
+
+        $this->assertTrue($c->equals($d));
+
+        $e = Matrix::fromRowsColumns(3, 2,
+                                     1, 4,
+                                     2, 5,
+                                     3, 6);
+
+        $f = $e->getTranspose();
+        $this->assertTrue($d->equals($f));
+
+        // Test rounding (thanks to nsp on GitHub for finding this case)
+        $g = new SquareMatrix(1, 2.00000000000001,
+                              3, 4);
+
+        $h = new SquareMatrix(1, 2,
+                              3, 4);
+
+        $this->assertTrue($g->equals($h));
+    }
 }
 
 $testSuite = new \PHPUnit_Framework_TestSuite();
-$testSuite->addTest( new MatrixTest("testFourByFourDeterminant"));
-$testSuite->addTest( new MatrixTest("testEightByEightDeterminant"));
-
+$testSuite->addTest( new MatrixTest("testEquals"));
 \PHPUnit_TextUI_TestRunner::run($testSuite);
 
 ?>

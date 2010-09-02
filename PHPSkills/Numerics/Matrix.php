@@ -16,6 +16,24 @@ class Matrix
         $this->_matrixRowData = $matrixData;
     }
 
+    public static function fromRowsColumns()
+    {
+        $args = \func_get_args();
+        $rows = $args[0];
+        $cols = $args[1];
+        $result = new Matrix($rows, $cols);
+        $currentIndex = 2;
+
+        for($currentRow = 0; $currentRow < $rows; $currentRow++)
+        {
+            for($currentCol = 0; $currentCol < $cols; $currentCol++)
+            {
+                $result->setValue($currentRow, $currentCol, $args[$currentIndex++]);
+            }
+        }
+
+        return $result;
+    }
 
     public function getRowCount()
     {
@@ -46,9 +64,6 @@ class Matrix
              $currentRowTransposeMatrix < $this->_columnCount;
              $currentRowTransposeMatrix++)
         {
-            $transposeMatrixCurrentRowColumnValues = array();
-            $transposeMatrix[] = $transposeMatrixCurrentRowColumnValues;
-
             for ($currentColumnTransposeMatrix = 0;
                  $currentColumnTransposeMatrix < $this->_rowCount;
                  $currentColumnTransposeMatrix++)
@@ -58,7 +73,7 @@ class Matrix
             }
         }
 
-        return new Matrix($transposeMatrix);
+        return new Matrix($this->_columnCount, $this->_rowCount, $transposeMatrix);
     }
 
     private function isSquare()
@@ -152,7 +167,7 @@ class Matrix
             }
         }
 
-        return new Matrix($result);
+        return new Matrix($this->_columnCount, $this->_rowCount, $result);
     }
 
     public function getInverse()
@@ -288,7 +303,7 @@ class Matrix
         return new Matrix($this->_rowCount - 1, $this->_columnCount - 1, $result);
     }
 
-    private function getCofactor($rowToRemove, $columnToRemove)
+    public function getCofactor($rowToRemove, $columnToRemove)
     {
         // See http://en.wikipedia.org/wiki/Cofactor_(linear_algebra) for details
         // REVIEW: should things be reversed since I'm 0 indexed?
@@ -303,6 +318,37 @@ class Matrix
         {
             return -1.0*$this->getMinorMatrix($rowToRemove, $columnToRemove)->getDeterminant();
         }
+    }
+
+    public function equals($otherMatrix)
+    {
+        // If one is null, but not both, return false.
+        if ($otherMatrix == null)
+        {
+            return false;
+        }
+
+        if (($this->_rowCount != $otherMatrix->getRowCount()) || ($this->_columnCount != $otherMatrix->getColumnCount()))
+        {
+            return false;
+        }
+
+        for ($currentRow = 0; $currentRow < $this->_rowCount; $currentRow++)
+        {
+            for ($currentColumn = 0; $currentColumn < $this->_columnCount; $currentColumn++)
+            {
+                $delta =
+                    abs($this->_matrixRowData[$currentRow][$currentColumn] -
+                        $otherMatrix->getValue($currentRow, $currentColumn));
+
+                if ($delta > self::ERROR_TOLERANCE)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }
 
