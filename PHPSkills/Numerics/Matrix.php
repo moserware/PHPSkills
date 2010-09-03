@@ -159,7 +159,7 @@ class Matrix
         // The idea is that it's the transpose of the cofactors
         $result = array();
 
-        for ($currentColumn = 0; $currentColumn < $this->_columns; $currentColumn++)
+        for ($currentColumn = 0; $currentColumn < $this->_columnCount; $currentColumn++)
         {
             for ($currentRow = 0; $currentRow < $this->_rowCount; $currentRow++)
             {
@@ -185,7 +185,7 @@ class Matrix
         return self::scalarMultiply($determinantInverse, $adjugate);
     }
 
-    public static function scalarMultiply($scalar, $matrix)
+    public static function scalarMultiply($scalarValue, $matrix)
     {
         $rows = $matrix->getRowCount();
         $columns = $matrix->getColumnCount();
@@ -393,6 +393,20 @@ class DiagonalMatrix extends Matrix
         
         parent::__construct($rowCount, $colCount);
         
+        for($currentRow = 0; $currentRow < $rowCount; $currentRow++)
+        {
+            for($currentCol = 0; $currentCol < $colCount; $currentCol++)
+            {
+                if($currentRow == $currentCol)
+                {
+                    $this->setValue($currentRow, $currentCol, $diagonalValues[$currentRow]);
+                }
+                else
+                {
+                    $this->setValue($currentRow, $currentCol, 0);
+                }                
+            }
+        }
         for($i = 0; $i < $diagonalCount; $i++)
         {
             $this->setValue($i, $i, $diagonalValues[$i]);

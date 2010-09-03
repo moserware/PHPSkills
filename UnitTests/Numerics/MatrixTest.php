@@ -6,6 +6,7 @@ require_once(dirname(__FILE__) . '/../../PHPSkills/Numerics/Matrix.php');
 
 use \PHPUnit_Framework_TestCase;
 use Moserware\Numerics\Matrix;
+use Moserware\Numerics\IdentityMatrix;
 use Moserware\Numerics\SquareMatrix;
 
 class MatrixTest extends PHPUnit_Framework_TestCase
@@ -129,10 +130,67 @@ class MatrixTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($g->equals($h));
     }
+
+    public function testAdjugate()
+    {
+        // From Wikipedia: http://en.wikipedia.org/wiki/Adjugate_matrix
+        $a = new SquareMatrix(1, 2,
+                              3, 4);
+
+        $b = new SquareMatrix( 4, -2,
+                              -3,  1);
+
+        $this->assertTrue($b->equals($a->getAdjugate()));
+
+
+        $c = new SquareMatrix(-3,  2, -5,
+                              -1,  0, -2,
+                               3, -4,  1);
+
+        $d = new SquareMatrix(-8, 18, -4,
+                              -5, 12, -1,
+                               4, -6,  2);
+
+        $this->assertTrue($d->equals($c->getAdjugate()));
+    }
+
+    public function testInverse()
+    {
+        // see http://www.mathwords.com/i/inverse_of_a_matrix.htm
+        $a = new SquareMatrix(4, 3,
+                              3, 2);
+
+        $b = new SquareMatrix(-2,  3,
+                               3, -4);
+
+        $aInverse = $a->getInverse();
+        $this->assertTrue($b->equals($aInverse));
+
+        $identity2x2 = new IdentityMatrix(2);
+
+        $aaInverse = Matrix::multiply($a, $aInverse);
+        $this->assertTrue($identity2x2->equals($aaInverse));
+
+        $c = new SquareMatrix(1, 2, 3,
+                              0, 4, 5,
+                              1, 0, 6);
+
+        $cInverse = $c->getInverse();
+        $d = Matrix::scalarMultiply((1.0 / 22), new SquareMatrix(24, -12, -2,
+                                                                  5,   3, -5,
+                                                                 -4,   2,  4));
+
+
+        $this->assertTrue($d->equals($cInverse));
+        $identity3x3 = new IdentityMatrix(3);
+
+        $ccInverse = Matrix::multiply($c, $cInverse);
+        $this->assertTrue($identity3x3->equals($ccInverse));
+    }
 }
 
 $testSuite = new \PHPUnit_Framework_TestSuite();
-$testSuite->addTest( new MatrixTest("testEquals"));
+$testSuite->addTest( new MatrixTest("testInverse"));
 \PHPUnit_TextUI_TestRunner::run($testSuite);
 
 ?>
