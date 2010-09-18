@@ -21,8 +21,9 @@ class PlayerSkillsToPerformancesLayer extends TrueSkillFactorGraphLayer
                 $this->addLayerFactor($this->createLikelihood($playerSkillVariable, $playerPerformance));
                 $currentTeamPlayerPerformances[] = $playerPerformance;
             }
-
-            $this->getOutputVariablesGroups()[] = $currentTeamPlayerPerformances;
+            
+            $outputVariablesGroups = $this->getOutputVariablesGroups();
+            $outputVariablesGroups[] = $currentTeamPlayerPerformances;
         }
     }
 

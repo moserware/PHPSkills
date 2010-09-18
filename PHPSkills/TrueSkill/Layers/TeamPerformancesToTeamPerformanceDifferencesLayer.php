@@ -23,7 +23,8 @@ class TeamPerformancesToTeamPerformanceDifferencesLayer extends TrueSkillFactorG
             $this->addLayerFactor($this->createTeamPerformanceToDifferenceFactor($strongerTeam, $weakerTeam, currentDifference));
 
             // REVIEW: Does it make sense to have groups of one?
-            $this->getOutputVariablesGroups()[] = $currentDifference;
+            $outputVariablesGroup = $this->getOutputVariablesGroups();
+            $outputVariablesGroup[] = $currentDifference;
         }
     }
 

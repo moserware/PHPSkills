@@ -50,21 +50,24 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
     public function createPosteriorSchedule()
     {
         // BLOG
-        return $this->scheduleSequence(
-                from currentFactor in LocalFactors
-                                from currentIteration in
-                                    Enumerable.Range(1, currentFactor.NumberOfMessages - 1)
-                                select new ScheduleStep<GaussianDistribution>(
-                                    "team sum perf @" + currentIteration,
-                                    currentFactor,
-                                    currentIteration),
-                                "all of the team's sum iterations");
+        $allFactors = array();
+        foreach($this->getLocalFactors() as $currentFactor)
+        {
+            $numberOfMessages = $currentFactor->getNumberOfMessages();
+            for($currentIteration = 1; $currentIteration < $numberOfMessages; $currentIteration++)
+            {
+                $allFactors[] = new ScheduleStep("team sum perf @" + $currentIteration,
+                                                 $currentFactor, $currentIteration);
+            }
+        }
+        return $this->scheduleSequence($allFactors, "all of the team's sum iterations");
     }
 
     private function createOutputVariable($team)
     {
-        $teamMemberNames = String.Join(", ", team.Select(teamMember => teamMember.Key.ToString()).ToArray());
-        return ParentFactorGraph.VariableFactory.CreateBasicVariable("Team[{0}]'s performance", teamMemberNames);
+        ///$teamMemberNames = String.Join(", ", team.Select(teamMember => teamMember.Key.ToString()).ToArray());
+        $teamMemberNames = "TODO";
+        return $this->getParentFactorGraph()->getVariableFactory()->createBasicVariable("Team[{0}]'s performance", $teamMemberNames);
     }
 }
 
