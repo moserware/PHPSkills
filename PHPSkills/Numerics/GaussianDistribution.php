@@ -48,6 +48,16 @@ class GaussianDistribution
     {
         return $this->_standardDeviation;
     }
+
+    public function getPrecision()
+    {
+        return $this->_precision;
+    }
+
+    public function getPrecisionMean()
+    {
+        return $this->_precisionMean;
+    }
     
     public function getNormalizationConstant()
     {        
