@@ -2,6 +2,16 @@
 
 namespace Moserware\Skills\TrueSkill\Factors;
 
+require_once(dirname(__FILE__) . "../../FactorGraphs/Factor.php");
+require_once(dirname(__FILE__) . "../../FactorGraphs/Message.php");
+require_once(dirname(__FILE__) . "../../FactorGraphs/Variable.php");
+require_once(dirname(__FILE__) . "../../Numerics/GaussianDistribution.php");
+
+use Moserware\Numerics\GaussianDistribution;
+use Moserware\Skills\FactorGraphs\Factor;
+use Moserware\Skills\FactorGraphs\Message;
+use Moserware\Skills\FactorGraphs\Variable;
+
 abstract class GaussianFactor extends Factor
 {
     protected function __construct($name)
@@ -27,6 +37,5 @@ abstract class GaussianFactor extends Factor
                                                           "message from {0} to {1}", $this));
     }
 }
-
 
 ?>
