@@ -2,6 +2,8 @@
 
 namespace Moserware\Skills\FactorGraphs;
 
+require_once(dirname(__FILE__) . "Variable.php");
+
 class VariableFactory
 {
     // using a Func<TValue> to encourage fresh copies in case it's overwritten
@@ -23,6 +25,6 @@ class VariableFactory
         $newVar = new KeyedVariable($key, $this->_variablePriorInitializer());
         return $newVar;
     }
-}s
+}
 
 ?>

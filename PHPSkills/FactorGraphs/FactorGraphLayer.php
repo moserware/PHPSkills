@@ -1,6 +1,8 @@
 <?php
 namespace Moserware\Skills\FactorGraphs;
 
+require_once(dirname(__FILE__) . "Schedule.php");
+
 abstract class FactorGraphLayer
 {
     private $_localFactors = array();
@@ -62,6 +64,5 @@ abstract class FactorGraphLayer
         return null;
     }
 }
-
 
 ?>

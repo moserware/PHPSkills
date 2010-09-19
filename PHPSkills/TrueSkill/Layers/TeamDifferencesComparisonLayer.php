@@ -1,6 +1,16 @@
 <?php
-
 namespace Moserware\Skills\TrueSkill\Layers;
+
+require_once(dirname(__FILE__) . "../DrawMargin.php");
+require_once(dirname(__FILE__) . "../TrueSkillFactorGraph.php");
+require_once(dirname(__FILE__) . "../Factors/GaussianGreaterThanFactor.php");
+require_once(dirname(__FILE__) . "../Factors/GaussianWithinFactor.php");
+require_once(dirname(__FILE__) . "TrueSkillFactorGraphLayer.php");
+
+use Moserware\Skills\TrueSkill\DrawMargin;
+use Moserware\Skills\TrueSkill\TrueSkillFactorGraph;
+use Moserware\Skills\TrueSkill\Factors\GaussianGreaterThanFactor;
+use Moserware\Skills\TrueSkill\Factors\GaussianWithinFactor;
 
 class TeamDifferencesComparisonLayer extends TrueSkillFactorGraphLayer
 {

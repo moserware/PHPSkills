@@ -2,6 +2,8 @@
 
 namespace Moserware\Skills\FactorGraphs;
 
+require_once(dirname(__FILE__) . "Factor.php");
+
 /// <summary>
 /// Helper class for computing the factor graph's normalization constant.
 /// </summary>

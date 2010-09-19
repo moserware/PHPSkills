@@ -2,6 +2,34 @@
 
 namespace Moserware\Skills\TrueSkill;
 
+require_once(dirname(__FILE__) . "/../GameInfo.php");
+require_once(dirname(__FILE__) . "/../Guard.php");
+require_once(dirname(__FILE__) . "/../ISupportPartialPlay.php");
+require_once(dirname(__FILE__) . "/../ISupportPartialUpdate.php");
+require_once(dirname(__FILE__) . "/../PartialPlay.php");
+require_once(dirname(__FILE__) . "/../PlayersRange.php");
+require_once(dirname(__FILE__) . "/../RankSorter.php");
+require_once(dirname(__FILE__) . "/../SkillCalculator.php");
+require_once(dirname(__FILE__) . "/../TeamsRange.php");
+require_once(dirname(__FILE__) . "/../Numerics/BasicMath.php");
+require_once(dirname(__FILE__) . "/../Numerics/Matrix.php");
+require_once(dirname(__FILE__) . "/TrueSkillFactorGraph.php");
+
+use Moserware\Numerics\DiagonalMatrix;
+use Moserware\Numerics\Matrix;
+use Moserware\Numerics\Vector;
+
+use Moserware\Skills\GameInfo;
+use Moserware\Skills\Guard;
+use Moserware\Skills\ISupportPartialPlay;
+use Moserware\Skills\ISupportPartialUpdate;
+use Moserware\Skills\PartialPlay;
+use Moserware\Skills\PlayersRange;
+use Moserware\Skills\RankSorter;
+use Moserware\Skills\SkillCalculator;
+use Moserware\Skills\SkillCalculatorSupportedOptions;
+use Moserware\Skills\TeamsRange;
+
 /// <summary>
 /// Calculates TrueSkill using a full factor graph.
 /// </summary>
@@ -30,12 +58,11 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         return $factorGraph->getUpdatedRatings();
     }
 
-
     public function calculateMatchQuality(GameInfo $gameInfo,
                                           array $teams)
     {
         // We need to create the A matrix which is the player team assigments.
-        $teamAssignmentsList = $teams.ToList();
+        $teamAssignmentsList = $teams;
         $skillsMatrix = $this->getPlayerCovarianceMatrix($teamAssignmentsList);
         $meanVector = $this->getPlayerMeansVector($teamAssignmentsList);
         $meanVectorTranspose = $meanVector->getTranspose();

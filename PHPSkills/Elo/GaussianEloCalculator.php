@@ -1,6 +1,14 @@
 <?php
 namespace Moserware\Skills\Elo;
 
+require_once(dirname(__FILE__) . "/../GameInfo.php");
+require_once(dirname(__FILE__) . "/../Numerics/GaussianDistribution.php");
+require_once(dirname(__FILE__) . "/KFactor.php");
+require_once(dirname(__FILE__) . "/TwoPlayerEloCalculator.php");
+
+use Moserware\Skills\GameInfo;
+use Moserware\Numerics\GaussianDistribution;
+
 class GaussianEloCalculator extends TwoPlayerEloCalculator
 {
     // From the paper

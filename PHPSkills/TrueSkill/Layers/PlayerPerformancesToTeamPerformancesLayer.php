@@ -1,14 +1,16 @@
 <?php
 namespace Moserware\Skills\TrueSkill\Layers;
 
+require_once(dirname(__FILE__) . "../../FactorGraphs/Schedule.php");
+require_once(dirname(__FILE__) . "../TrueSkillFactorGraph.php");
 require_once(dirname(__FILE__) . "TrueSkillFactorGraphLayer.php");
 require_once(dirname(__FILE__) . "TeamPerformancesToTeamPerformanceDifferencesLayer.php");
 require_once(dirname(__FILE__) . "TeamDifferencesComparisonLayer.php");
-require_once(dirname(__FILE__) . "../../FactorGraphs/Schedule.php");
 
 use Moserware\Skills\FactorGraphs\ScheduleLoop;
 use Moserware\Skills\FactorGraphs\ScheduleSequence;
 use Moserware\Skills\FactorGraphs\ScheduleStep;
+use Moserware\Skills\TrueSkill\TrueSkillFactorGraph;
 
 class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLayer
 {
