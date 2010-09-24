@@ -30,7 +30,7 @@ class ScheduleStep extends Schedule
         $this->_index = $index;
     }
 
-    public function visit($depth, $maxDepth)
+    public function visit($depth = -1, $maxDepth = 0)
     {
         $delta = $this->_factor->updateMessageIndex($this->_index);
         return $delta;
@@ -47,7 +47,7 @@ class ScheduleSequence extends Schedule
         $this->_schedules = $schedules;
     }
 
-    public function visit($depth, $maxDepth)
+    public function visit($depth = -1, $maxDepth = 0)
     {
         $maxDelta = 0;
 
@@ -72,7 +72,7 @@ class ScheduleLoop extends Schedule
         $this->_maxDelta = $maxDelta;
     }
 
-    public function visit($depth, $maxDepth)
+    public function visit($depth = -1, $maxDepth = 0)
     {
         $totalIterations = 1;
         $delta = $this->_scheduleToLoop->visit($depth + 1, $maxDepth);

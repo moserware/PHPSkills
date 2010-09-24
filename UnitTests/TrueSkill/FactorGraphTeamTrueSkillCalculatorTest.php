@@ -1,0 +1,27 @@
+<?php
+require_once 'PHPUnit/Framework.php';
+require_once 'PHPUnit/TextUI/TestRunner.php';
+
+require_once(dirname(__FILE__) . '/../../PHPSkills/TrueSkill/FactorGraphTrueSkillCalculator.php');
+require_once(dirname(__FILE__) . '/TrueSkillCalculatorTests.php');
+
+use \PHPUnit_Framework_TestCase;
+use Moserware\Skills\TrueSkill\FactorGraphTrueSkillCalculator;
+
+class FactorGraphTrueSkillCalculatorTest extends PHPUnit_Framework_TestCase
+{
+    public function testFactorGraphTrueSkillCalculator()
+    {
+        $calculator = new FactorGraphTrueSkillCalculator();
+
+        // We only support two players
+        TrueSkillCalculatorTests::testAllTwoPlayerScenarios($this, $calculator);
+        TrueSkillCalculatorTests::testAllTwoTeamScenarios($this, $calculator);
+    }
+}
+
+$testSuite = new \PHPUnit_Framework_TestSuite();
+$testSuite->addTest( new TwoTeamTrueSkillCalculatorTest("testFactorGraphTrueSkillCalculator"));
+
+\PHPUnit_TextUI_TestRunner::run($testSuite);
+?>

@@ -1,11 +1,11 @@
 <?php
 namespace Moserware\Skills\TrueSkill;
 
-require_once(dirname(__FILE__) . '../Rating.php');
-require_once(dirname(__FILE__) . '../FactorGraphs/FactorList.php');
-require_once(dirname(__FILE__) . '../FactorGraphs/Schedule.php');
-require_once(dirname(__FILE__) . '../FactorGraphs/VariableFactory.php');
-require_once(dirname(__FILE__) . '../Numerics/GaussianDistribution.php');
+require_once(dirname(__FILE__) . './../Rating.php');
+require_once(dirname(__FILE__) . './../FactorGraphs/FactorList.php');
+require_once(dirname(__FILE__) . './../FactorGraphs/Schedule.php');
+require_once(dirname(__FILE__) . './../FactorGraphs/VariableFactory.php');
+require_once(dirname(__FILE__) . './../Numerics/GaussianDistribution.php');
 require_once(dirname(__FILE__) . '/Layers/PlayerPriorValuesToSkillsLayer.php');
 require_once(dirname(__FILE__) . '/Layers/PlayerSkillsToPerformancesLayer.php');
 require_once(dirname(__FILE__) . '/Layers/IteratedTeamDifferencesInnerLayer.php');

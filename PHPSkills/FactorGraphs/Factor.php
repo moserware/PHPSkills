@@ -1,13 +1,13 @@
 <?php
 namespace Moserware\Skills\FactorGraphs;
 
-require_once(dirname(__FILE__) . "../Guard.php");
-require_once(dirname(__FILE__) . "../HashMap.php");
+require_once(dirname(__FILE__) . "./../Guard.php");
+require_once(dirname(__FILE__) . "./../HashMap.php");
 
 use Moserware\Skills\Guard;
 use Moserware\Skills\HashMap;
 
-class Factor
+abstract class Factor
 {
     private $_messages = array();
     private $_messageToVariableBinding;
@@ -78,11 +78,11 @@ class Factor
 
     public abstract function createVariableToMessageBinding($variable);
 
-    protected function createVariableToMessageBinding($variable, $message)
+    protected function createVariableToMessageBindingWithMessage($variable, $message)
     {
         $index = count($this->_messages);
         $this->_messages[] = $message;
-        $this->_messageToVariableBinding->setValue($message) = $variable;
+        $this->_messageToVariableBinding->setValue($message, $variable);
         $this->_variables[] = $variable;
         return $message;
     }
