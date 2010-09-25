@@ -13,7 +13,7 @@ use Moserware\Skills\TrueSkill\Factors\GaussianLikelihoodFactor;
 
 class PlayerSkillsToPerformancesLayer extends TrueSkillFactorGraphLayer
 {
-    public function __construct(TrueSkillFactorGraph $parentGraph)
+    public function __construct(TrueSkillFactorGraph &$parentGraph)
     {
         parent::__construct($parentGraph);
     }
@@ -36,12 +36,12 @@ class PlayerSkillsToPerformancesLayer extends TrueSkillFactorGraphLayer
         }
     }
 
-    private function createLikelihood($playerSkill, $playerPerformance)
+    private function createLikelihood(&$playerSkill, &$playerPerformance)
     {
         return new GaussianLikelihoodFactor(square($this->getParentFactorGraph()->getGameInfo()->getBeta()), $playerPerformance, $playerSkill);
     }
 
-    private function createOutputVariable($key)
+    private function createOutputVariable(&$key)
     {
         return $this->getParentFactorGraph()->getVariableFactory()->createKeyedVariable($key, "{0}'s performance", $key);
     }

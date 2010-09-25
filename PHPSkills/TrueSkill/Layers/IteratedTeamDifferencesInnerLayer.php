@@ -18,9 +18,9 @@ class IteratedTeamDifferencesInnerLayer extends TrueSkillFactorGraphLayer
     private $_TeamDifferencesComparisonLayer;
     private $_TeamPerformancesToTeamPerformanceDifferencesLayer;
 
-    public function __construct(TrueSkillFactorGraph $parentGraph,
-                                TeamPerformancesToTeamPerformanceDifferencesLayer $teamPerformancesToPerformanceDifferences,
-                                TeamDifferencesComparisonLayer $teamDifferencesComparisonLayer)
+    public function __construct(TrueSkillFactorGraph &$parentGraph,
+                                TeamPerformancesToTeamPerformanceDifferencesLayer &$teamPerformancesToPerformanceDifferences,
+                                TeamDifferencesComparisonLayer &$teamDifferencesComparisonLayer)
     {
         parent::__construct($parentGraph);
         $this->_TeamPerformancesToTeamPerformanceDifferencesLayer = $teamPerformancesToPerformanceDifferences;

@@ -23,7 +23,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
     private $_weights;
     private $_weightsSquared;
 
-    public function __construct(Variable $sumVariable, array $variablesToSum, array $variableWeights = null)
+    public function __construct(Variable &$sumVariable, array &$variablesToSum, array &$variableWeights = null)
     {
         parent::__construct($this->createName($sumVariable, $variablesToSum, $variableWeights));
         $this->_weights = array();
@@ -133,9 +133,9 @@ class GaussianWeightedSumFactor extends GaussianFactor
         return $result;
     }
 
-    private function updateHelper(array $weights, array $weightsSquared,
-                                  array $messages,
-                                  array $variables)
+    private function updateHelper(array &$weights, array &$weightsSquared,
+                                  array &$messages,
+                                  array &$variables)
     {
         // Potentially look at http://mathworld.wolfram.com/NormalSumDistribution.html for clues as
         // to what it's doing

@@ -17,7 +17,7 @@ class TeamDifferencesComparisonLayer extends TrueSkillFactorGraphLayer
     private $_epsilon;
     private $_teamRanks;
 
-    public function __construct(TrueSkillFactorGraph $parentGraph, array $teamRanks)
+    public function __construct(TrueSkillFactorGraph &$parentGraph, array &$teamRanks)
     {
         parent::__construct($parentGraph);
         $this->_teamRanks = $teamRanks;

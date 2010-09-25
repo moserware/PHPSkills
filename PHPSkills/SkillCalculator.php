@@ -14,7 +14,7 @@ abstract class SkillCalculator
     private $_playersPerTeamAllowed;
     private $_totalTeamsAllowed;
     
-    protected function __construct($supportedOptions, TeamsRange $totalTeamsAllowed, PlayersRange $playerPerTeamAllowed)
+    protected function __construct($supportedOptions, TeamsRange &$totalTeamsAllowed, PlayersRange &$playerPerTeamAllowed)
     {
         $this->_supportedOptions = $supportedOptions;
         $this->_totalTeamsAllowed = $totalTeamsAllowed;
@@ -29,7 +29,7 @@ abstract class SkillCalculator
     /// <param name="teams">A mapping of team players and their ratings.</param>
     /// <param name="teamRanks">The ranks of the teams where 1 is first place. For a tie, repeat the number (e.g. 1, 2, 2)</param>
     /// <returns>All the players and their new ratings.</returns>
-    public abstract function calculateNewRatings(GameInfo $gameInfo,
+    public abstract function calculateNewRatings(GameInfo &$gameInfo,
                                                  array $teamsOfPlayerToRatings,
                                                  array $teamRanks);
 
@@ -40,23 +40,23 @@ abstract class SkillCalculator
     /// <param name="gameInfo">Parameters for the game.</param>
     /// <param name="teams">A mapping of team players and their ratings.</param>
     /// <returns>The quality of the match between the teams as a percentage (0% = bad, 100% = well matched).</returns>
-    public abstract function calculateMatchQuality(GameInfo $gameInfo,
-                                                   array $teamsOfPlayerToRatings);
+    public abstract function calculateMatchQuality(GameInfo &$gameInfo,
+                                                   array &$teamsOfPlayerToRatings);
 
     public function isSupported($option)
     {           
         return ($this->_supportedOptions & $option) == $option;             
     }    
 
-    protected function validateTeamCountAndPlayersCountPerTeam(array $teamsOfPlayerToRatings)
+    protected function validateTeamCountAndPlayersCountPerTeam(array &$teamsOfPlayerToRatings)
     {
         self::validateTeamCountAndPlayersCountPerTeamWithRanges($teamsOfPlayerToRatings, $this->_totalTeamsAllowed, $this->_playersPerTeamAllowed);
     }
 
     private static function validateTeamCountAndPlayersCountPerTeamWithRanges(
-        array $teams,
-        TeamsRange $totalTeams, 
-        PlayersRange $playersPerTeam)
+        array &$teams,
+        TeamsRange &$totalTeams,
+        PlayersRange &$playersPerTeam)
     {        
         $countOfTeams = 0;
         

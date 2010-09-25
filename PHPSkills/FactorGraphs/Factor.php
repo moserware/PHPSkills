@@ -36,12 +36,12 @@ abstract class Factor
         return count($this->_messages);
     }
 
-    protected function getVariables()
+    protected function &getVariables()
     {
         return $this->_variables;
     }
 
-    protected function getMessages()
+    protected function &getMessages()
     {
         return $this->_messages;
     }
@@ -77,11 +77,11 @@ abstract class Factor
         return $this->sendMessageVariable($message, $variable);
     }
 
-    protected abstract function sendMessageVariable(Message $message, Variable $variable);
+    protected abstract function sendMessageVariable(Message &$message, Variable &$variable);
 
-    public abstract function createVariableToMessageBinding(Variable $variable);
+    public abstract function createVariableToMessageBinding(Variable &$variable);
 
-    protected function createVariableToMessageBindingWithMessage(Variable $variable, Variable $message)
+    protected function createVariableToMessageBindingWithMessage(Variable &$variable, Variable &$message)
     {
         $index = count($this->_messages);
         $this->_messages[] = $message;

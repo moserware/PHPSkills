@@ -18,7 +18,7 @@ class GaussianLikelihoodFactor extends GaussianFactor
 {
     private $_precision;
 
-    public function __construct($betaSquared, Variable $variable1, Variable $variable2)
+    public function __construct($betaSquared, Variable &$variable1, Variable &$variable2)
     {
         parent::__construct("Likelihood of {0} going to {1}");
         $this->_precision = 1.0/$betaSquared;
@@ -36,8 +36,8 @@ class GaussianLikelihoodFactor extends GaussianFactor
                 $messages[0]->getValue());
     }
 
-    private function updateHelper(Message $message1, Message $message2,
-                                  Variable $variable1, Variable $variable2)
+    private function updateHelper(Message &$message1, Message &$message2,
+                                  Variable &$variable1, Variable &$variable2)
     {
         $message1Value = clone $message1->getValue();
         $message2Value = clone $message2->getValue();

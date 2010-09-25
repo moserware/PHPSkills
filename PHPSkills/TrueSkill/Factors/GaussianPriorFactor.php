@@ -19,7 +19,7 @@ class GaussianPriorFactor extends GaussianFactor
 {
     private $_newMessage;
 
-    public function __construct($mean, $variance, Variable $variable)
+    public function __construct($mean, $variance, Variable &$variable)
     {
         parent::__construct("Prior value going to {0}");
         $this->_newMessage = new GaussianDistribution($mean, sqrt($variance));
@@ -27,10 +27,10 @@ class GaussianPriorFactor extends GaussianFactor
                                                new Message(
                                                    GaussianDistribution::fromPrecisionMean(0, 0),
                                                        "message from {0} to {1}",
-                                                   this, variable));
+                                                   $this, variable));
     }
 
-    protected function updateMessageVariable(Message $message, Variable $variable)
+    protected function updateMessageVariable(Message &$message, Variable &$variable)
     {
         $oldMarginal = clone $variable->getValue();
         $oldMessage = $message;

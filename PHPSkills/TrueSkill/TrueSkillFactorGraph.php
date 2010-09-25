@@ -35,15 +35,16 @@ class TrueSkillFactorGraph extends FactorGraph
     private $_priorLayer;
     private $_variableFactory;
 
-    public function __construct(GameInfo $gameInfo, $teams, array $teamRanks)
+    public function __construct(GameInfo &$gameInfo, &$teams, array $teamRanks)
     {
         $this->_priorLayer = new PlayerPriorValuesToSkillsLayer($this, $teams);
         $this->_gameInfo = $gameInfo;
-        $this->_variableFactory = new VariableFactory(
+        $newFactory = new VariableFactory(
                                         function()
                                         {
                                             return GaussianDistribution::fromPrecisionMean(0, 0);
                                         });
+        $this->setVariableFactory($newFactory);
 
         $this->_layers = array(
                               $this->_priorLayer,

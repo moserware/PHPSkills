@@ -20,7 +20,7 @@ class GaussianGreaterThanFactor extends GaussianFactor
 {
     private $_epsilon;
 
-    public function __construct($epsilon, Variable $variable)
+    public function __construct($epsilon, Variable &$variable)
     {
         parent::_construct("{0} > {1:0.000}");
         $this->_epsilon = $epsilon;
@@ -42,7 +42,7 @@ class GaussianGreaterThanFactor extends GaussianFactor
 
     }
 
-    protected function updateMessageVariable(Message $message, Variable $variable)
+    protected function updateMessageVariable(Message &$message, Variable &$variable)
     {
         $oldMarginal = clone $variable->getValue();
         $oldMessage = clone $message->getValue();

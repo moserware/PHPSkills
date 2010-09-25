@@ -20,7 +20,7 @@ abstract class GaussianFactor extends Factor
     }
 
     /// Sends the factor-graph message with and returns the log-normalization constant
-    protected function sendMessageVariable(Message $message, Variable $variable)
+    protected function sendMessageVariable(Message &$message, Variable &$variable)
     {
         $marginal = $variable->getValue();
         $messageValue = $message->getValue();
@@ -29,7 +29,7 @@ abstract class GaussianFactor extends Factor
         return $logZ;
     }
 
-    public function createVariableToMessageBinding(Variable $variable)
+    public function createVariableToMessageBinding(Variable &$variable)
     {
         return parent::createVariableToMessageBinding($variable,
                                                       new Message(

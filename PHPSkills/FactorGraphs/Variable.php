@@ -14,12 +14,12 @@ class Variable
         $this->resetToPrior();
     }
 
-    public function getValue()
+    public function &getValue()
     {
         return $this->_value;
     }
 
-    public function setValue($value)
+    public function setValue(&$value)
     {
         $this->_value = $value;
     }

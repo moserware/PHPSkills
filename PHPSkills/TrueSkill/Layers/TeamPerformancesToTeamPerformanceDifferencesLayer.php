@@ -13,7 +13,7 @@ use Moserware\Skills\TrueSkill\Factors\GaussianWeightedSumFactor;
 
 class TeamPerformancesToTeamPerformanceDifferencesLayer extends TrueSkillFactorGraphLayer
 {
-    public function __construct(TrueSkillFactorGraph $parentGraph)
+    public function __construct(TrueSkillFactorGraph &$parentGraph)
     {
         parent::__construct($parentGraph);
     }
@@ -38,7 +38,7 @@ class TeamPerformancesToTeamPerformanceDifferencesLayer extends TrueSkillFactorG
     }
 
     private function createTeamPerformanceToDifferenceFactor(
-        Variable $strongerTeam, Variable $weakerTeam, Variable $output)
+        Variable &$strongerTeam, Variable &$weakerTeam, Variable &$output)
     {
         return new GaussianWeightedSumFactor($output, array($strongerTeam, $weakerTeam), array(1.0, -1.0));
     }

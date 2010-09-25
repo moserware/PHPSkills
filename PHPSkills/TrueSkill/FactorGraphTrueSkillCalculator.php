@@ -40,7 +40,7 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         parent::__construct(SkillCalculatorSupportedOptions::PARTIAL_PLAY | SkillCalculatorSupportedOptions::PARTIAL_UPDATE, TeamsRange::atLeast(2), PlayersRange::atLeast(1));
     }
 
-    public function calculateNewRatings(GameInfo $gameInfo,
+    public function calculateNewRatings(GameInfo &$gameInfo,
                                         array $teams,
                                         array $teamRanks)
     {
@@ -58,8 +58,8 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         return $factorGraph->getUpdatedRatings();
     }
 
-    public function calculateMatchQuality(GameInfo $gameInfo,
-                                          array $teams)
+    public function calculateMatchQuality(GameInfo &$gameInfo,
+                                          array &$teams)
     {
         // We need to create the A matrix which is the player team assigments.
         $teamAssignmentsList = $teams;
@@ -100,7 +100,7 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         return $result;
     }
 
-    private static function getPlayerMeansVector(array $teamAssignmentsList)
+    private static function getPlayerMeansVector(array &$teamAssignmentsList)
     {
         // A simple vector of all the player means.
         return new Vector($this->getPlayerRatingValues($teamAssignmentsList,
@@ -110,7 +110,7 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
                                                        }));
     }
 
-    private static function getPlayerCovarianceMatrix(array $teamAssignmentsList)
+    private static function getPlayerCovarianceMatrix(array &$teamAssignmentsList)
     {
         // This is a square matrix whose diagonal values represent the variance (square of standard deviation) of all
         // players.
@@ -123,7 +123,7 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
     }
 
     // Helper function that gets a list of values for all player ratings
-    private static function getPlayerRatingValues(array $teamAssignmentsList,
+    private static function getPlayerRatingValues(array &$teamAssignmentsList,
                                                   $playerRatingFunction)
     {
         $playerRatingValues = array();
@@ -139,7 +139,7 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         return $playerRatingValues;
     }
 
-    private static function createPlayerTeamAssignmentMatrix($teamAssignmentsList, $totalPlayers)
+    private static function createPlayerTeamAssignmentMatrix(&$teamAssignmentsList, &$totalPlayers)
     {
         // The team assignment matrix is often referred to as the "A" matrix. It's a matrix whose rows represent the players
         // and the columns represent teams. At Matrix[row, column] represents that player[row] is on team[col]

@@ -14,7 +14,7 @@ use Moserware\Skills\TrueSkill\TrueSkillFactorGraph;
 
 class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLayer
 {
-    public function __construct(TrueSkillFactorGraph $parentGraph)
+    public function __construct(TrueSkillFactorGraph &$parentGraph)
     {
         parent::__construct($parentGraph);
     }
@@ -44,7 +44,7 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
                 "all player perf to team perf schedule");
     }
 
-    protected function createPlayerToTeamSumFactor($teamMembers, $sumVariable)
+    protected function createPlayerToTeamSumFactor(&$teamMembers, &$sumVariable)
     {
         return new GaussianWeightedSumFactor(
                 $sumVariable,
@@ -74,7 +74,7 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
         return $this->scheduleSequence($allFactors, "all of the team's sum iterations");
     }
 
-    private function createOutputVariable($team)
+    private function createOutputVariable(&$team)
     {
         ///$teamMemberNames = String.Join(", ", team.Select(teamMember => teamMember.Key.ToString()).ToArray());
         $teamMemberNames = "TODO";
