@@ -27,7 +27,8 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
             $this->addLayerFactor($this->createPlayerToTeamSumFactor($currentTeam, $teamPerformance));
 
             // REVIEW: Does it make sense to have groups of one?
-            $this->getOutputVariablesGroups() = $teamPerformance;
+            $outputVariablesGroups = $this->getOutputVariablesGroups();
+            $outputVariablesGroups = $teamPerformance;
         }
     }
 

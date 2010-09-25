@@ -44,7 +44,7 @@ abstract class FactorGraphLayer
 
     protected function scheduleSequence($itemsToSequence)
     {
-        return new ScheduleSequence($itemsToSequence);
+        return new ScheduleSequence("TODO", $itemsToSequence);
     }
 
     protected function addLayerFactor($factor)

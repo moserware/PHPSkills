@@ -1,28 +1,32 @@
 <?php
 namespace Moserware\Skills\TrueSkill;
 
+require_once(dirname(__FILE__) . '/../GameInfo.php');
 require_once(dirname(__FILE__) . '/../Rating.php');
 require_once(dirname(__FILE__) . '/../FactorGraphs/FactorGraph.php');
 require_once(dirname(__FILE__) . '/../FactorGraphs/FactorList.php');
 require_once(dirname(__FILE__) . '/../FactorGraphs/Schedule.php');
 require_once(dirname(__FILE__) . '/../FactorGraphs/VariableFactory.php');
 require_once(dirname(__FILE__) . '/../Numerics/GaussianDistribution.php');
+require_once(dirname(__FILE__) . '/Layers/IteratedTeamDifferencesInnerLayer.php');
+require_once(dirname(__FILE__) . '/Layers/PlayerPerformancesToTeamPerformancesLayer.php');
 require_once(dirname(__FILE__) . '/Layers/PlayerPriorValuesToSkillsLayer.php');
 require_once(dirname(__FILE__) . '/Layers/PlayerSkillsToPerformancesLayer.php');
-require_once(dirname(__FILE__) . '/Layers/IteratedTeamDifferencesInnerLayer.php');
-require_once(dirname(__FILE__) . '/Layers/TeamPerformancesToTeamPerformanceDifferencesLayer.php');
 require_once(dirname(__FILE__) . '/Layers/TeamDifferencesComparisonLayer.php');
+require_once(dirname(__FILE__) . '/Layers/TeamPerformancesToTeamPerformanceDifferencesLayer.php');
 
+use Moserware\Skills\GameInfo;
 use Moserware\Skills\Rating;
 use Moserware\Skills\FactorGraphs\FactorGraph;
 use Moserware\Skills\FactorGraphs\FactorList;
 use Moserware\Skills\FactorGraphs\ScheduleSequence;
 use Moserware\Skills\FactorGraphs\VariableFactory;
+use Moserware\Skills\TrueSkill\Layers\IteratedTeamDifferencesInnerLayer;
+use Moserware\Skills\TrueSkill\Layers\PlayerPerformancesToTeamPerformancesLayer;
 use Moserware\Skills\TrueSkill\Layers\PlayerPriorValuesToSkillsLayer;
 use Moserware\Skills\TrueSkill\Layers\PlayerSkillsToPerformancesLayer;
-use Moserware\Skills\TrueSkill\Layers\IteratedTeamDifferencesInnerLayer;
-use Moserware\Skills\TrueSkill\Layers\TeamPerformancesToTeamPerformanceDifferencesLayer;
 use Moserware\Skills\TrueSkill\Layers\TeamDifferencesComparisonLayer;
+use Moserware\Skills\TrueSkill\Layers\TeamPerformancesToTeamPerformanceDifferencesLayer;
 
 class TrueSkillFactorGraph extends FactorGraph
 {
@@ -105,7 +109,7 @@ class TrueSkillFactorGraph extends FactorGraph
             $currentPriorSchedule = $currentLayer->createPriorSchedule();
             if ($currentPriorSchedule != null)
             {
-                $fullSchedule->add($currentPriorSchedule);
+                $fullSchedule[] = $currentPriorSchedule;
             }
         }
         
@@ -116,7 +120,7 @@ class TrueSkillFactorGraph extends FactorGraph
             $currentPosteriorSchedule = $currentLayer->createPosteriorSchedule();
             if ($currentPosteriorSchedule != null)
             {
-                $fullSchedule->add($currentPosteriorSchedule);
+                $fullSchedule[] = $currentPosteriorSchedule;
             }
         }
 
