@@ -16,7 +16,8 @@ class VariableFactory
 
     public function createBasicVariable()
     {
-        $newVar = new Variable($this->_variablePriorInitializer());
+        $initializer = $this->_variablePriorInitializer;
+        $newVar = new Variable("variable", $initializer());
         return $newVar;
     }
 

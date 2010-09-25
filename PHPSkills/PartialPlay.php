@@ -14,7 +14,7 @@ class PartialPlay
             return 1.0;
         }
 
-        $partialPlayPercentage = $partialPlay->getPartialPlayPercentage();
+        $partialPlayPercentage = $player->getPartialPlayPercentage();
 
         // HACK to get around bug near 0
         $smallestPercentage = 0.0001;

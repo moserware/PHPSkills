@@ -75,7 +75,7 @@ class TrueSkillFactorGraph extends FactorGraph
 
             $currentLayer->buildLayer();
 
-            $lastOutput = $currentLayer->getOutputVariablesGroups();
+            $lastOutput = &$currentLayer->getOutputVariablesGroups();
         }
     }
 

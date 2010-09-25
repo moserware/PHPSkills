@@ -1,15 +1,19 @@
 <?php
 namespace Moserware\Skills\TrueSkill\Layers;
 
+require_once(dirname(__FILE__) . "/../../PartialPlay.php");
 require_once(dirname(__FILE__) . "/../../FactorGraphs/Schedule.php");
+require_once(dirname(__FILE__) . "/../Factors/GaussianWeightedSumFactor.php");
 require_once(dirname(__FILE__) . "/../TrueSkillFactorGraph.php");
 require_once(dirname(__FILE__) . "/TrueSkillFactorGraphLayer.php");
 require_once(dirname(__FILE__) . "/TeamPerformancesToTeamPerformanceDifferencesLayer.php");
 require_once(dirname(__FILE__) . "/TeamDifferencesComparisonLayer.php");
 
+use Moserware\Skills\PartialPlay;
 use Moserware\Skills\FactorGraphs\ScheduleLoop;
 use Moserware\Skills\FactorGraphs\ScheduleSequence;
 use Moserware\Skills\FactorGraphs\ScheduleStep;
+use Moserware\Skills\TrueSkill\Factors\GaussianWeightedSumFactor;
 use Moserware\Skills\TrueSkill\TrueSkillFactorGraph;
 
 class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLayer
@@ -46,15 +50,17 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
 
     protected function createPlayerToTeamSumFactor(&$teamMembers, &$sumVariable)
     {
-        return new GaussianWeightedSumFactor(
-                $sumVariable,
-                $teamMembers,
-                array_map(
+        $weights = array_map(
                         function($v)
                         {
                             return PartialPlay::getPartialPlayPercentage($v->getKey());
                         },
-                        $teamMembers));
+                        $teamMembers);
+
+        return new GaussianWeightedSumFactor(
+                $sumVariable,
+                $teamMembers,
+                $weights);
                                                  
     }
 
