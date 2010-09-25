@@ -1,11 +1,11 @@
 <?php
 namespace Moserware\Skills\TrueSkill\Layers;
 
-require_once(dirname(__FILE__) . "../../FactorGraphs/Schedule.php");
-require_once(dirname(__FILE__) . "../../Numerics/BasicMath.php");
-require_once(dirname(__FILE__) . "../TrueSkillFactorGraph.php");
-require_once(dirname(__FILE__) . "../Factors/GaussianLikelihoodFactor.php");
-require_once(dirname(__FILE__) . "TrueSkillFactorGraphLayer.php");
+require_once(dirname(__FILE__) . "/../../FactorGraphs/Schedule.php");
+require_once(dirname(__FILE__) . "/../../Numerics/BasicMath.php");
+require_once(dirname(__FILE__) . "/../TrueSkillFactorGraph.php");
+require_once(dirname(__FILE__) . "/../Factors/GaussianLikelihoodFactor.php");
+require_once(dirname(__FILE__) . "/TrueSkillFactorGraphLayer.php");
 
 use Moserware\Skills\FactorGraphs\ScheduleStep;
 use Moserware\Skills\TrueSkill\TrueSkillFactorGraph;

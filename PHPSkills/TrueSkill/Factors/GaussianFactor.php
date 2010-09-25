@@ -2,10 +2,10 @@
 
 namespace Moserware\Skills\TrueSkill\Factors;
 
-require_once(dirname(__FILE__) . "../../FactorGraphs/Factor.php");
-require_once(dirname(__FILE__) . "../../FactorGraphs/Message.php");
-require_once(dirname(__FILE__) . "../../FactorGraphs/Variable.php");
-require_once(dirname(__FILE__) . "../../Numerics/GaussianDistribution.php");
+require_once(dirname(__FILE__) . "/../../FactorGraphs/Factor.php");
+require_once(dirname(__FILE__) . "/../../FactorGraphs/Message.php");
+require_once(dirname(__FILE__) . "/../../FactorGraphs/Variable.php");
+require_once(dirname(__FILE__) . "/../../Numerics/GaussianDistribution.php");
 
 use Moserware\Numerics\GaussianDistribution;
 use Moserware\Skills\FactorGraphs\Factor;

@@ -40,7 +40,7 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         parent::__construct(SkillCalculatorSupportedOptions::PARTIAL_PLAY | SkillCalculatorSupportedOptions::PARTIAL_UPDATE, TeamsRange::atLeast(2), PlayersRange::atLeast(1));
     }
 
-    public function CalculateNewRatings(GameInfo $gameInfo,
+    public function calculateNewRatings(GameInfo $gameInfo,
                                         array $teams,
                                         array $teamRanks)
     {

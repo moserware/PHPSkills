@@ -13,15 +13,14 @@ class FactorGraphTrueSkillCalculatorTest extends PHPUnit_Framework_TestCase
     public function testFactorGraphTrueSkillCalculator()
     {
         $calculator = new FactorGraphTrueSkillCalculator();
-
-        // We only support two players
+        
         TrueSkillCalculatorTests::testAllTwoPlayerScenarios($this, $calculator);
         TrueSkillCalculatorTests::testAllTwoTeamScenarios($this, $calculator);
     }
 }
 
 $testSuite = new \PHPUnit_Framework_TestSuite();
-$testSuite->addTest( new TwoTeamTrueSkillCalculatorTest("testFactorGraphTrueSkillCalculator"));
+$testSuite->addTest( new FactorGraphTrueSkillCalculatorTest("testFactorGraphTrueSkillCalculator"));
 
 \PHPUnit_TextUI_TestRunner::run($testSuite);
 ?>

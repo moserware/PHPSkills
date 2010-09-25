@@ -1,11 +1,11 @@
 <?php
 namespace Moserware\Skills\TrueSkill\Layers;
 
-require_once(dirname(__FILE__) . "../../FactorGraphs/Schedule.php");
-require_once(dirname(__FILE__) . "../../Numerics/BasicMath.php");
-require_once(dirname(__FILE__) . "../TrueSkillFactorGraph.php");
-require_once(dirname(__FILE__) . "../Factors/GaussianPriorFactor.php");
-require_once(dirname(__FILE__) . "TrueSkillFactorGraphLayer.php");
+require_once(dirname(__FILE__) . "/../../FactorGraphs/Schedule.php");
+require_once(dirname(__FILE__) . "/../../Numerics/BasicMath.php");
+require_once(dirname(__FILE__) . "/../TrueSkillFactorGraph.php");
+require_once(dirname(__FILE__) . "/../Factors/GaussianPriorFactor.php");
+require_once(dirname(__FILE__) . "/TrueSkillFactorGraphLayer.php");
 
 use Moserware\Skills\FactorGraphs\ScheduleLoop;
 use Moserware\Skills\FactorGraphs\ScheduleSequence;
@@ -14,6 +14,7 @@ use Moserware\Skills\TrueSkill\TrueSkillFactorGraph;
 use Moserware\Skills\TrueSkill\Factors\GaussianPriorFactor;
 
 // We intentionally have no Posterior schedule since the only purpose here is to
+// start the process.
 class PlayerPriorValuesToSkillsLayer extends TrueSkillFactorGraphLayer
 {
     private $_teams;

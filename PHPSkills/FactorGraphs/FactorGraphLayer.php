@@ -1,7 +1,7 @@
 <?php
 namespace Moserware\Skills\FactorGraphs;
 
-require_once(dirname(__FILE__) . "Schedule.php");
+require_once(dirname(__FILE__) . "/Schedule.php");
 
 abstract class FactorGraphLayer
 {

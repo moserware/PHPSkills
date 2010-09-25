@@ -1,6 +1,10 @@
 <?php
 namespace Moserware\Skills;
 
+require_once(dirname(__FILE__) . "/GameInfo.php");
+require_once(dirname(__FILE__) . "/PlayersRange.php");
+require_once(dirname(__FILE__) . "/TeamsRange.php");
+
 /** 
  * Base class for all skill calculator implementations.
  */
@@ -25,7 +29,7 @@ abstract class SkillCalculator
     /// <param name="teams">A mapping of team players and their ratings.</param>
     /// <param name="teamRanks">The ranks of the teams where 1 is first place. For a tie, repeat the number (e.g. 1, 2, 2)</param>
     /// <returns>All the players and their new ratings.</returns>
-    public abstract function calculateNewRatings($gameInfo,
+    public abstract function calculateNewRatings(GameInfo $gameInfo,
                                                  array $teamsOfPlayerToRatings,
                                                  array $teamRanks);
 
@@ -36,7 +40,7 @@ abstract class SkillCalculator
     /// <param name="gameInfo">Parameters for the game.</param>
     /// <param name="teams">A mapping of team players and their ratings.</param>
     /// <returns>The quality of the match between the teams as a percentage (0% = bad, 100% = well matched).</returns>
-    public abstract function calculateMatchQuality($gameInfo,
+    public abstract function calculateMatchQuality(GameInfo $gameInfo,
                                                    array $teamsOfPlayerToRatings);
 
     public function isSupported($option)

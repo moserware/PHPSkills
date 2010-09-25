@@ -1,11 +1,14 @@
 <?php
 namespace Moserware\Skills\FactorGraphs;
 
-require_once(dirname(__FILE__) . "./../Guard.php");
-require_once(dirname(__FILE__) . "./../HashMap.php");
+require_once(dirname(__FILE__) . "/../Guard.php");
+require_once(dirname(__FILE__) . "/../HashMap.php");
+require_once(dirname(__FILE__) . "/Message.php");
+require_once(dirname(__FILE__) . "/Variable.php");
 
 use Moserware\Skills\Guard;
 use Moserware\Skills\HashMap;
+
 
 abstract class Factor
 {
@@ -50,7 +53,7 @@ abstract class Factor
         return $this->updateMessageVariable($this->_messages[$messageIndex], $this->_messageToVariableBinding->getValue($messageIndex));
     }
 
-    protected function updateMessageVariable($message, $variable)
+    protected function updateMessageVariable(Message $message, Variable $variable)
     {
         throw new Exception();
     }
@@ -74,11 +77,11 @@ abstract class Factor
         return $this->sendMessageVariable($message, $variable);
     }
 
-    protected abstract function sendMessageVariable($message, $variable);
+    protected abstract function sendMessageVariable(Message $message, Variable $variable);
 
-    public abstract function createVariableToMessageBinding($variable);
+    public abstract function createVariableToMessageBinding(Variable $variable);
 
-    protected function createVariableToMessageBindingWithMessage($variable, $message)
+    protected function createVariableToMessageBindingWithMessage(Variable $variable, Variable $message)
     {
         $index = count($this->_messages);
         $this->_messages[] = $message;
