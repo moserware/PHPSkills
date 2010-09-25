@@ -11,7 +11,7 @@ class VariableFactory
 
     public function __construct($variablePriorInitializer)
     {
-        $this->_variablePriorInitializer = $variablePriorInitializer;
+        $this->_variablePriorInitializer = &$variablePriorInitializer;
     }
 
     public function createBasicVariable()
@@ -22,7 +22,8 @@ class VariableFactory
 
     public function createKeyedVariable($key)
     {
-        $newVar = new KeyedVariable($key, $this->_variablePriorInitializer());
+        $initializer = $this->_variablePriorInitializer;
+        $newVar = new KeyedVariable($key, "key variable", $initializer());
         return $newVar;
     }
 }

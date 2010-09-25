@@ -38,7 +38,7 @@ abstract class FactorGraphLayer
         return $this->_localFactors;        
     }
 
-    public function &setInputVariablesGroups(&$value)
+    public function setInputVariablesGroups(&$value)
     {
         $this->_inputVariablesGroups = $value;
     }

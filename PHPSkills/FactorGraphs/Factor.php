@@ -9,7 +9,6 @@ require_once(dirname(__FILE__) . "/Variable.php");
 use Moserware\Skills\Guard;
 use Moserware\Skills\HashMap;
 
-
 abstract class Factor
 {
     private $_messages = array();
@@ -21,7 +20,7 @@ abstract class Factor
     protected function __construct($name)
     {
         $this->_name = "Factor[" . $name . "]";
-        $this->_messagesToVariableBinding = new HashMap();
+        $this->_messageToVariableBinding = new HashMap();
     }
 
     /// Returns the log-normalization constant of that factor
@@ -81,12 +80,12 @@ abstract class Factor
 
     public abstract function createVariableToMessageBinding(Variable &$variable);
 
-    protected function createVariableToMessageBindingWithMessage(Variable &$variable, Variable &$message)
+    protected function createVariableToMessageBindingWithMessage(Variable &$variable, Message &$message)
     {
         $index = count($this->_messages);
-        $this->_messages[] = $message;
+        $this->_messages[] = $message;        
         $this->_messageToVariableBinding->setValue($message, $variable);
-        $this->_variables[] = $variable;
+        $this->_variables[] = &$variable;
         return $message;
     }
 

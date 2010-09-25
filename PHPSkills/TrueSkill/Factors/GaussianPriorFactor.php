@@ -23,11 +23,11 @@ class GaussianPriorFactor extends GaussianFactor
     {
         parent::__construct("Prior value going to {0}");
         $this->_newMessage = new GaussianDistribution($mean, sqrt($variance));
-        $this->createVariableToMessageBinding($variable,
-                                               new Message(
-                                                   GaussianDistribution::fromPrecisionMean(0, 0),
+        $newMessage = new Message(GaussianDistribution::fromPrecisionMean(0, 0),
                                                        "message from {0} to {1}",
-                                                   $this, variable));
+                                                   $this, $variable);
+
+        $this->createVariableToMessageBindingWithMessage($variable, $newMessage);
     }
 
     protected function updateMessageVariable(Message &$message, Variable &$variable)

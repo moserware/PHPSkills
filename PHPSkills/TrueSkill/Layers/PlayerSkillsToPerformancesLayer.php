@@ -52,7 +52,7 @@ class PlayerSkillsToPerformancesLayer extends TrueSkillFactorGraphLayer
                 array_map(
                         function($likelihood)
                         {
-                            return $this->scheduleStep("Skill to Perf step", $likelihood, 0);
+                            return new ScheduleStep("Skill to Perf step", $likelihood, 0);
                         },
                         $this->getLocalFactors()),
                 "All skill to performance sending");

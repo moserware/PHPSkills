@@ -1,5 +1,7 @@
 <?php
 
+namespace Moserware\Skills;
+
 class HashMap
 {
     private $_hashToValue = array();

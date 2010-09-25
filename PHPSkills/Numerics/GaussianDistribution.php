@@ -81,9 +81,19 @@ class GaussianDistribution
         $result = new GaussianDistribution();
         $result->_precision = $precision;
         $result->_precisionMean = $precisionMean;
-        $result->_variance = 1.0/$precision;
-        $result->_standardDeviation = sqrt($result->_variance);
-        $result->_mean = $result->_precisionMean/$result->_precision;
+
+        if($precision != 0)
+        {
+            $result->_variance = 1.0/$precision;
+            $result->_standardDeviation = sqrt($result->_variance);
+            $result->_mean = $result->_precisionMean/$result->_precision;
+        }
+        else
+        {
+            $result->_variance = \INF;
+            $result->_standardDeviation = \INF;
+            $result->_mean = \NAN;
+        }
         return $result;
     }
     

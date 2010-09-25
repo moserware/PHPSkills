@@ -35,11 +35,12 @@ class PlayerPriorValuesToSkillsLayer extends TrueSkillFactorGraphLayer
             {
                 $currentTeamPlayerRating = $currentTeam->getRating($currentTeamPlayer);
                 $playerSkill = $this->createSkillOutputVariable($currentTeamPlayer);
-                $this->addLayerFactor($this->createPriorFactor($currentTeamPlayer, $currentTeamPlayerRating, $playerSkill));
+                $priorFactor = $this->createPriorFactor($currentTeamPlayer, $currentTeamPlayerRating, $playerSkill);
+                $this->addLayerFactor($priorFactor);
                 $currentTeamSkills[] = $playerSkill;
             }
 
-            $outputVariablesGroups = $this->getOutputVariablesGroups();
+            $outputVariablesGroups = &$this->getOutputVariablesGroups();
             $outputVariablesGroups[] = $currentTeamSkills;
         }
     }

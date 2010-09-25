@@ -9,7 +9,7 @@ class RatingContainer
 
     public function __construct()
     {
-        $this->_playerToRating = new \HashMap();
+        $this->_playerToRating = new HashMap();
     }
 
     public function getRating($player)

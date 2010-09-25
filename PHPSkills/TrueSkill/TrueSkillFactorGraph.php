@@ -15,6 +15,7 @@ require_once(dirname(__FILE__) . '/Layers/PlayerSkillsToPerformancesLayer.php');
 require_once(dirname(__FILE__) . '/Layers/TeamDifferencesComparisonLayer.php');
 require_once(dirname(__FILE__) . '/Layers/TeamPerformancesToTeamPerformanceDifferencesLayer.php');
 
+use Moserware\Numerics\GaussianDistribution;
 use Moserware\Skills\GameInfo;
 use Moserware\Skills\Rating;
 use Moserware\Skills\FactorGraphs\FactorGraph;
@@ -32,8 +33,7 @@ class TrueSkillFactorGraph extends FactorGraph
 {
     private $_gameInfo;
     private $_layers;
-    private $_priorLayer;
-    private $_variableFactory;
+    private $_priorLayer;    
 
     public function __construct(GameInfo &$gameInfo, &$teams, array $teamRanks)
     {
@@ -44,8 +44,8 @@ class TrueSkillFactorGraph extends FactorGraph
                                         {
                                             return GaussianDistribution::fromPrecisionMean(0, 0);
                                         });
+                                        
         $this->setVariableFactory($newFactory);
-
         $this->_layers = array(
                               $this->_priorLayer,
                               new PlayerSkillsToPerformancesLayer($this),
