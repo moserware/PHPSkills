@@ -27,7 +27,7 @@ class TeamDifferencesComparisonLayer extends TrueSkillFactorGraphLayer
 
     public function buildLayer()
     {
-        $inputVarGroups = $this->getInputVariablesGroups();
+        $inputVarGroups = &$this->getInputVariablesGroups();
         $inputVarGroupsCount = count($inputVarGroups);
 
         for ($i = 0; $i < $inputVarGroupsCount; $i++)

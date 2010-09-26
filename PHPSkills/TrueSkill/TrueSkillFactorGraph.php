@@ -107,10 +107,10 @@ class TrueSkillFactorGraph extends FactorGraph
 
         foreach ($this->_layers as $currentLayer)
         {
-            $currentPriorSchedule = $currentLayer->createPriorSchedule();
+            $currentPriorSchedule = &$currentLayer->createPriorSchedule();
             if ($currentPriorSchedule != null)
             {
-                $fullSchedule[] = $currentPriorSchedule;
+                $fullSchedule[] = &$currentPriorSchedule;
             }
         }
         

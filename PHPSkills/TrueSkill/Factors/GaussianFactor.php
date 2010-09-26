@@ -22,8 +22,8 @@ abstract class GaussianFactor extends Factor
     /// Sends the factor-graph message with and returns the log-normalization constant
     protected function sendMessageVariable(Message &$message, Variable &$variable)
     {
-        $marginal = $variable->getValue();
-        $messageValue = $message->getValue();
+        $marginal = &$variable->getValue();
+        $messageValue = &$message->getValue();
         $logZ = GaussianDistribution::logProductNormalization($marginal, $messageValue);
         $variable->setValue($marginal*$messageValue);
         return $logZ;

@@ -2,14 +2,16 @@
 namespace Moserware\Skills\TrueSkill\Factors;
 
 
+
 require_once(dirname(__FILE__) . "/GaussianFactor.php");
+require_once(dirname(__FILE__) . "/../../Guard.php");
 require_once(dirname(__FILE__) . "/../../FactorGraphs/Message.php");
 require_once(dirname(__FILE__) . "/../../FactorGraphs/Variable.php");
 require_once(dirname(__FILE__) . "/../../Numerics/GaussianDistribution.php");
 require_once(dirname(__FILE__) . "/../../Numerics/BasicMath.php");
 
-
 use Moserware\Numerics\GaussianDistribution;
+use Moserware\Skills\Guard;
 use Moserware\Skills\FactorGraphs\Message;
 use Moserware\Skills\FactorGraphs\Variable;
 
@@ -40,9 +42,9 @@ class GaussianWeightedSumFactor extends GaussianFactor
 
         for($i = 0; $i < $variableWeightsLength; $i++)
         {
-            $weight = $variableWeights[$i];
+            $weight = &$variableWeights[$i];
             $this->_weights[0][$i] = $weight;
-            $this->_weightsSquared[0][$i] = $weight * $weight;
+            $this->_weightsSquared[0][$i] = square($weight);
         }
 
         $variablesToSumLength = count($variablesToSum);
@@ -123,8 +125,8 @@ class GaussianWeightedSumFactor extends GaussianFactor
 
     public function getLogNormalization()
     {
-        $vars = $this->getVariables();
-        $messages = $this->getMessages();
+        $vars = &$this->getVariables();
+        $messages = &$this->getMessages();
 
         $result = 0.0;
 
@@ -132,7 +134,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
         $varCount = count($vars);
         for ($i = 1; $i < $varCount; $i++)
         {
-            $result += GaussianDistribution::logRatioNormalization($vars[i]->getValue(), $messages[i]->getValue());
+            $result += GaussianDistribution::logRatioNormalization($vars[$i]->getValue(), $messages[$i]->getValue());
         }
 
         return $result;
@@ -145,7 +147,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
         // Potentially look at http://mathworld.wolfram.com/NormalSumDistribution.html for clues as
         // to what it's doing
 
-        $messages = $this->getMessages();
+        $messages = &$this->getMessages();
         $message0 = clone $messages[0]->getValue();
         $marginal0 = clone $variables[0]->getValue();
 
@@ -161,13 +163,13 @@ class GaussianWeightedSumFactor extends GaussianFactor
         {
             // These flow directly from the paper
 
-            $inverseOfNewPrecisionSum += $weightsSquared[i]/
+            $inverseOfNewPrecisionSum += $weightsSquared[$i]/
                                          ($variables[$i + 1]->getValue()->getPrecision() - $messages[$i + 1]->getValue()->getPrecision());
 
             $diff = GaussianDistribution::divide($variables[$i + 1]->getValue(), $messages[$i + 1]->getValue());
-            $anotherInverseOfNewPrecisionSum += $weightsSquared[i]/$diff->getPrecision();
+            $anotherInverseOfNewPrecisionSum += $weightsSquared[$i]/$diff->getPrecision();
 
-            $weightedMeanSum += $weights[i]
+            $weightedMeanSum += $weights[$i]
                                 *
                                 ($variables[$i + 1]->getValue()->getPrecisionMean() - $messages[$i + 1]->getValue()->getPrecisionMean())
                                 /
@@ -199,21 +201,21 @@ class GaussianWeightedSumFactor extends GaussianFactor
 
     public function updateMessageIndex($messageIndex)
     {
-        $allMessages = $this->getMessages();
-        $allVariables = $this->getVariables();
+        $allMessages = &$this->getMessages();
+        $allVariables = &$this->getVariables();
 
-        Guard::argumentIsValidIndex($messageIndex, count($allMessages),"messageIndex");
+        Guard::argumentIsValidIndex($messageIndex, count($allMessages), "messageIndex");
 
         $updatedMessages = array();
         $updatedVariables = array();
 
-        $indicesToUse = $this->_variableIndexOrdersForWeights[$messageIndex];
+        $indicesToUse = &$this->_variableIndexOrdersForWeights[$messageIndex];
 
         // The tricky part here is that we have to put the messages and variables in the same
         // order as the weights. Thankfully, the weights and messages share the same index numbers,
         // so we just need to make sure they're consistent
         $allMessagesCount = count($allMessages);
-        for ($i = 0; i < $allMessagesCount; $i++)
+        for ($i = 0; $i < $allMessagesCount; $i++)
         {
             $updatedMessages[] =$allMessages[$indicesToUse[$i]];
             $updatedVariables[] = $allVariables[$indicesToUse[$i]];

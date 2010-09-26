@@ -22,17 +22,17 @@ class GaussianGreaterThanFactor extends GaussianFactor
 
     public function __construct($epsilon, Variable &$variable)
     {
-        parent::_construct("{0} > {1:0.000}");
+        parent::__construct("{0} > {1:0.000}");
         $this->_epsilon = $epsilon;
         $this->createVariableToMessageBinding($variable);
     }
 
     public function getLogNormalization()
     {
-        $vars = $this->getVariables();
-        $marginal = $vars[0]->getValue();
-        $messages = $this->getMessages();
-        $message = $messages[0]->getValue();
+        $vars = &$this->getVariables();
+        $marginal = &$vars[0]->getValue();
+        $messages = &$this->getMessages();
+        $message = &$messages[0]->getValue();
         $messageFromVariable = GaussianDistribution::divide($marginal, $message);
         return -GaussianDistribution::logProductNormalization($messageFromVariable, $message)
                +

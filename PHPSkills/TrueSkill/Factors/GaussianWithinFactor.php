@@ -28,11 +28,11 @@ class GaussianWithinFactor extends GaussianFactor
 
     public function getLogNormalization()
     {
-        $variables = $this->getVariables();
-        $marginal = $variables[0]->getValue();
+        $variables = &$this->getVariables();
+        $marginal = &$variables[0]->getValue();
 
-        $messages = $this->getMessages();
-        $message = $messages[0]->getValue();
+        $messages = &$this->getMessages();
+        $message = &$messages[0]->getValue();
         $messageFromVariable = GaussianDistribution::divide($marginal, $message);
         $mean = $messageFromVariable->getMean();
         $std = $messageFromVariable->getStandardDeviation();
