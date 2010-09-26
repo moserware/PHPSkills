@@ -1,10 +1,13 @@
 <?php
 namespace Moserware\Skills\TrueSkill\Factors;
 
+
 require_once(dirname(__FILE__) . "/GaussianFactor.php");
 require_once(dirname(__FILE__) . "/../../FactorGraphs/Message.php");
 require_once(dirname(__FILE__) . "/../../FactorGraphs/Variable.php");
 require_once(dirname(__FILE__) . "/../../Numerics/GaussianDistribution.php");
+require_once(dirname(__FILE__) . "/../../Numerics/BasicMath.php");
+
 
 use Moserware\Numerics\GaussianDistribution;
 use Moserware\Skills\FactorGraphs\Message;
@@ -25,7 +28,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
 
     public function __construct(Variable &$sumVariable, array &$variablesToSum, array &$variableWeights = null)
     {
-        parent::__construct($this->createName($sumVariable, $variablesToSum, $variableWeights));
+        parent::__construct(self::createName($sumVariable, $variablesToSum, $variableWeights));
         $this->_weights = array();
         $this->_weightsSquared = array();
 
@@ -39,7 +42,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
         {
             $weight = $variableWeights[$i];
             $this->_weights[0][$i] = $weight;
-            $this->_weightsSquared[0][i] = $weight * $weight;
+            $this->_weightsSquared[0][$i] = $weight * $weight;
         }
 
         $variablesToSumLength = count($variablesToSum);
@@ -64,14 +67,16 @@ class GaussianWeightedSumFactor extends GaussianFactor
             $variableIndices[] = $weightsIndex;
 
             $currentWeightsSquared = array();
-            $this->_WeightsSquared[$weightsIndex] = $currentWeightsSquared;
+            $this->_WeightsSquared[$weightsIndex] = &$currentWeightsSquared;
 
             // keep a single variable to keep track of where we are in the array.
             // This is helpful since we skip over one of the spots
             $currentDestinationWeightIndex = 0;
 
+            $variableWeightsLength = count($variableWeights);
+
             for ($currentWeightSourceIndex = 0;
-                 $currentWeightSourceIndex < $variableWeights.Length;
+                 $currentWeightSourceIndex < $variableWeightsLength;
                  $currentWeightSourceIndex++)
             {
                 if ($currentWeightSourceIndex == ($weightsIndex - 1))
@@ -102,10 +107,10 @@ class GaussianWeightedSumFactor extends GaussianFactor
                 // HACK: Getting around division by zero
                 $finalWeight = 0;
             }
-            $currentWeights[$currentDestinationWeightIndex] = finalWeight;
-            $currentWeightsSquared[currentDestinationWeightIndex] = finalWeight*finalWeight;
-            $variableIndices[$variableIndices.Length - 1] = 0;
-            $this->_variableIndexOrdersForWeights[] = $variableIndices;
+            $currentWeights[$currentDestinationWeightIndex] = $finalWeight;
+            $currentWeightsSquared[$currentDestinationWeightIndex] = square($finalWeight);
+            $variableIndices[count($variableIndices) - 1] = 0;
+            $this->_variableIndexOrdersForWeights[] = &$variableIndices;
         }
 
         $this->createVariableToMessageBinding($sumVariable);
@@ -218,6 +223,11 @@ class GaussianWeightedSumFactor extends GaussianFactor
                             $this->_weightsSquared[$messageIndex],
                             $updatedMessages,
                             $updatedVariables);
+    }
+
+    private static function createName($sumVariable, $variablesToSum, $variableWeights)
+    {
+        return "TODO";
     }
 }
 
