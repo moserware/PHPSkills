@@ -50,9 +50,10 @@ class GaussianWeightedSumFactor extends GaussianFactor
         $variablesToSumLength = count($variablesToSum);
 
         // 0..n-1
+        $this->_variableIndexOrdersForWeights[0] = array();
         for($i = 0; $i < ($variablesToSumLength + 1); $i++)
         {
-            $this->_variableIndexOrdersForWeights[] = $i;
+            $this->_variableIndexOrdersForWeights[0][] = $i;
         }
         
         // The rest move the variables around and divide out the constant.
@@ -62,14 +63,15 @@ class GaussianWeightedSumFactor extends GaussianFactor
 
         $weightsLength = $variableWeightsLength + 1;
         for ($weightsIndex = 1; $weightsIndex < $weightsLength; $weightsIndex++)
-        {            
-            $this->_weights[$weightsIndex] = array();
+        { 
+            $currentWeights = array();
+            $this->_weights[$weightsIndex] = &$currentWeights;
 
             $variableIndices = array();
-            $variableIndices[] = $weightsIndex;
+            $variableIndices[0] = $weightsIndex;
 
             $currentWeightsSquared = array();
-            $this->_WeightsSquared[$weightsIndex] = &$currentWeightsSquared;
+            $this->_weightsSquared[$weightsIndex] = &$currentWeightsSquared;
 
             // keep a single variable to keep track of where we are in the array.
             // This is helpful since we skip over one of the spots
@@ -111,7 +113,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
             }
             $currentWeights[$currentDestinationWeightIndex] = $finalWeight;
             $currentWeightsSquared[$currentDestinationWeightIndex] = square($finalWeight);
-            $variableIndices[count($variableIndices) - 1] = 0;
+            $variableIndices[count($variableWeights)] = 0;
             $this->_variableIndexOrdersForWeights[] = &$variableIndices;
         }
 
