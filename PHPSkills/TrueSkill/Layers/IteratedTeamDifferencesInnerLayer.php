@@ -29,7 +29,8 @@ class IteratedTeamDifferencesInnerLayer extends TrueSkillFactorGraphLayer
 
     public function buildLayer()
     {
-        $this->_TeamPerformancesToTeamPerformanceDifferencesLayer->setInputVariablesGroups($this->getInputVariablesGroups());
+        $inputVariablesGroups = $this->getInputVariablesGroups();
+        $this->_TeamPerformancesToTeamPerformanceDifferencesLayer->setInputVariablesGroups($inputVariablesGroups);
         $this->_TeamPerformancesToTeamPerformanceDifferencesLayer->buildLayer();
 
         $this->_TeamDifferencesComparisonLayer->setInputVariablesGroups(

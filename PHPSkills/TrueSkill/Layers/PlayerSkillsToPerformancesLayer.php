@@ -27,7 +27,8 @@ class PlayerSkillsToPerformancesLayer extends TrueSkillFactorGraphLayer
             foreach ($currentTeam as $playerSkillVariable)
             {
                 $playerPerformance = $this->createOutputVariable($playerSkillVariable->getKey());
-                $this->addLayerFactor($this->createLikelihood($playerSkillVariable, $playerPerformance));
+                $newLikelihoodFactor = $this->createLikelihood($playerSkillVariable, $playerPerformance);
+                $this->addLayerFactor($newLikelihoodFactor);
                 $currentTeamPlayerPerformances[] = &$playerPerformance;
             }
             

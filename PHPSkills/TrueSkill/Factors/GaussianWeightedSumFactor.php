@@ -93,7 +93,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
                 }
 
                 $currentWeights[$currentDestinationWeightIndex] = $currentWeight;
-                $currentWeightsSquared[$currentDestinationWeightIndex] = $currentWeight*currentWeight;
+                $currentWeightsSquared[$currentDestinationWeightIndex] = $currentWeight*$currentWeight;
 
                 $variableIndices[$currentDestinationWeightIndex + 1] = $currentWeightSourceIndex + 1;
                 $currentDestinationWeightIndex++;

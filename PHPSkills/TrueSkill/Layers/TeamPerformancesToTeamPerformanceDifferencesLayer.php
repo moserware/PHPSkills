@@ -20,16 +20,17 @@ class TeamPerformancesToTeamPerformanceDifferencesLayer extends TrueSkillFactorG
 
     public function buildLayer()
     {
-        $inputVariablesGroup = $this->getInputVariablesGroups();
-        $inputVariablesGroupCount = count($inputVariablesGroup);
+        $inputVariablesGroups = &$this->getInputVariablesGroups();
+        $inputVariablesGroupsCount = count($inputVariablesGroups);
 
-        for ($i = 0; $i < $inputVariablesGroupCount - 1; $i++)
+        for ($i = 0; $i < $inputVariablesGroupsCount - 1; $i++)
         {
             $strongerTeam = $inputVariablesGroups[$i][0];
             $weakerTeam = $inputVariablesGroups[$i + 1][0];
 
             $currentDifference = $this->createOutputVariable();
-            $this->addLayerFactor($this->createTeamPerformanceToDifferenceFactor($strongerTeam, $weakerTeam, currentDifference));
+            $newDifferencesFactor = $this->createTeamPerformanceToDifferenceFactor($strongerTeam, $weakerTeam, $currentDifference);
+            $this->addLayerFactor($newDifferencesFactor);
 
             // REVIEW: Does it make sense to have groups of one?
             $outputVariablesGroup = $this->getOutputVariablesGroups();
@@ -40,7 +41,9 @@ class TeamPerformancesToTeamPerformanceDifferencesLayer extends TrueSkillFactorG
     private function createTeamPerformanceToDifferenceFactor(
         Variable &$strongerTeam, Variable &$weakerTeam, Variable &$output)
     {
-        return new GaussianWeightedSumFactor($output, array($strongerTeam, $weakerTeam), array(1.0, -1.0));
+        $teams = array($strongerTeam, $weakerTeam);
+        $weights = array(1.0, -1.0);
+        return new GaussianWeightedSumFactor($output, $teams, $weights);
     }
 
     private function createOutputVariable()

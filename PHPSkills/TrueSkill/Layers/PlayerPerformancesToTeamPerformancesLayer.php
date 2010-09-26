@@ -27,12 +27,13 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
     {
         foreach ($this->getInputVariablesGroups() as $currentTeam)
         {
-            $teamPerformance = $this->createOutputVariable($currentTeam);
-            $this->addLayerFactor($this->createPlayerToTeamSumFactor($currentTeam, $teamPerformance));
+            $teamPerformance = &$this->createOutputVariable($currentTeam);
+            $newSumFactor = $this->createPlayerToTeamSumFactor($currentTeam, $teamPerformance);
+            $this->addLayerFactor($newSumFactor);
 
             // REVIEW: Does it make sense to have groups of one?
-            $outputVariablesGroups = $this->getOutputVariablesGroups();
-            $outputVariablesGroups = $teamPerformance;
+            $outputVariablesGroups = &$this->getOutputVariablesGroups();
+            $outputVariablesGroups[] = array($teamPerformance);
         }
     }
 
