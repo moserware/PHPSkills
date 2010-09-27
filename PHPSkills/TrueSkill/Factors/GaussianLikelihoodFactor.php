@@ -20,7 +20,7 @@ class GaussianLikelihoodFactor extends GaussianFactor
 
     public function __construct($betaSquared, Variable &$variable1, Variable &$variable2)
     {
-        parent::__construct("Likelihood of {0} going to {1}");
+        parent::__construct(sprintf("Likelihood of %s going to %s", $variable2, $variable1));
         $this->_precision = 1.0/$betaSquared;
         $this->createVariableToMessageBinding($variable1);
         $this->createVariableToMessageBinding($variable2);

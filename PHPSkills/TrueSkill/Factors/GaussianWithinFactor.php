@@ -22,6 +22,7 @@ class GaussianWithinFactor extends GaussianFactor
 
     public function __construct($epsilon, Variable &$variable)
     {
+        parent::__construct(sprintf("%s <= %.2f", $variable, $epsilon));
         $this->_epsilon = $epsilon;
         $this->createVariableToMessageBinding($variable);
     }
