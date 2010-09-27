@@ -1,8 +1,6 @@
 <?php
 namespace Moserware\Skills\TrueSkill\Factors;
 
-
-
 require_once(dirname(__FILE__) . "/GaussianFactor.php");
 require_once(dirname(__FILE__) . "/../../Guard.php");
 require_once(dirname(__FILE__) . "/../../FactorGraphs/Message.php");
@@ -223,10 +221,10 @@ class GaussianWeightedSumFactor extends GaussianFactor
             $updatedVariables[] = $allVariables[$indicesToUse[$i]];
         }
 
-        return updateHelper($this->_weights[$messageIndex],
-                            $this->_weightsSquared[$messageIndex],
-                            $updatedMessages,
-                            $updatedVariables);
+        return $this->updateHelper($this->_weights[$messageIndex],
+                                   $this->_weightsSquared[$messageIndex],
+                                   $updatedMessages,
+                                   $updatedVariables);
     }
 
     private static function createName($sumVariable, $variablesToSum, $variableWeights)
