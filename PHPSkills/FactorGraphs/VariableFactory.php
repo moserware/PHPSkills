@@ -14,17 +14,17 @@ class VariableFactory
         $this->_variablePriorInitializer = &$variablePriorInitializer;
     }
 
-    public function createBasicVariable()
+    public function createBasicVariable($name)
     {
         $initializer = $this->_variablePriorInitializer;
-        $newVar = new Variable("variable", $initializer());
+        $newVar = new Variable($name, $initializer());
         return $newVar;
     }
 
-    public function createKeyedVariable($key)
+    public function createKeyedVariable($key, $name)
     {
         $initializer = $this->_variablePriorInitializer;
-        $newVar = new KeyedVariable($key, "key variable", $initializer());
+        $newVar = new KeyedVariable($key, $name, $initializer());
         return $newVar;
     }
 }

@@ -227,9 +227,44 @@ class GaussianWeightedSumFactor extends GaussianFactor
                                    $updatedVariables);
     }
 
-    private static function createName($sumVariable, $variablesToSum, $variableWeights)
+    private static function createName($sumVariable, $variablesToSum, $weights)
     {
-        return "TODO";
+        // TODO: Perf? Use PHP equivalent of StringBuilder? implode on arrays?
+        $result = (string)$sumVariable;
+        $result .= ' = ';
+        
+        $totalVars = count($variablesToSum);
+        for($i = 0; $i < $totalVars; $i++)
+        {
+            $isFirst = ($i == 0);
+            
+            if($isFirst && ($weights[$i] < 0))
+            {
+                $result .= '-';
+            }
+
+            $absValue = sprintf("%.2f", \abs($weights[$i])); // 0.00?
+            $result .= $absValue;
+            $result .= "*[";
+            $result .= (string)$variablesToSum[$i];
+            $result .= ']';
+            
+            $isLast = ($i == ($totalVars - 1));
+            
+            if(!$isLast)
+            {
+                if($weights[$i + 1] >= 0)
+                {
+                    $result .= ' + ';
+                }
+                else
+                {
+                    $result .= ' - ';
+                }
+            }                
+        }
+        
+        return $result;
     }
 }
 

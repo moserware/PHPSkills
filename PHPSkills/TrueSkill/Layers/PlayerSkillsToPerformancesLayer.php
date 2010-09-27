@@ -44,7 +44,7 @@ class PlayerSkillsToPerformancesLayer extends TrueSkillFactorGraphLayer
 
     private function createOutputVariable(&$key)
     {
-        return $this->getParentFactorGraph()->getVariableFactory()->createKeyedVariable($key, "{0}'s performance", $key);
+        return $this->getParentFactorGraph()->getVariableFactory()->createKeyedVariable($key, $key . "'s performance");
     }
 
     public function createPriorSchedule()

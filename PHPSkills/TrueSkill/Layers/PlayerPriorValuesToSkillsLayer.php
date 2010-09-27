@@ -69,7 +69,7 @@ class PlayerPriorValuesToSkillsLayer extends TrueSkillFactorGraphLayer
     {
         $parentFactorGraph = $this->getParentFactorGraph();
         $variableFactory = $parentFactorGraph->getVariableFactory();
-        return $variableFactory->createKeyedVariable($key, "{0}'s skill", $key);
+        return $variableFactory->createKeyedVariable($key, $key . "'s skill");
     }
 }
 
