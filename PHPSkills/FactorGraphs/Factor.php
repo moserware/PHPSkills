@@ -85,7 +85,7 @@ abstract class Factor
         $index = count($this->_messages);
         $this->_messages[] = $message;        
         $this->_messageToVariableBinding->setValue($message, $variable);
-        $this->_variables[] = &$variable;
+        $this->_variables[] = $variable;
         return $message;
     }
 

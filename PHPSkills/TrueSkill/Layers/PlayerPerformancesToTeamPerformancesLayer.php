@@ -74,7 +74,7 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
             $numberOfMessages = $currentFactor->getNumberOfMessages();
             for($currentIteration = 1; $currentIteration < $numberOfMessages; $currentIteration++)
             {
-                $allFactors[] = new ScheduleStep("team sum perf @" + $currentIteration,
+                $allFactors[] = new ScheduleStep("team sum perf @" . $currentIteration,
                                                  $currentFactor, $currentIteration);
             }
         }

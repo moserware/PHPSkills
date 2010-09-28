@@ -261,7 +261,7 @@ class GaussianDistribution
     
     public function __toString()
     {
-        return 'mean=' . $this->_mean . ' standardDeviation=' . $this->_standardDeviation;
+        return sprintf("mean=%.4f standardDeviation=%.4f", $this->_mean, $this->_standardDeviation);
     }  
 }
 ?>

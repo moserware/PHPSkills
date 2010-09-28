@@ -43,9 +43,9 @@ abstract class FactorGraphLayer
         $this->_inputVariablesGroups = $value;
     }
 
-    protected function scheduleSequence(&$itemsToSequence)
+    protected function scheduleSequence(&$itemsToSequence, $name)
     {
-        return new ScheduleSequence("TODO", $itemsToSequence);
+        return new ScheduleSequence($name, $itemsToSequence);
     }
 
     protected function addLayerFactor(&$factor)

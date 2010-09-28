@@ -67,7 +67,7 @@ class IteratedTeamDifferencesInnerLayer extends TrueSkillFactorGraphLayer
                         "teamPerformanceToPerformanceDifferenceFactors[0] @ 1",
                         $localFactors[0], 1),
                     new ScheduleStep(
-                        "teamPerformanceToPerformanceDifferenceFactors[teamTeamDifferences = {0} - 1] @ 2",                                      
+                        sprintf("teamPerformanceToPerformanceDifferenceFactors[teamTeamDifferences = %d - 1] @ 2", $totalTeamDifferences),
                         $localFactors[$totalTeamDifferences - 1], 2)
                 )
             );
