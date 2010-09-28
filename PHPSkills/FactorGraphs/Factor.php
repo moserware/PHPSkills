@@ -49,7 +49,9 @@ abstract class Factor
     public function updateMessageIndex($messageIndex)
     {
         Guard::argumentIsValidIndex($messageIndex, count($this->_messages), "messageIndex");
-        return $this->updateMessageVariable($this->_messages[$messageIndex], $this->_messageToVariableBinding->getValue($messageIndex));
+        $message = $this->_messages[$messageIndex];
+        $variable = $this->_messageToVariableBinding->getValue($this->_messages[$messageIndex]);
+        return $this->updateMessageVariable($message, $variable);
     }
 
     protected function updateMessageVariable(Message $message, Variable $variable)
@@ -60,7 +62,7 @@ abstract class Factor
     /// Resets the marginal of the variables a factor is connected to
     public function resetMarginals()
     {
-        foreach ($this->_messageToVariableBindings->getAllValues() as $currentVariable)
+        foreach ($this->_messageToVariableBinding->getAllValues() as $currentVariable)
         {
             $currentVariable->resetToPrior();
         }
@@ -69,7 +71,7 @@ abstract class Factor
     /// Sends the ith message to the marginal and returns the log-normalization constant
     public function sendMessageIndex($messageIndex)
     {
-        Guard::argumentIsValidIndex($messageIndex, count($_messages), "messageIndex");
+        Guard::argumentIsValidIndex($messageIndex, count($this->_messages), "messageIndex");
 
         $message = $this->_messages[$messageIndex];
         $variable = $this->_messageToVariableBinding->getValue($message);

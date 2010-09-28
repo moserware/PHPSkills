@@ -12,9 +12,14 @@ class Message
         $this->_value = $value;
     }
 
-    public function getValue()
+    public function& getValue()
     {
         return $this->_value;
+    }
+
+    public function setValue(&$value)
+    {
+        $this->_value = &$value;
     }
 
     public function __toString()

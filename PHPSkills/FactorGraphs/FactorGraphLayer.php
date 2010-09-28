@@ -43,7 +43,7 @@ abstract class FactorGraphLayer
         $this->_inputVariablesGroups = $value;
     }
 
-    protected function scheduleSequence(&$itemsToSequence, $name)
+    protected function scheduleSequence($itemsToSequence, $name)
     {
         return new ScheduleSequence($name, $itemsToSequence);
     }

@@ -66,8 +66,8 @@ class GaussianLikelihoodFactor extends GaussianFactor
 
     public function updateMessageIndex($messageIndex)
     {
-        $messages = $this->getMessages();
-        $vars = $this->getVariables();
+        $messages = &$this->getMessages();
+        $vars = &$this->getVariables();
 
         switch ($messageIndex)
         {

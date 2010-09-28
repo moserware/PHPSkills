@@ -25,7 +25,7 @@ abstract class GaussianFactor extends Factor
         $marginal = &$variable->getValue();
         $messageValue = &$message->getValue();
         $logZ = GaussianDistribution::logProductNormalization($marginal, $messageValue);
-        $variable->setValue($marginal*$messageValue);
+        $variable->setValue(GaussianDistribution::multiply($marginal, $messageValue));
         return $logZ;
     }
 

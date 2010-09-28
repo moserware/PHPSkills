@@ -9,7 +9,8 @@ class HashMap
 
     public function getValue($key)
     {
-        return $this->_hashToValue[self::getHash($key)];
+        $hash = self::getHash($key);
+        return $this->_hashToValue[$hash];
     }
 
     public function setValue($key, $value)

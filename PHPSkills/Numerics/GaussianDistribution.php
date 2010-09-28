@@ -115,7 +115,7 @@ class GaussianDistribution
     // Computes the absolute difference between two Gaussians
     public static function subtract(GaussianDistribution $left, GaussianDistribution $right)
     {
-        return absoluteDifference($left, $right);
+        return GaussianDistribution::absoluteDifference($left, $right);
     }
     
     public static function logProductNormalization(GaussianDistribution $left, GaussianDistribution $right)
