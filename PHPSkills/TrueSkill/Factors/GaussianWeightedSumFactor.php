@@ -63,13 +63,11 @@ class GaussianWeightedSumFactor extends GaussianFactor
         for ($weightsIndex = 1; $weightsIndex < $weightsLength; $weightsIndex++)
         { 
             $currentWeights = array();
-            $this->_weights[$weightsIndex] = &$currentWeights;
-
+            
             $variableIndices = array();
             $variableIndices[0] = $weightsIndex;
 
             $currentWeightsSquared = array();
-            $this->_weightsSquared[$weightsIndex] = &$currentWeightsSquared;
 
             // keep a single variable to keep track of where we are in the array.
             // This is helpful since we skip over one of the spots
@@ -112,7 +110,10 @@ class GaussianWeightedSumFactor extends GaussianFactor
             $currentWeights[$currentDestinationWeightIndex] = $finalWeight;
             $currentWeightsSquared[$currentDestinationWeightIndex] = square($finalWeight);
             $variableIndices[count($variableWeights)] = 0;
-            $this->_variableIndexOrdersForWeights[] = &$variableIndices;
+            $this->_variableIndexOrdersForWeights[] = $variableIndices;
+
+            $this->_weights[$weightsIndex] = $currentWeights;
+            $this->_weightsSquared[$weightsIndex] = $currentWeightsSquared;
         }
 
         $this->createVariableToMessageBinding($sumVariable);

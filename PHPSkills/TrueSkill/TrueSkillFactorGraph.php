@@ -3,6 +3,7 @@ namespace Moserware\Skills\TrueSkill;
 
 require_once(dirname(__FILE__) . '/../GameInfo.php');
 require_once(dirname(__FILE__) . '/../Rating.php');
+require_once(dirname(__FILE__) . '/../RatingContainer.php');
 require_once(dirname(__FILE__) . '/../FactorGraphs/FactorGraph.php');
 require_once(dirname(__FILE__) . '/../FactorGraphs/FactorList.php');
 require_once(dirname(__FILE__) . '/../FactorGraphs/Schedule.php');
@@ -18,6 +19,7 @@ require_once(dirname(__FILE__) . '/Layers/TeamPerformancesToTeamPerformanceDiffe
 use Moserware\Numerics\GaussianDistribution;
 use Moserware\Skills\GameInfo;
 use Moserware\Skills\Rating;
+use Moserware\Skills\RatingContainer;
 use Moserware\Skills\FactorGraphs\FactorGraph;
 use Moserware\Skills\FactorGraphs\FactorList;
 use Moserware\Skills\FactorGraphs\ScheduleSequence;
@@ -130,14 +132,16 @@ class TrueSkillFactorGraph extends FactorGraph
 
     public function getUpdatedRatings()
     {
-        $result = array();
+        $result = new RatingContainer();
 
         foreach ($this->_priorLayer->getOutputVariablesGroups() as $currentTeam)
         {
             foreach ($currentTeam as $currentPlayer)
             {
-                $result[$currentPlayer->getKey()] = new Rating($currentPlayer->getValue()->getMean(),
-                                                               $currentPlayer->getValue()->getStandardDeviation());
+                $newRating = new Rating($currentPlayer->getValue()->getMean(),
+                                        $currentPlayer->getValue()->getStandardDeviation());
+
+                $result->setRating($currentPlayer, $newRating);
             }
         }
 
