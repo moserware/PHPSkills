@@ -218,8 +218,8 @@ class GaussianWeightedSumFactor extends GaussianFactor
         $allMessagesCount = count($allMessages);
         for ($i = 0; $i < $allMessagesCount; $i++)
         {
-            $updatedMessages[] =$allMessages[$indicesToUse[$i]];
-            $updatedVariables[] = $allVariables[$indicesToUse[$i]];
+            $updatedMessages[] = &$allMessages[$indicesToUse[$i]];
+            $updatedVariables[] = &$allVariables[$indicesToUse[$i]];
         }
 
         return $this->updateHelper($this->_weights[$messageIndex],

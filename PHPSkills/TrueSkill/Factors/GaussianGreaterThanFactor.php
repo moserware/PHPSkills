@@ -58,7 +58,7 @@ class GaussianGreaterThanFactor extends GaussianFactor
         $epsilsonTimesSqrtC = $this->_epsilon*$sqrtC;
         $d = $messageFromVar->getPrecisionMean();
 
-        $denom = 1.0 - TruncatedGaussianCorrectionFunctions::vExceedsMargin($dOnSqrtC, $epsilsonTimesSqrtC);
+        $denom = 1.0 - TruncatedGaussianCorrectionFunctions::wExceedsMargin($dOnSqrtC, $epsilsonTimesSqrtC);
 
         $newPrecision = $c/$denom;
         $newPrecisionMean = ($d +

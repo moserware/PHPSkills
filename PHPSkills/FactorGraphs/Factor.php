@@ -49,8 +49,8 @@ abstract class Factor
     public function updateMessageIndex($messageIndex)
     {
         Guard::argumentIsValidIndex($messageIndex, count($this->_messages), "messageIndex");
-        $message = $this->_messages[$messageIndex];
-        $variable = $this->_messageToVariableBinding->getValue($this->_messages[$messageIndex]);
+        $message = &$this->_messages[$messageIndex];
+        $variable = &$this->_messageToVariableBinding->getValue($this->_messages[$messageIndex]);
         return $this->updateMessageVariable($message, $variable);
     }
 
