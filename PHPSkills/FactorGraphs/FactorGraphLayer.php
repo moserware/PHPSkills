@@ -1,6 +1,7 @@
 <?php
 namespace Moserware\Skills\FactorGraphs;
 
+require_once(dirname(__FILE__) . "/Factor.php");
 require_once(dirname(__FILE__) . "/FactorGraph.php");
 require_once(dirname(__FILE__) . "/Schedule.php");
 
@@ -18,24 +19,28 @@ abstract class FactorGraphLayer
 
     protected function &getInputVariablesGroups()
     {
-        return $this->_inputVariablesGroups;        
+        $inputVariablesGroups = &$this->_inputVariablesGroups;
+        return $inputVariablesGroups;
     }
 
     // HACK
 
     public function &getParentFactorGraph()
     {
-        return $this->_parentFactorGraph;
+        $parentFactorGraph = &$this->_parentFactorGraph;
+        return $parentFactorGraph;
     }
 
     public function &getOutputVariablesGroups()
     {
-        return $this->_outputVariablesGroups;        
+        $outputVariablesGroups = &$this->_outputVariablesGroups;
+        return $outputVariablesGroups;
     }
 
     public function &getLocalFactors()
     {
-        return $this->_localFactors;        
+        $localFactors = &$this->_localFactors;
+        return $localFactors;
     }
 
     public function setInputVariablesGroups(&$value)
@@ -43,12 +48,12 @@ abstract class FactorGraphLayer
         $this->_inputVariablesGroups = $value;
     }
 
-    protected function scheduleSequence($itemsToSequence, $name)
+    protected function scheduleSequence(array $itemsToSequence, $name)
     {
         return new ScheduleSequence($name, $itemsToSequence);
     }
 
-    protected function addLayerFactor(&$factor)
+    protected function addLayerFactor(Factor &$factor)
     {
         $this->_localFactors[] = $factor;
     }

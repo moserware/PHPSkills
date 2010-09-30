@@ -2,6 +2,7 @@
 
 namespace Moserware\Skills\TrueSkill;
 
+require_once(dirname(__FILE__) . "/../GameInfo.php");
 require_once(dirname(__FILE__) . "/../Guard.php");
 require_once(dirname(__FILE__) . "/../PairwiseComparison.php");
 require_once(dirname(__FILE__) . "/../RankSorter.php");
@@ -17,6 +18,7 @@ require_once(dirname(__FILE__) . "/../Numerics/BasicMath.php");
 require_once(dirname(__FILE__) . "/DrawMargin.php");
 require_once(dirname(__FILE__) . "/TruncatedGaussianCorrectionFunctions.php");
 
+use Moserware\Skills\GameInfo;
 use Moserware\Skills\Guard;
 use Moserware\Skills\PairwiseComparison;
 use Moserware\Skills\RankSorter;
@@ -42,7 +44,7 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
         parent::__construct(SkillCalculatorSupportedOptions::NONE, TeamsRange::exactly(2), PlayersRange::exactly(1));
     }
 
-    public function calculateNewRatings($gameInfo,
+    public function calculateNewRatings(GameInfo &$gameInfo,
                                         array $teams,
                                         array $teamRanks)
     {
@@ -82,7 +84,7 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
         return $results;
     }
 
-    private static function calculateNewRating($gameInfo, $selfRating, $opponentRating, $comparison)
+    private static function calculateNewRating(GameInfo $gameInfo, Rating $selfRating, Rating $opponentRating, $comparison)
     {
         $drawMargin = DrawMargin::getDrawMarginFromDrawProbability($gameInfo->getDrawProbability(),
                                                                    $gameInfo->getBeta());
@@ -138,7 +140,7 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
     }
 
     /// <inheritdoc/>
-    public function calculateMatchQuality($gameInfo, array $teams)
+    public function calculateMatchQuality(GameInfo $gameInfo, array $teams)
     {
         Guard::argumentNotNull($gameInfo, "gameInfo");
         $this->validateTeamCountAndPlayersCountPerTeam($teams);

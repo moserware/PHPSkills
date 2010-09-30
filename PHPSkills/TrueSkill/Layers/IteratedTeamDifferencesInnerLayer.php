@@ -33,8 +33,8 @@ class IteratedTeamDifferencesInnerLayer extends TrueSkillFactorGraphLayer
         $this->_TeamPerformancesToTeamPerformanceDifferencesLayer->setInputVariablesGroups($inputVariablesGroups);
         $this->_TeamPerformancesToTeamPerformanceDifferencesLayer->buildLayer();
 
-        $this->_TeamDifferencesComparisonLayer->setInputVariablesGroups(
-            $this->_TeamPerformancesToTeamPerformanceDifferencesLayer->getOutputVariablesGroups());
+        $teamDifferencesOutputVariablesGroups = &$this->_TeamPerformancesToTeamPerformanceDifferencesLayer->getOutputVariablesGroups();
+        $this->_TeamDifferencesComparisonLayer->setInputVariablesGroups($teamDifferencesOutputVariablesGroups);
         $this->_TeamDifferencesComparisonLayer->buildLayer();
     }
 
@@ -65,10 +65,10 @@ class IteratedTeamDifferencesInnerLayer extends TrueSkillFactorGraphLayer
                     $loop,
                     new ScheduleStep(
                         "teamPerformanceToPerformanceDifferenceFactors[0] @ 1",
-                        $localFactors[0], 1),
+                        &$localFactors[0], 1),
                     new ScheduleStep(
                         sprintf("teamPerformanceToPerformanceDifferenceFactors[teamTeamDifferences = %d - 1] @ 2", $totalTeamDifferences),
-                        $localFactors[$totalTeamDifferences - 1], 2)
+                        &$localFactors[$totalTeamDifferences - 1], 2)
                 )
             );
 
@@ -83,11 +83,11 @@ class IteratedTeamDifferencesInnerLayer extends TrueSkillFactorGraphLayer
         $itemsToSequence = array(
                     new ScheduleStep(
                         "send team perf to perf differences",
-                        $teamPerformancesToTeamPerformanceDifferencesLayerLocalFactors[0],
+                        &$teamPerformancesToTeamPerformanceDifferencesLayerLocalFactors[0],
                         0),
                     new ScheduleStep(
                         "send to greater than or within factor",
-                        $teamDifferencesComparisonLayerLocalFactors[0],
+                        &$teamDifferencesComparisonLayerLocalFactors[0],
                         0)
                 );
 
@@ -112,16 +112,16 @@ class IteratedTeamDifferencesInnerLayer extends TrueSkillFactorGraphLayer
                     array(
                             new ScheduleStep(
                                 sprintf("team perf to perf diff %d", $i),
-                                $teamPerformancesToTeamPerformanceDifferencesLayerLocalFactors[$i], 0),
+                                &$teamPerformancesToTeamPerformanceDifferencesLayerLocalFactors[$i], 0),
                             new ScheduleStep(
                                 sprintf("greater than or within result factor %d", $i),
-                                $teamDifferencesComparisonLayerLocalFactors[$i], 0),
+                                &$teamDifferencesComparisonLayerLocalFactors[$i], 0),
                             new ScheduleStep(
                                 sprintf("team perf to perf diff factors [%d], 2", $i),
-                                $teamPerformancesToTeamPerformanceDifferencesLayerLocalFactors[$i], 2)
+                                &$teamPerformancesToTeamPerformanceDifferencesLayerLocalFactors[$i], 2)
                         ), sprintf("current forward schedule piece %d", $i));
 
-            $forwardScheduleList[] = &$currentForwardSchedulePiece;
+            $forwardScheduleList[] = $currentForwardSchedulePiece;
         }
 
         $forwardSchedule = new ScheduleSequence("forward schedule", $forwardScheduleList);
@@ -133,20 +133,24 @@ class IteratedTeamDifferencesInnerLayer extends TrueSkillFactorGraphLayer
             $teamPerformancesToTeamPerformanceDifferencesLayerLocalFactors = &$this->_TeamPerformancesToTeamPerformanceDifferencesLayer->getLocalFactors();
             $teamDifferencesComparisonLayerLocalFactors = &$this->_TeamDifferencesComparisonLayer->getLocalFactors();
 
+            $differencesFactor = &$teamPerformancesToTeamPerformanceDifferencesLayerLocalFactors[$totalTeamDifferences - 1 - $i];
+            $comparisonFactor = &$teamDifferencesComparisonLayerLocalFactors[$totalTeamDifferences - 1 - $i];
+            $performancesToDifferencesFactor = &$teamPerformancesToTeamPerformanceDifferencesLayerLocalFactors[$totalTeamDifferences - 1 - $i];
+
             $currentBackwardSchedulePiece = new ScheduleSequence(
                 "current backward schedule piece",
                 array(
                         new ScheduleStep(
                             sprintf("teamPerformanceToPerformanceDifferenceFactors[totalTeamDifferences - 1 - %d] @ 0", $i),
-                            $teamPerformancesToTeamPerformanceDifferencesLayerLocalFactors[$totalTeamDifferences - 1 - $i], 0),
+                            $differencesFactor, 0),
                         new ScheduleStep(
                             sprintf("greaterThanOrWithinResultFactors[totalTeamDifferences - 1 - %d] @ 0", $i),
-                            $teamDifferencesComparisonLayerLocalFactors[$totalTeamDifferences - 1 - $i], 0),
+                            $comparisonFactor, 0),
                         new ScheduleStep(
                             sprintf("teamPerformanceToPerformanceDifferenceFactors[totalTeamDifferences - 1 - %d] @ 1", $i),
-                            $teamPerformancesToTeamPerformanceDifferencesLayerLocalFactors[$totalTeamDifferences - 1 - $i], 1)
+                            $performancesToDifferencesFactor, 1)
                 ));
-            $backwardScheduleList[] = &$currentBackwardSchedulePiece;
+            $backwardScheduleList[] = $currentBackwardSchedulePiece;
         }
 
         $backwardSchedule = new ScheduleSequence("backward schedule", $backwardScheduleList);

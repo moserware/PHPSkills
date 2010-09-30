@@ -50,7 +50,7 @@ abstract class Factor
     {
         Guard::argumentIsValidIndex($messageIndex, count($this->_messages), "messageIndex");
         $message = &$this->_messages[$messageIndex];
-        $variable = &$this->_messageToVariableBinding->getValue($this->_messages[$messageIndex]);
+        $variable = &$this->_messageToVariableBinding->getValue($message);
         return $this->updateMessageVariable($message, $variable);
     }
 
@@ -62,7 +62,8 @@ abstract class Factor
     /// Resets the marginal of the variables a factor is connected to
     public function resetMarginals()
     {
-        foreach ($this->_messageToVariableBinding->getAllValues() as $currentVariable)
+        $allValues = &$this->_messageToVariableBinding->getAllValues();
+        foreach ($allValues as $currentVariable)
         {
             $currentVariable->resetToPrior();
         }
@@ -73,21 +74,21 @@ abstract class Factor
     {
         Guard::argumentIsValidIndex($messageIndex, count($this->_messages), "messageIndex");
 
-        $message = $this->_messages[$messageIndex];
-        $variable = $this->_messageToVariableBinding->getValue($message);
+        $message = &$this->_messages[$messageIndex];
+        $variable = &$this->_messageToVariableBinding->getValue($message);
         return $this->sendMessageVariable($message, $variable);
     }
 
     protected abstract function sendMessageVariable(Message &$message, Variable &$variable);
 
-    public abstract function createVariableToMessageBinding(Variable &$variable);
+    public abstract function &createVariableToMessageBinding(Variable &$variable);
 
-    protected function createVariableToMessageBindingWithMessage(Variable &$variable, Message &$message)
+    protected function &createVariableToMessageBindingWithMessage(Variable &$variable, Message &$message)
     {
         $index = count($this->_messages);
-        $this->_messages[] = $message;        
+        $this->_messages[] = &$message;
         $this->_messageToVariableBinding->setValue($message, $variable);
-        $this->_variables[] = $variable;
+        $this->_variables[] = &$variable;
         return $message;
     }
 

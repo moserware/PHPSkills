@@ -39,14 +39,17 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
 
     public function createPriorSchedule()
     {
-        return $this->scheduleSequence(
-                array_map(
-                        function($weightedSumFactor)
-                        {
-                            return new ScheduleStep("Perf to Team Perf Step", $weightedSumFactor, 0);
-                        },
-                        $this->getLocalFactors()),
-                "all player perf to team perf schedule");
+        $localFactors = &$this->getLocalFactors();
+
+        $sequence = &$this->scheduleSequence(
+                                            array_map(
+                                                    function($weightedSumFactor)
+                                                    {
+                                                        return new ScheduleStep("Perf to Team Perf Step", $weightedSumFactor, 0);
+                                                    },
+                                                    $localFactors),
+                                            "all player perf to team perf schedule");
+        return $sequence;
     }
 
     protected function createPlayerToTeamSumFactor(&$teamMembers, &$sumVariable)
@@ -69,7 +72,8 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
     {
         // BLOG
         $allFactors = array();
-        foreach($this->getLocalFactors() as $currentFactor)
+        $localFactors = &$this->getLocalFactors();
+        foreach($localFactors as &$currentFactor)
         {
             $numberOfMessages = $currentFactor->getNumberOfMessages();
             for($currentIteration = 1; $currentIteration < $numberOfMessages; $currentIteration++)

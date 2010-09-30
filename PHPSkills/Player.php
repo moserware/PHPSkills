@@ -38,8 +38,9 @@ class Player implements ISupportPartialPlay, ISupportPartialUpdate
     /// <summary>
     /// The identifier for the player, such as a name.
     /// </summary>
-    public function getId()
+    public function &getId()
     {
+        $id = &$this->_Id;
         return $this->_Id;
     }
 

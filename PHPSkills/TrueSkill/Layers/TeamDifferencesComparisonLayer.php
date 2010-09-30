@@ -21,7 +21,7 @@ class TeamDifferencesComparisonLayer extends TrueSkillFactorGraphLayer
     {
         parent::__construct($parentGraph);
         $this->_teamRanks = $teamRanks;
-        $gameInfo = $this->getParentFactorGraph()->getGameInfo();
+        $gameInfo = &$this->getParentFactorGraph()->getGameInfo();
         $this->_epsilon = DrawMargin::getDrawMarginFromDrawProbability($gameInfo->getDrawProbability(), $gameInfo->getBeta());
     }
 
@@ -33,7 +33,7 @@ class TeamDifferencesComparisonLayer extends TrueSkillFactorGraphLayer
         for ($i = 0; $i < $inputVarGroupsCount; $i++)
         {
             $isDraw = ($this->_teamRanks[$i] == $this->_teamRanks[$i + 1]);
-            $teamDifference = $inputVarGroups[$i][0];
+            $teamDifference = &$inputVarGroups[$i][0];
 
             $factor =
                 $isDraw

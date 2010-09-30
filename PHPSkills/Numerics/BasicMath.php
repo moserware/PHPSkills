@@ -15,7 +15,7 @@ function square($x)
     return $x * $x;
 }
 
-function sum($itemsToSum, $funcName )
+function sum(array $itemsToSum, $funcName )
 {
     $mappedItems = array_map($funcName, $itemsToSum);
     return array_sum($mappedItems);

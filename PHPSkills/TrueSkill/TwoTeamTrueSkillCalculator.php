@@ -47,7 +47,7 @@ class TwoTeamTrueSkillCalculator extends SkillCalculator
         parent::__construct(SkillCalculatorSupportedOptions::NONE, TeamsRange::exactly(2), PlayersRange::atLeast(1));
     }
 
-    public function calculateNewRatings($gameInfo,
+    public function calculateNewRatings(GameInfo $gameInfo,
                                         array $teams,
                                         array $teamRanks)
     {
@@ -164,7 +164,7 @@ class TwoTeamTrueSkillCalculator extends SkillCalculator
     }
 
     /// <inheritdoc/>
-    public function calculateMatchQuality($gameInfo, array $teams)
+    public function calculateMatchQuality(GameInfo $gameInfo, array $teams)
     {
         Guard::argumentNotNull($gameInfo, "gameInfo");
         $this->validateTeamCountAndPlayersCountPerTeam($teams);

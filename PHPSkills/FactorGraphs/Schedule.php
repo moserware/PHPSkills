@@ -1,6 +1,8 @@
 <?php
 namespace Moserware\Skills\FactorGraphs;
 
+require_once(dirname(__FILE__) . "/Factor.php");
+
 abstract class Schedule
 {
     private $_name;
@@ -23,7 +25,7 @@ class ScheduleStep extends Schedule
     private $_factor;
     private $_index;
 
-    public function __construct($name, $factor, $index)
+    public function __construct($name, Factor &$factor, $index)
     {
         parent::__construct($name);
         $this->_factor = $factor;
@@ -41,7 +43,7 @@ class ScheduleSequence extends Schedule
 {
     private $_schedules;
 
-    public function __construct($name, $schedules)
+    public function __construct($name, array $schedules)
     {
         parent::__construct($name);
         $this->_schedules = $schedules;
@@ -51,7 +53,8 @@ class ScheduleSequence extends Schedule
     {
         $maxDelta = 0;
 
-        foreach ($this->_schedules as $currentSchedule)
+        $schedules = &$this->_schedules;
+        foreach ($schedules as &$currentSchedule)
         {
             $maxDelta = max($currentSchedule->visit($depth + 1, $maxDepth), $maxDelta);
         }
@@ -65,7 +68,7 @@ class ScheduleLoop extends Schedule
     private $_maxDelta;
     private $_scheduleToLoop;
 
-    public function __construct($name, Schedule $scheduleToLoop, $maxDelta)
+    public function __construct($name, Schedule &$scheduleToLoop, $maxDelta)
     {
         parent::__construct($name);
         $this->_scheduleToLoop = $scheduleToLoop;

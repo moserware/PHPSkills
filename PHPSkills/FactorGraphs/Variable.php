@@ -7,7 +7,7 @@ class Variable
     private $_prior;
     private $_value;
 
-    public function __construct($name, $prior)
+    public function __construct($name, &$prior)
     {
         $this->_name = "Variable[" . $name . "]";
         $this->_prior = $prior;
@@ -16,7 +16,8 @@ class Variable
 
     public function &getValue()
     {
-        return $this->_value;
+        $value = &$this->_value;
+        return $value;
     }
 
     public function setValue(&$value)
@@ -42,12 +43,12 @@ class DefaultVariable extends Variable
         parent::__construct("Default", null);
     }
 
-    public function getValue()
+    public function &getValue()
     {
         return null;
     }
 
-    public function setValue($value)
+    public function setValue(&$value)
     {
         throw new Exception();
     }
@@ -56,7 +57,7 @@ class DefaultVariable extends Variable
 class KeyedVariable extends Variable
 {
     private $_key;
-    public function __construct($key, $name, $prior)
+    public function __construct($key, $name, &$prior)
     {
         parent::__construct($name, $prior);
         $this->_key = $key;

@@ -13,7 +13,8 @@ class FactorList
 
     public function getLogNormalization()
     {
-        foreach($this->_list as $currentFactor)
+        $list = &$this->_list;
+        foreach($list as &$currentFactor)
         {
             $currentFactor->resetMarginals();
         }
@@ -36,7 +37,7 @@ class FactorList
 
         $sumLogS = 0;
 
-        foreach($this->_list as $currentFactor)
+        foreach($list as &$currentFactor)
         {
             $sumLogS = $sumLogS + $currentFactor->getLogNormalization();
         }
@@ -49,7 +50,7 @@ class FactorList
         return count($this->_list);
     }
 
-    public function addFactor(Factor &$factor)
+    public function &addFactor(Factor &$factor)
     {
         $this->_list[] = $factor;
         return $factor;

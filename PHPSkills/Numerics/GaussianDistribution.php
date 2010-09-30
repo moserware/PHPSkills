@@ -30,8 +30,25 @@ class GaussianDistribution
         $this->_mean = $mean;        
         $this->_standardDeviation = $standardDeviation;
         $this->_variance = square($standardDeviation);
-        $this->_precision = 1.0/$this->_variance;
-        $this->_precisionMean = $this->_precision*$this->_mean;
+
+        if($this->_variance != 0)
+        {
+            $this->_precision = 1.0/$this->_variance;
+            $this->_precisionMean = $this->_precision*$this->_mean;
+        }
+        else
+        {
+            $this->_precision = \INF;
+
+            if($this->_mean == 0)
+            {
+                $this->_precisionMean = 0;
+            }
+            else
+            {
+                $this->_precisionMean = \INF;
+            }
+        }
     }    
     
     public function getMean()

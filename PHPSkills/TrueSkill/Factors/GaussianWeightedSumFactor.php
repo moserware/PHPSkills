@@ -118,7 +118,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
 
         $this->createVariableToMessageBinding($sumVariable);
 
-        foreach ($variablesToSum as $currentVariable)
+        foreach ($variablesToSum as &$currentVariable)
         {
             $this->createVariableToMessageBinding($currentVariable);
         }

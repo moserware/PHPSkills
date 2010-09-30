@@ -28,8 +28,8 @@ class GaussianLikelihoodFactor extends GaussianFactor
 
     public function getLogNormalization()
     {
-        $vars = $this->getVariables();
-        $messages = $this->getMessages();
+        $vars = &$this->getVariables();
+        $messages = &$this->getMessages();
 
         return GaussianDistribution::logRatioNormalization(
                 $vars[0]->getValue(),

@@ -7,10 +7,11 @@ class HashMap
     private $_hashToValue = array();
     private $_hashToKey = array();
 
-    public function getValue($key)
+    public function &getValue($key)
     {
         $hash = self::getHash($key);
-        return $this->_hashToValue[$hash];
+        $hashValue = &$this->_hashToValue[$hash];
+        return $hashValue;
     }
 
     public function setValue($key, $value)

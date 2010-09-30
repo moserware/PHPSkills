@@ -12,9 +12,10 @@ class RatingContainer
         $this->_playerToRating = new HashMap();
     }
 
-    public function getRating($player)
+    public function &getRating($player)
     {
-        return $this->_playerToRating->getValue($player);
+        $rating = &$this->_playerToRating->getValue($player);
+        return $rating;
     }
 
     public function setRating($player, $rating)

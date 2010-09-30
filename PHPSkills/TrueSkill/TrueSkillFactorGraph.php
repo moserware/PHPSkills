@@ -68,7 +68,8 @@ class TrueSkillFactorGraph extends FactorGraph
     {
         $lastOutput = null;
 
-        foreach ($this->_layers as $currentLayer)
+        $layers = &$this->_layers;
+        foreach ($layers as &$currentLayer)
         {
             if ($lastOutput != null)
             {
@@ -91,9 +92,11 @@ class TrueSkillFactorGraph extends FactorGraph
     {
         $factorList = new FactorList();
 
-        foreach ($this->_layers as $currentLayer)
+        $layers = &$this->_layers;
+        foreach ($layers as &$currentLayer)
         {
-            foreach ($currentLayer->getLocalFactors() as $currentFactor)
+            $localFactors = &$currentLayer->getLocalFactors();
+            foreach ($localFactors as &$currentFactor)
             {
                 $factorList->addFactor($currentFactor);
             }
@@ -107,7 +110,8 @@ class TrueSkillFactorGraph extends FactorGraph
     {
         $fullSchedule = array();
 
-        foreach ($this->_layers as $currentLayer)
+        $layers = &$this->_layers;
+        foreach ($layers as &$currentLayer)
         {
             $currentPriorSchedule = $currentLayer->createPriorSchedule();
             if ($currentPriorSchedule != null)
@@ -118,7 +122,7 @@ class TrueSkillFactorGraph extends FactorGraph
         
         $allLayersReverse = \array_reverse($this->_layers);
 
-        foreach ($allLayersReverse as $currentLayer)
+        foreach ($allLayersReverse as &$currentLayer)
         {
             $currentPosteriorSchedule = $currentLayer->createPosteriorSchedule();
             if ($currentPosteriorSchedule != null)
@@ -134,9 +138,10 @@ class TrueSkillFactorGraph extends FactorGraph
     {
         $result = new RatingContainer();
 
-        foreach ($this->_priorLayer->getOutputVariablesGroups() as $currentTeam)
+        $priorLayerOutputVariablesGroups = &$this->_priorLayer->getOutputVariablesGroups();
+        foreach ($priorLayerOutputVariablesGroups as &$currentTeam)
         {
-            foreach ($currentTeam as $currentPlayer)
+            foreach ($currentTeam as &$currentPlayer)
             {
                 $newRating = new Rating($currentPlayer->getValue()->getMean(),
                                         $currentPlayer->getValue()->getStandardDeviation());
