@@ -63,7 +63,7 @@ abstract class Factor
     public function resetMarginals()
     {
         $allValues = &$this->_messageToVariableBinding->getAllValues();
-        foreach ($allValues as $currentVariable)
+        foreach ($allValues as &$currentVariable)
         {
             $currentVariable->resetToPrior();
         }

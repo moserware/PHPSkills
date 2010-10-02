@@ -34,10 +34,9 @@ class GaussianWeightedSumFactor extends GaussianFactor
 
         // The first weights are a straightforward copy
         // v_0 = a_1*v_1 + a_2*v_2 + ... + a_n * v_n
-        $this->_weights[0] = array();
-
         $variableWeightsLength = count($variableWeights);
-
+        $this->_weights[0] = \array_fill(0, count($variableWeights), 0);
+        
         for($i = 0; $i < $variableWeightsLength; $i++)
         {
             $weight = &$variableWeights[$i];
@@ -53,7 +52,9 @@ class GaussianWeightedSumFactor extends GaussianFactor
         {
             $this->_variableIndexOrdersForWeights[0][] = $i;
         }
-        
+
+        $variableWeightsLength = count($variableWeights);
+
         // The rest move the variables around and divide out the constant.
         // For example:
         // v_1 = (-a_2 / a_1) * v_2 + (-a3/a1) * v_3 + ... + (1.0 / a_1) * v_0
@@ -61,19 +62,17 @@ class GaussianWeightedSumFactor extends GaussianFactor
 
         $weightsLength = $variableWeightsLength + 1;
         for ($weightsIndex = 1; $weightsIndex < $weightsLength; $weightsIndex++)
-        { 
-            $currentWeights = array();
+        {
+            $currentWeights = \array_fill(0, $variableWeightsLength, 0);
             
-            $variableIndices = array();
+            $variableIndices = \array_fill(0, $variableWeightsLength + 1, 0);
             $variableIndices[0] = $weightsIndex;
 
-            $currentWeightsSquared = array();
+            $currentWeightsSquared = \array_fill(0, $variableWeightsLength, 0);
 
             // keep a single variable to keep track of where we are in the array.
             // This is helpful since we skip over one of the spots
-            $currentDestinationWeightIndex = 0;
-
-            $variableWeightsLength = count($variableWeights);
+            $currentDestinationWeightIndex = 0;            
 
             for ($currentWeightSourceIndex = 0;
                  $currentWeightSourceIndex < $variableWeightsLength;

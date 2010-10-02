@@ -56,7 +56,8 @@ class ScheduleSequence extends Schedule
         $schedules = &$this->_schedules;
         foreach ($schedules as &$currentSchedule)
         {
-            $maxDelta = max($currentSchedule->visit($depth + 1, $maxDepth), $maxDelta);
+            $currentVisit = $currentSchedule->visit($depth + 1, $maxDepth);
+            $maxDelta = max($currentVisit, $maxDelta);
         }
 
         return $maxDelta;
