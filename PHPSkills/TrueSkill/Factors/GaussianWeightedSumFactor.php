@@ -152,7 +152,6 @@ class GaussianWeightedSumFactor extends GaussianFactor
         // Potentially look at http://mathworld.wolfram.com/NormalSumDistribution.html for clues as
         // to what it's doing
 
-        $messages = &$this->getMessages();
         $message0 = clone $messages[0]->getValue();
         $marginal0 = clone $variables[0]->getValue();
 

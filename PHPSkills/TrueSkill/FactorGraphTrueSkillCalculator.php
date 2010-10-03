@@ -56,7 +56,7 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         $test = $factorGraph->getUpdatedRatings();
 
         // DEBUG: Fix this :)
-        //$probabilityOfOutcome = $factorGraph->getProbabilityOfRanking();
+        $probabilityOfOutcome = $factorGraph->getProbabilityOfRanking();
 
         return $factorGraph->getUpdatedRatings();
     }
