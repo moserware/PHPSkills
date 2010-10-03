@@ -17,7 +17,7 @@ class FactorGraphTrueSkillCalculatorTest extends PHPUnit_Framework_TestCase
         TrueSkillCalculatorTests::testAllTwoPlayerScenarios($this, $calculator);
         TrueSkillCalculatorTests::testAllTwoTeamScenarios($this, $calculator);
         TrueSkillCalculatorTests::testAllMultipleTeamScenarios($this, $calculator);
-
+        TrueSkillCalculatorTests::testPartialPlayScenarios($this, $calculator);
     }
 }
 

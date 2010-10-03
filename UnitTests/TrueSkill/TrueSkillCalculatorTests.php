@@ -59,6 +59,11 @@ class TrueSkillCalculatorTests
         self::twoOnFourOnTwoWinDraw($testClass, $calculator);
     }
 
+    public static function testPartialPlayScenarios($testClass, SkillCalculator $calculator)
+    {
+        self::oneOnTwoBalancedPartialPlay($testClass, $calculator);
+    }
+
     //------------------- Actual Tests ---------------------------
     // If you see more than 3 digits of precision in the decimal point, then the expected values calculated from
     // F# RalfH's implementation with the same input. It didn't support teams, so team values all came from the
@@ -946,6 +951,40 @@ class TrueSkillCalculatorTests
         self::assertRating($testClass, 29.813, 1.976, $newRatingsWinLose->getRating($player8));
 
         self::assertMatchQuality($testClass, 0.367, $calculator->calculateMatchQuality($gameInfo, $teams));
+    }
+
+    //------------------------------------------------------------------------------
+    // Partial Play Tests
+    //------------------------------------------------------------------------------
+
+    private static function oneOnTwoBalancedPartialPlay($testClass, SkillCalculator $calculator)
+    {
+        $gameInfo = new GameInfo();
+
+        $p1 = new Player(1);
+        $team1 = new Team($p1, $gameInfo->getDefaultRating());
+
+        $p2 = new Player(2, 0.0);
+        $p3 = new Player(3, 1.00);
+
+        $team2 = new Team();
+        $team2->addPlayer($p2, $gameInfo->getDefaultRating());
+        $team2->addPlayer($p3, $gameInfo->getDefaultRating());
+
+        $teams = Teams::concat($team1, $team2);
+        $newRatings = $calculator->calculateNewRatings($gameInfo, $teams, array(1, 2));
+
+        $p1NewRating = $newRatings->getRating($p1);
+        $p2NewRating = $newRatings->getRating($p2);
+        $p3NewRating = $newRatings->getRating($p3);
+
+        // This should be roughly the same as a 1 v 1
+        self::assertRating($testClass, 29.396480404368411, 7.1713980703143205, $p1NewRating);
+        self::assertRating($testClass, 24.999560351959563, 8.3337499787709319, $p2NewRating);
+        self::assertRating($testClass, 20.603519595631585, 7.1713980703143205, $p3NewRating);
+
+        $matchQuality = $calculator->calculateMatchQuality($gameInfo, $teams);
+        self::assertMatchQuality($testClass, 0.44721358745011336, $matchQuality);
     }
 
     private static function assertRating($testClass, $expectedMean, $expectedStandardDeviation, $actual)
