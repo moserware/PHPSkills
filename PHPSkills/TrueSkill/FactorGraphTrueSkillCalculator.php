@@ -52,10 +52,7 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         $factorGraph = new TrueSkillFactorGraph($gameInfo, $teams, $teamRanks);
         $factorGraph->buildGraph();
         $factorGraph->runSchedule();
-
-        $test = $factorGraph->getUpdatedRatings();
-
-        // DEBUG: Fix this :)
+        
         $probabilityOfOutcome = $factorGraph->getProbabilityOfRanking();
 
         return $factorGraph->getUpdatedRatings();

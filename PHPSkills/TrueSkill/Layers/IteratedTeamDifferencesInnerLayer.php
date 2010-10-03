@@ -27,6 +27,14 @@ class IteratedTeamDifferencesInnerLayer extends TrueSkillFactorGraphLayer
         $this->_TeamDifferencesComparisonLayer = $teamDifferencesComparisonLayer;
     }
 
+    public function &getLocalFactors()
+    {
+        $localFactors =
+            \array_merge($this->_TeamPerformancesToTeamPerformanceDifferencesLayer->getLocalFactors(),
+                         $this->_TeamDifferencesComparisonLayer->getLocalFactors());
+        return $localFactors;
+    }
+
     public function buildLayer()
     {
         $inputVariablesGroups = &$this->getInputVariablesGroups();
