@@ -16,6 +16,24 @@ class Matrix
         $this->_matrixRowData = $matrixData;
     }
 
+    public static function fromColumnValues($rows, $columns, $columnValues)
+    {
+        $data = array();
+        $result = new Matrix($rows, $columns, $data);
+
+        for($currentColumn = 0; $currentColumn < $columns; $currentColumn++)
+        {
+            $currentColumnData = $columnValues[$currentColumn];
+
+            for($currentRow = 0; $currentRow < $rows; $currentRow++)
+            {
+                $result->setValue($currentRow, $currentColumn, $currentColumnData[$currentRow]);
+            }
+        }
+
+        return $result;
+    }
+
     public static function fromRowsColumns()
     {
         $args = \func_get_args();
@@ -60,6 +78,7 @@ class Matrix
         // Just flip everything
         $transposeMatrix = array();
 
+        $rowMatrixData = $this->_matrixRowData;
         for ($currentRowTransposeMatrix = 0;
              $currentRowTransposeMatrix < $this->_columnCount;
              $currentRowTransposeMatrix++)
@@ -69,7 +88,7 @@ class Matrix
                  $currentColumnTransposeMatrix++)
             {
                 $transposeMatrix[$currentRowTransposeMatrix][$currentColumnTransposeMatrix] =
-                    $this->_matrixRowData[$currentColumnTransposeMatrix][$currentRowTransposeMatrix];
+                    $rowMatrixData[$currentColumnTransposeMatrix][$currentRowTransposeMatrix];
             }
         }
 
@@ -92,7 +111,7 @@ class Matrix
         if ($this->_rowCount == 1)
         {
             // Really happy path :)
-            return $this->_matrixRowValues[0][0];
+            return $this->_matrixRowData[0][0];
         }
 
         if ($this->_rowCount == 2)
@@ -356,7 +375,12 @@ class Vector extends Matrix
 {
     public function __construct(array $vectorValues)
     {
-        parent::__construct(count($vectorValues), 1, array($vectorValues));
+        $columnValues = array();
+        foreach($vectorValues as $currentVectorValue)
+        {
+            $columnValues[] = array($currentVectorValue);
+        }
+        parent::__construct(count($vectorValues), 1, $columnValues);
     }
 }
 
@@ -406,11 +430,7 @@ class DiagonalMatrix extends Matrix
                     $this->setValue($currentRow, $currentCol, 0);
                 }                
             }
-        }
-        for($i = 0; $i < $diagonalCount; $i++)
-        {
-            $this->setValue($i, $i, $diagonalValues[$i]);
-        }        
+        }             
     }
 }
 
