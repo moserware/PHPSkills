@@ -121,11 +121,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
         {
             $localCurrentVariable = &$currentVariable;
             $this->createVariableToMessageBinding($localCurrentVariable);
-        }
-
-        // DEBUG
-        $selfName = (string)$this;
-        $selfVars = &$this->getVariables();
+        }        
     }
 
     public function getLogNormalization()
@@ -204,9 +200,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
     }
 
     public function updateMessageIndex($messageIndex)
-    {
-        // DEBUG
-        $currentFactorName = (string)$this;
+    {        
         $allMessages = &$this->getMessages();
         $allVariables = &$this->getVariables();
 
@@ -226,13 +220,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
             $updatedMessages[] = &$allMessages[$indicesToUse[$i]];
             $updatedVariables[] = &$allVariables[$indicesToUse[$i]];
         }
-
-        // DEBUG
-        foreach($allVariables as &$currentVariable)
-        {
-            $currentVarVal = &$currentVariable->getValue();
-        }
-
+        
         return $this->updateHelper($this->_weights[$messageIndex],
                                    $this->_weightsSquared[$messageIndex],
                                    $updatedMessages,

@@ -16,18 +16,12 @@ class Variable
 
     public function &getValue()
     {
-        $value = &$this->_value;
-        // DEBUG
-        $selfHash = \spl_object_hash($this);
-        $selfName = (string)$this;
+        $value = &$this->_value;        
         return $value;
     }
 
     public function setValue(&$value)
-    {
-        // DEBUG
-        $selfName = (string)$this;        
-        $selfHash = \spl_object_hash($this);
+    {        
         $this->_value = &$value;
     }
 

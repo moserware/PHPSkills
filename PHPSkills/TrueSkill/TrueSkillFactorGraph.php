@@ -144,8 +144,7 @@ class TrueSkillFactorGraph extends FactorGraph
         {
             foreach ($currentTeam as &$currentPlayer)
             {
-                $localCurrentPlayer = &$currentPlayer->getKey();
-                $test = \spl_object_hash($localCurrentPlayer);
+                $localCurrentPlayer = &$currentPlayer->getKey();                
                 $newRating = new Rating($currentPlayer->getValue()->getMean(),
                                         $currentPlayer->getValue()->getStandardDeviation());
 

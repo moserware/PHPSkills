@@ -81,9 +81,7 @@ class TrueSkillCalculatorTests
     private static function twoPlayerTestNotDrawn($testClass, SkillCalculator $calculator)
     {
         $player1 = new Player(1);
-        $player2 = new Player(2);
-        $p1Key = \spl_object_hash($player1);
-        $p2Key = \spl_object_hash($player2);
+        $player2 = new Player(2);        
         $gameInfo = new GameInfo();
 
         $team1 = new Team($player1, $gameInfo->getDefaultRating());
@@ -199,6 +197,10 @@ class TrueSkillCalculatorTests
 
         self::assertMatchQuality($testClass, 0.135, $calculator->calculateMatchQuality($gameInfo, $teams));
     }
+
+    //------------------------------------------------------------------------------
+    // Two Team Tests
+    //------------------------------------------------------------------------------
 
     private static function twoOnTwoSimpleTest($testClass, SkillCalculator $calculator)
     {
@@ -585,6 +587,7 @@ class TrueSkillCalculatorTests
 
         self::assertMatchQuality($testClass, 0.447, $calculator->calculateMatchQuality($gameInfo, $teams));
     }
+
 
     private static function threeTeamsOfOneNotDrawn($testClass, SkillCalculator $calculator)
     {

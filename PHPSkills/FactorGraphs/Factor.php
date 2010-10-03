@@ -34,15 +34,13 @@ abstract class Factor
     {
         return count($this->_messages);
     }
-
-    // DEBUG: make protected
-    public function &getVariables()
+    
+    protected function &getVariables()
     {
         return $this->_variables;
     }
-
-    // DEBUG: make protected
-    public function &getMessages()
+    
+    protected function &getMessages()
     {
         return $this->_messages;
     }
@@ -52,12 +50,7 @@ abstract class Factor
     {
         Guard::argumentIsValidIndex($messageIndex, count($this->_messages), "messageIndex");
         $message = &$this->_messages[$messageIndex];
-        $variable = &$this->_messageToVariableBinding->getValue($message);
-        // DEBUG
-        $selfName = (string)$this;
-        $debugName = (string)$variable;
-        $debugHash = \spl_object_hash($variable);
-        $debugValue = $variable->getValue();
+        $variable = &$this->_messageToVariableBinding->getValue($message);        
         return $this->updateMessageVariable($message, $variable);
     }
 

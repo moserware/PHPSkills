@@ -38,13 +38,7 @@ class GaussianLikelihoodFactor extends GaussianFactor
 
     private function updateHelper(Message &$message1, Message &$message2,
                                   Variable &$variable1, Variable &$variable2)
-    {
-        // DEBUG
-        $message1ValueTest = $message1->getValue();
-        $variable1ValueTest = $variable1->getValue();
-        $message2ValueTest = $message2->getValue();
-        $variable2ValueTest = $variable2->getValue();
-
+    {        
         $message1Value = clone $message1->getValue();
         $message2Value = clone $message2->getValue();        
         

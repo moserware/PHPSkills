@@ -34,9 +34,7 @@ class ScheduleStep extends Schedule
 
     public function visit($depth = -1, $maxDepth = 0)
     {
-        $currentFactor = &$this->_factor;
-        // DEBUG
-        $currentFactorName = (string)$currentFactor;
+        $currentFactor = &$this->_factor;        
         $delta = $currentFactor->updateMessageIndex($this->_index);
         return $delta;
     }
