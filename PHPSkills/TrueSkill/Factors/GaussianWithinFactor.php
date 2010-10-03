@@ -44,7 +44,7 @@ class GaussianWithinFactor extends GaussianFactor
         return -GaussianDistribution::logProductNormalization($messageFromVariable, $message) + log($z);
     }
 
-    protected function updateMessage(Message &$message, Variable &$variable)
+    protected function updateMessageVariable(Message &$message, Variable &$variable)
     {
         $oldMarginal = clone $variable->getValue();
         $oldMessage = clone $message->getValue();
