@@ -17,12 +17,18 @@ class Variable
     public function &getValue()
     {
         $value = &$this->_value;
+        // DEBUG
+        $selfHash = \spl_object_hash($this);
+        $selfName = (string)$this;
         return $value;
     }
 
     public function setValue(&$value)
     {
-        $this->_value = $value;
+        // DEBUG
+        $selfName = (string)$this;        
+        $selfHash = \spl_object_hash($this);
+        $this->_value = &$value;
     }
 
     public function resetToPrior()
@@ -57,15 +63,16 @@ class DefaultVariable extends Variable
 class KeyedVariable extends Variable
 {
     private $_key;
-    public function __construct($key, $name, &$prior)
+    public function __construct(&$key, $name, &$prior)
     {
         parent::__construct($name, $prior);
-        $this->_key = $key;
+        $this->_key = &$key;
     }
 
-    public function getKey()
+    public function &getKey()
     {
-        return $this->_key;
+        $key = &$this->_key;
+        return $key;
     }
 }
 

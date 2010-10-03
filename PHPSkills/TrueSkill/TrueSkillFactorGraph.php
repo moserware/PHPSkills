@@ -37,7 +37,7 @@ class TrueSkillFactorGraph extends FactorGraph
     private $_layers;
     private $_priorLayer;    
 
-    public function __construct(GameInfo &$gameInfo, &$teams, array $teamRanks)
+    public function __construct(GameInfo &$gameInfo, array &$teams, array $teamRanks)
     {
         $this->_priorLayer = new PlayerPriorValuesToSkillsLayer($this, $teams);
         $this->_gameInfo = $gameInfo;
@@ -98,7 +98,8 @@ class TrueSkillFactorGraph extends FactorGraph
             $localFactors = &$currentLayer->getLocalFactors();
             foreach ($localFactors as &$currentFactor)
             {
-                $factorList->addFactor($currentFactor);
+                $localCurrentFactor = &$currentFactor;
+                $factorList->addFactor($localCurrentFactor);
             }
         }
 
@@ -143,10 +144,12 @@ class TrueSkillFactorGraph extends FactorGraph
         {
             foreach ($currentTeam as &$currentPlayer)
             {
+                $localCurrentPlayer = &$currentPlayer->getKey();
+                $test = \spl_object_hash($localCurrentPlayer);
                 $newRating = new Rating($currentPlayer->getValue()->getMean(),
                                         $currentPlayer->getValue()->getStandardDeviation());
 
-                $result->setRating($currentPlayer, $newRating);
+                $result->setRating($localCurrentPlayer, $newRating);
             }
         }
 

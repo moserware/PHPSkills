@@ -11,7 +11,7 @@ use Moserware\Skills\TrueSkill\FactorGraphTrueSkillCalculator;
 class FactorGraphTrueSkillCalculatorTest extends PHPUnit_Framework_TestCase
 {
     public function testFactorGraphTrueSkillCalculator()
-    {
+    {     
         $calculator = new FactorGraphTrueSkillCalculator();
         
         TrueSkillCalculatorTests::testAllTwoPlayerScenarios($this, $calculator);

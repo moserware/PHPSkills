@@ -67,6 +67,8 @@ class TrueSkillCalculatorTests
     {
         $player1 = new Player(1);
         $player2 = new Player(2);
+        $p1Key = \spl_object_hash($player1);
+        $p2Key = \spl_object_hash($player2);
         $gameInfo = new GameInfo();
 
         $team1 = new Team($player1, $gameInfo->getDefaultRating());

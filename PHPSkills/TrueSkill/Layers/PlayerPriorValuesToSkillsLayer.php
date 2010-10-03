@@ -24,7 +24,7 @@ class PlayerPriorValuesToSkillsLayer extends TrueSkillFactorGraphLayer
 {
     private $_teams;
 
-    public function __construct(TrueSkillFactorGraph &$parentGraph, &$teams)
+    public function __construct(TrueSkillFactorGraph &$parentGraph, array &$teams)
     {
         parent::__construct($parentGraph);
         $this->_teams = $teams;
@@ -35,14 +35,16 @@ class PlayerPriorValuesToSkillsLayer extends TrueSkillFactorGraphLayer
         $teams = &$this->_teams;
         foreach ($teams as &$currentTeam)
         {
+            $localCurrentTeam = &$currentTeam;
             $currentTeamSkills = array();
 
-            $currentTeamAllPlayers = &$currentTeam->getAllPlayers();
+            $currentTeamAllPlayers = $localCurrentTeam->getAllPlayers();
             foreach ($currentTeamAllPlayers as &$currentTeamPlayer)
             {
-                $currentTeamPlayerRating = $currentTeam->getRating($currentTeamPlayer);
-                $playerSkill = $this->createSkillOutputVariable($currentTeamPlayer);
-                $priorFactor = $this->createPriorFactor($currentTeamPlayer, $currentTeamPlayerRating, $playerSkill);
+                $localCurrentTeamPlayer = &$currentTeamPlayer;
+                $currentTeamPlayerRating = $currentTeam->getRating($localCurrentTeamPlayer);
+                $playerSkill = &$this->createSkillOutputVariable($localCurrentTeamPlayer);
+                $priorFactor = &$this->createPriorFactor($localCurrentTeamPlayer, $currentTeamPlayerRating, $playerSkill);
                 $this->addLayerFactor($priorFactor);
                 $currentTeamSkills[] = $playerSkill;
             }
@@ -73,11 +75,12 @@ class PlayerPriorValuesToSkillsLayer extends TrueSkillFactorGraphLayer
                                        $skillsVariable);
     }
 
-    private function createSkillOutputVariable($key)
+    private function &createSkillOutputVariable(&$key)
     {
         $parentFactorGraph = &$this->getParentFactorGraph();
         $variableFactory = &$parentFactorGraph->getVariableFactory();
-        return $variableFactory->createKeyedVariable($key, $key . "'s skill");
+        $skillOutputVariable = &$variableFactory->createKeyedVariable($key, $key . "'s skill");
+        return $skillOutputVariable;
     }
 }
 

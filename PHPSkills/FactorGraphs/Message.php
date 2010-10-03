@@ -20,6 +20,8 @@ class Message
 
     public function setValue(&$value)
     {
+        // DEBUG
+        $selfName = (string)$this;
         $this->_value = &$value;
     }
 

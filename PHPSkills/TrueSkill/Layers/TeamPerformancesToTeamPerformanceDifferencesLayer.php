@@ -46,9 +46,10 @@ class TeamPerformancesToTeamPerformanceDifferencesLayer extends TrueSkillFactorG
         return new GaussianWeightedSumFactor($output, $teams, $weights);
     }
 
-    private function createOutputVariable()
+    private function &createOutputVariable()
     {
-        return $this->getParentFactorGraph()->getVariableFactory()->createBasicVariable("Team performance difference");
+        $outputVariable = &$this->getParentFactorGraph()->getVariableFactory()->createBasicVariable("Team performance difference");
+        return $outputVariable;
     }
 }
 

@@ -31,9 +31,10 @@ class PlayerSkillsToPerformancesLayer extends TrueSkillFactorGraphLayer
 
             foreach ($currentTeam as &$playerSkillVariable)
             {
-                $currentPlayer = &$playerSkillVariable->getKey();
-                $playerPerformance = $this->createOutputVariable($currentPlayer);
-                $newLikelihoodFactor = $this->createLikelihood($playerSkillVariable, $playerPerformance);
+                $localPlayerSkillVariable = &$playerSkillVariable;
+                $currentPlayer = &$localPlayerSkillVariable->getKey();
+                $playerPerformance = &$this->createOutputVariable($currentPlayer);
+                $newLikelihoodFactor = $this->createLikelihood($localPlayerSkillVariable, $playerPerformance);
                 $this->addLayerFactor($newLikelihoodFactor);
                 $currentTeamPlayerPerformances[] = $playerPerformance;
             }            
@@ -47,9 +48,10 @@ class PlayerSkillsToPerformancesLayer extends TrueSkillFactorGraphLayer
         return new GaussianLikelihoodFactor(square($this->getParentFactorGraph()->getGameInfo()->getBeta()), $playerPerformance, $playerSkill);
     }
 
-    private function createOutputVariable(&$key)
+    private function &createOutputVariable(&$key)
     {
-        return $this->getParentFactorGraph()->getVariableFactory()->createKeyedVariable($key, $key . "'s performance");
+        $outputVariable = &$this->getParentFactorGraph()->getVariableFactory()->createKeyedVariable($key, $key . "'s performance");
+        return $outputVariable;
     }
 
     public function createPriorSchedule()

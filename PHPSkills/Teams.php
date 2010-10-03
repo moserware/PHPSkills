@@ -9,7 +9,8 @@ class Teams
         $result = array();
 
         foreach ($args as &$currentTeam) {
-            $result[] = $currentTeam;
+            $localCurrentTeam = &$currentTeam;
+            $result[] = $localCurrentTeam;
         }
 
         return $result;

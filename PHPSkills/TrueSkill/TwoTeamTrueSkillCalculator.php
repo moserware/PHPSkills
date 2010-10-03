@@ -146,9 +146,10 @@ class TwoTeamTrueSkillCalculator extends SkillCalculator
             $rankMultiplier = 1;
         }
 
-        foreach ($selfTeam->getAllPlayers() as $selfTeamCurrentPlayer)
+        foreach ($selfTeam->getAllPlayers() as &$selfTeamCurrentPlayer)
         {
-            $previousPlayerRating = $selfTeam->getRating($selfTeamCurrentPlayer);
+            $localSelfTeamCurrentPlayer = &$selfTeamCurrentPlayer;
+            $previousPlayerRating = $selfTeam->getRating($localSelfTeamCurrentPlayer);
 
             $meanMultiplier = (square($previousPlayerRating->getStandardDeviation()) + $tauSquared)/$c;
             $stdDevMultiplier = (square($previousPlayerRating->getStandardDeviation()) + $tauSquared)/square($c);
@@ -159,7 +160,7 @@ class TwoTeamTrueSkillCalculator extends SkillCalculator
             $newStdDev =
                 sqrt((square($previousPlayerRating->getStandardDeviation()) + $tauSquared)*(1 - $w*$stdDevMultiplier));
 
-            $newPlayerRatings->setRating($selfTeamCurrentPlayer, new Rating($newMean, $newStdDev));
+            $newPlayerRatings->setRating($localSelfTeamCurrentPlayer, new Rating($newMean, $newStdDev));
         }
     }
 

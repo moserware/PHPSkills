@@ -28,14 +28,16 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
         $inputVariablesGroups = &$this->getInputVariablesGroups();
         foreach ($inputVariablesGroups as &$currentTeam)
         {
-            $teamPerformance = &$this->createOutputVariable($currentTeam);
-            $newSumFactor = $this->createPlayerToTeamSumFactor($currentTeam, $teamPerformance);
+            $localCurrentTeam = &$currentTeam;
+            $teamPerformance = &$this->createOutputVariable($localCurrentTeam);
+            $newSumFactor = $this->createPlayerToTeamSumFactor($localCurrentTeam, $teamPerformance);
+            
             $this->addLayerFactor($newSumFactor);
 
             // REVIEW: Does it make sense to have groups of one?
             $outputVariablesGroups = &$this->getOutputVariablesGroups();
             $outputVariablesGroups[] = array($teamPerformance);
-        }
+        }        
     }
 
     public function createPriorSchedule()
@@ -58,7 +60,8 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
         $weights = array_map(
                         function($v)
                         {
-                            return PartialPlay::getPartialPlayPercentage($v->getKey());
+                            $player = &$v->getKey();
+                            return PartialPlay::getPartialPlayPercentage($player);
                         },
                         $teamMembers);
 
@@ -76,17 +79,18 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
         $localFactors = &$this->getLocalFactors();
         foreach($localFactors as &$currentFactor)
         {
-            $numberOfMessages = $currentFactor->getNumberOfMessages();
+            $localCurrentFactor = &$currentFactor;
+            $numberOfMessages = $localCurrentFactor->getNumberOfMessages();
             for($currentIteration = 1; $currentIteration < $numberOfMessages; $currentIteration++)
             {
                 $allFactors[] = new ScheduleStep("team sum perf @" . $currentIteration,
-                                                 $currentFactor, $currentIteration);
+                                                 $localCurrentFactor, $currentIteration);
             }
         }
         return $this->scheduleSequence($allFactors, "all of the team's sum iterations");
     }
 
-    private function createOutputVariable(&$team)
+    private function &createOutputVariable(&$team)
     {
         $memberNames = \array_map(function ($currentPlayer)
                                   {
@@ -95,7 +99,8 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
                                   $team);
 
         $teamMemberNames = \join(", ", $memberNames);
-        return $this->getParentFactorGraph()->getVariableFactory()->createBasicVariable("Team[" . $teamMemberNames . "]'s performance");
+        $outputVariable = &$this->getParentFactorGraph()->getVariableFactory()->createBasicVariable("Team[" . $teamMemberNames . "]'s performance");
+        return $outputVariable;
     }
 }
 
