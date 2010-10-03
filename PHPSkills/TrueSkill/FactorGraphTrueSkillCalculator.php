@@ -162,29 +162,40 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
 
         $teamAssignmentsListCount = count($teamAssignmentsList);
 
+        $currentColumn = 0;
+
         for ($i = 0; $i < $teamAssignmentsListCount - 1; $i++)
         {
             $currentTeam = $teamAssignmentsList[$i];
 
             // Need to add in 0's for all the previous players, since they're not
             // on this team
-            $currentRowValues = array();            
+            $playerAssignments[$currentColumn] = ($totalPreviousPlayers > 0) ? \array_fill(0, $totalPreviousPlayers, 0) : array();
 
             foreach ($currentTeam->getAllPlayers() as $currentPlayer)
             {
-                $currentRowValues[] = PartialPlay::getPartialPlayPercentage($currentPlayer);
+                $playerAssignments[$currentColumn][] = PartialPlay::getPartialPlayPercentage($currentPlayer);
                 // indicates the player is on the team
                 $totalPreviousPlayers++;
             }
+
+            $rowsRemaining = $totalPlayers - $totalPreviousPlayers;
 
             $nextTeam = $teamAssignmentsList[$i + 1];
             foreach ($nextTeam->getAllPlayers() as $nextTeamPlayer)
             {
                 // Add a -1 * playing time to represent the difference
-                $currentRowValues[] = -1 * PartialPlay::getPartialPlayPercentage($nextTeamPlayer);
+                $playerAssignments[$currentColumn][] = -1 * PartialPlay::getPartialPlayPercentage($nextTeamPlayer);
+                $rowsRemaining--;
             }
 
-            $playerAssignments[] = &$currentRowValues;
+            for ($ixAdditionalRow = 0; $ixAdditionalRow < $rowsRemaining; $ixAdditionalRow++)
+            {
+                // Pad with zeros
+                $playerAssignments[$currentColumn][] = 0;
+            }
+
+            $currentColumn++;
         }
 
         $playerTeamAssignmentsMatrix = Matrix::fromColumnValues($totalPlayers, $teamAssignmentsListCount - 1, $playerAssignments);

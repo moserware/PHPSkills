@@ -47,7 +47,17 @@ class TrueSkillCalculatorTests
         self::fourOnFourSimpleTest($testClass, $calculator);
     }
 
-
+    public static function testAllMultipleTeamScenarios($testClass, SkillCalculator $calculator)
+    {
+        self::threeTeamsOfOneNotDrawn($testClass, $calculator);
+        //self::threeTeamsOfOneDrawn(calculator);
+        //self::fourTeamsOfOneNotDrawn(calculator);
+        //self::fiveTeamsOfOneNotDrawn(calculator);
+        //self::eightTeamsOfOneDrawn(calculator);
+        //self::eightTeamsOfOneUpset(calculator);
+        //self::sixteenTeamsOfOneNotDrawn(calculator);
+        //self::twoOnFourOnTwoWinDraw(calculator);
+    }
 
     //------------------- Actual Tests ---------------------------
     // If you see more than 3 digits of precision in the decimal point, then the expected values calculated from
@@ -569,6 +579,33 @@ class TrueSkillCalculatorTests
         self::assertRating($testClass, 25, 7.455, $newRatingsWinLose->getRating($player4));
 
         self::assertMatchQuality($testClass, 0.447, $calculator->calculateMatchQuality($gameInfo, $teams));
+    }
+
+    private static function threeTeamsOfOneNotDrawn($testClass, SkillCalculator $calculator)
+    {
+        $player1 = new Player(1);
+        $player2 = new Player(2);
+        $player3 = new Player(3);
+
+        $gameInfo = new GameInfo();
+
+        $team1 = new Team($player1, $gameInfo->getDefaultRating());
+        $team2 = new Team($player2, $gameInfo->getDefaultRating());
+        $team3 = new Team($player3, $gameInfo->getDefaultRating());
+
+        $teams = Teams::concat($team1, $team2, $team3);
+        $newRatings = $calculator->calculateNewRatings($gameInfo, $teams, array(1, 2, 3));
+
+        $player1NewRating = $newRatings->getRating($player1);
+        self::assertRating($testClass, 31.675352419172107, 6.6559853776206905, $player1NewRating);
+
+        $player2NewRating = $newRatings->getRating($player2);
+        self::assertRating($testClass, 25.000000000003912, 6.2078966412243233, $player2NewRating);
+
+        $player3NewRating = $newRatings->getRating($player3);
+        self::assertRating($testClass, 18.324647580823971, 6.6559853776218318, $player3NewRating);
+
+        self::assertMatchQuality($testClass, 0.200, $calculator->calculateMatchQuality($gameInfo, $teams));
     }
 
     private static function assertRating($testClass, $expectedMean, $expectedStandardDeviation, $actual)
