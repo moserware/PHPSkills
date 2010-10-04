@@ -14,7 +14,7 @@ abstract class SkillCalculator
     private $_playersPerTeamAllowed;
     private $_totalTeamsAllowed;
     
-    protected function __construct($supportedOptions, TeamsRange &$totalTeamsAllowed, PlayersRange &$playerPerTeamAllowed)
+    protected function __construct($supportedOptions, TeamsRange $totalTeamsAllowed, PlayersRange $playerPerTeamAllowed)
     {
         $this->_supportedOptions = $supportedOptions;
         $this->_totalTeamsAllowed = $totalTeamsAllowed;

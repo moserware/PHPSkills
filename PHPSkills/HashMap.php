@@ -35,7 +35,7 @@ class HashMap
     }
 
     public function count()
-    {
+    {        
         return \count($this->_hashToKey);
     }
 

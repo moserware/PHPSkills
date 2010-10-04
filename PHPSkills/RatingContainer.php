@@ -39,7 +39,7 @@ class RatingContainer
 
     public function count()
     {
-        return \count($this->_playerToRating->count());
+        return $this->_playerToRating->count();
     }    
 }
 ?>

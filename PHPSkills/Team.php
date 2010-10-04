@@ -7,7 +7,7 @@ require_once(dirname(__FILE__) . '/RatingContainer.php');
 
 class Team extends RatingContainer
 {
-    public function __construct(Player &$player = null, Rating &$rating = null)
+    public function __construct(Player &$player = null, Rating $rating = null)
     {
         parent::__construct();
         
@@ -17,7 +17,7 @@ class Team extends RatingContainer
         }
     }
 
-    public function addPlayer(Player &$player, Rating &$rating)
+    public function addPlayer(Player &$player, Rating $rating)
     {
         $this->setRating($player, $rating);
         return $this;

@@ -140,7 +140,7 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
     }
 
     /// <inheritdoc/>
-    public function calculateMatchQuality(GameInfo $gameInfo, array $teams)
+    public function calculateMatchQuality(GameInfo &$gameInfo, array &$teams)
     {
         Guard::argumentNotNull($gameInfo, "gameInfo");
         $this->validateTeamCountAndPlayersCountPerTeam($teams);
