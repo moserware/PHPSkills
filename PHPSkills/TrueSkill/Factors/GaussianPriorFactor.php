@@ -1,20 +1,20 @@
 <?php
 namespace Moserware\Skills\TrueSkill\Factors;
 
-require_once(dirname(__FILE__) . "/GaussianFactor.php");
 require_once(dirname(__FILE__) . "/../../FactorGraphs/Message.php");
 require_once(dirname(__FILE__) . "/../../FactorGraphs/Variable.php");
 require_once(dirname(__FILE__) . "/../../Numerics/GaussianDistribution.php");
+require_once(dirname(__FILE__) . "/GaussianFactor.php");
 
 use Moserware\Numerics\GaussianDistribution;
 use Moserware\Skills\FactorGraphs\Message;
 use Moserware\Skills\FactorGraphs\Variable;
 
-
-/// <summary>
-/// Supplies the factor graph with prior information.
-/// </summary>
-/// <remarks>See the accompanying math paper for more details.</remarks>
+/**
+ * Supplies the factor graph with prior information.
+ *
+ * See the accompanying math paper for more details.
+ */
 class GaussianPriorFactor extends GaussianFactor
 {
     private $_newMessage;

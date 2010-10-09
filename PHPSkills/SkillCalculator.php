@@ -21,25 +21,24 @@ abstract class SkillCalculator
         $this->_playersPerTeamAllowed = $playerPerTeamAllowed;
     }
 
-    /// <summary>
-    /// Calculates new ratings based on the prior ratings and team ranks.
-    /// </summary>
-    /// <typeparam name="TPlayer">The underlying type of the player.</typeparam>
-    /// <param name="gameInfo">Parameters for the game.</param>
-    /// <param name="teams">A mapping of team players and their ratings.</param>
-    /// <param name="teamRanks">The ranks of the teams where 1 is first place. For a tie, repeat the number (e.g. 1, 2, 2)</param>
-    /// <returns>All the players and their new ratings.</returns>
+    /**
+     * Calculates new ratings based on the prior ratings and team ranks.
+     * @param $gameInfo Parameters for the game.
+     * @param $teams A mapping of team players and their ratings.
+     * @param $teamRanks The ranks of the teams where 1 is first place. For a tie, repeat the number (e.g. 1, 2, 2).
+     * @return All the players and their new ratings.
+     */
     public abstract function calculateNewRatings(GameInfo &$gameInfo,
                                                  array $teamsOfPlayerToRatings,
                                                  array $teamRanks);
 
-    /// <summary>
-    /// Calculates the match quality as the likelihood of all teams drawing.
-    /// </summary>
-    /// <typeparam name="TPlayer">The underlying type of the player.</typeparam>
-    /// <param name="gameInfo">Parameters for the game.</param>
-    /// <param name="teams">A mapping of team players and their ratings.</param>
-    /// <returns>The quality of the match between the teams as a percentage (0% = bad, 100% = well matched).</returns>
+    /**
+     * Calculates the match quality as the likelihood of all teams drawing.
+     * 
+     * @param $gameInfo Parameters for the game.
+     * @param $teams A mapping of team players and their ratings.
+     * @return The quality of the match between the teams as a percentage (0% = bad, 100% = well matched).
+     */
     public abstract function calculateMatchQuality(GameInfo &$gameInfo,
                                                    array &$teamsOfPlayerToRatings);
 

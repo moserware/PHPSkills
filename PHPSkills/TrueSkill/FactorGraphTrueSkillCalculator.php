@@ -30,9 +30,9 @@ use Moserware\Skills\SkillCalculator;
 use Moserware\Skills\SkillCalculatorSupportedOptions;
 use Moserware\Skills\TeamsRange;
 
-/// <summary>
-/// Calculates TrueSkill using a full factor graph.
-/// </summary>
+/**
+ * Calculates TrueSkill using a full factor graph.
+ */
 class FactorGraphTrueSkillCalculator extends SkillCalculator
 {
     public function __construct()

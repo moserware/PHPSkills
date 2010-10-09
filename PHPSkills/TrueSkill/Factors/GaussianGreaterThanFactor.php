@@ -1,21 +1,22 @@
 <?php
 namespace Moserware\Skills\TrueSkill\Factors;
 
-require_once(dirname(__FILE__) . "/GaussianFactor.php");
-require_once(dirname(__FILE__) . "/../TruncatedGaussianCorrectionFunctions.php");
 require_once(dirname(__FILE__) . "/../../FactorGraphs/Message.php");
 require_once(dirname(__FILE__) . "/../../FactorGraphs/Variable.php");
 require_once(dirname(__FILE__) . "/../../Numerics/GaussianDistribution.php");
+require_once(dirname(__FILE__) . "/../TruncatedGaussianCorrectionFunctions.php");
+require_once(dirname(__FILE__) . "/GaussianFactor.php");
 
 use Moserware\Numerics\GaussianDistribution;
 use Moserware\Skills\TrueSkill\TruncatedGaussianCorrectionFunctions;
 use Moserware\Skills\FactorGraphs\Message;
 use Moserware\Skills\FactorGraphs\Variable;
 
-/// <summary>
-/// Factor representing a team difference that has exceeded the draw margin.
-/// </summary>
-/// <remarks>See the accompanying math paper for more details.</remarks>
+/**
+ * Factor representing a team difference that has exceeded the draw margin.
+ *
+ * See the accompanying math paper for more details.
+ */
 class GaussianGreaterThanFactor extends GaussianFactor
 {
     private $_epsilon;
@@ -72,12 +73,12 @@ class GaussianGreaterThanFactor extends GaussianFactor
                               GaussianDistribution::multiply($oldMessage, $newMarginal),
                               $oldMarginal);
 
-        /// Update the message and marginal
+        // Update the message and marginal
         $message->setValue($newMessage);
 
         $variable->setValue($newMarginal);
 
-        /// Return the difference in the new marginal
+        // Return the difference in the new marginal
         return GaussianDistribution::subtract($newMarginal, $oldMarginal);
     }
 }

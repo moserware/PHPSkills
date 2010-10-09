@@ -23,13 +23,17 @@ abstract class Factor
         $this->_messageToVariableBinding = new HashMap();
     }
 
-    /// Returns the log-normalization constant of that factor
+    /**
+     * @return The log-normalization constant of that factor
+     */
     public function getLogNormalization()
     {
         return 0;
     }
 
-    /// Returns the number of messages that the factor has
+    /**
+     * @return The number of messages that the factor has
+     */
     public function getNumberOfMessages()
     {
         return count($this->_messages);
@@ -45,7 +49,9 @@ abstract class Factor
         return $this->_messages;
     }
 
-    /// Update the message and marginal of the i-th variable that the factor is connected to
+    /**
+     * Update the message and marginal of the i-th variable that the factor is connected to
+     */
     public function updateMessageIndex($messageIndex)
     {
         Guard::argumentIsValidIndex($messageIndex, count($this->_messages), "messageIndex");
@@ -59,7 +65,9 @@ abstract class Factor
         throw new Exception();
     }
 
-    /// Resets the marginal of the variables a factor is connected to
+    /**
+     * Resets the marginal of the variables a factor is connected to
+     */
     public function resetMarginals()
     {
         $allValues = &$this->_messageToVariableBinding->getAllValues();
@@ -69,7 +77,9 @@ abstract class Factor
         }
     }
 
-    /// Sends the ith message to the marginal and returns the log-normalization constant
+    /**
+     * Sends the ith message to the marginal and returns the log-normalization constant
+     */
     public function sendMessageIndex($messageIndex)
     {
         Guard::argumentIsValidIndex($messageIndex, count($this->_messages), "messageIndex");

@@ -9,14 +9,14 @@ class TruncatedGaussianCorrectionFunctions
 {
     // These functions from the bottom of page 4 of the TrueSkill paper.
 
-    /// <summary>
-    /// The "V" function where the team performance difference is greater than the draw margin.
-    /// </summary>
-    /// <remarks>In the reference F# implementation, this is referred to as "the additive
-    /// correction of a single-sided truncated Gaussian with unit variance."</remarks>
-    /// <param name="teamPerformanceDifference"></param>
-    /// <param name="drawMargin">In the paper, it's referred to as just "ε".</param>
-    /// <returns></returns>
+    /**
+     * The "V" function where the team performance difference is greater than the draw margin.
+     * 
+     * In the reference F# implementation, this is referred to as "the additive
+     * correction of a single-sided truncated Gaussian with unit variance."
+     * 
+     * @param number $drawMargin In the paper, it's referred to as just "ε".
+     */
     public static function vExceedsMarginScaled($teamPerformanceDifference, $drawMargin, $c)
     {
         return self::vExceedsMargin($teamPerformanceDifference/$c, $drawMargin/$c);
@@ -34,15 +34,13 @@ class TruncatedGaussianCorrectionFunctions
         return GaussianDistribution::at($teamPerformanceDifference - $drawMargin)/$denominator;
     }
 
-    /// <summary>
-    /// The "W" function where the team performance difference is greater than the draw margin.
-    /// </summary>
-    /// <remarks>In the reference F# implementation, this is referred to as "the multiplicative
-    /// correction of a single-sided truncated Gaussian with unit variance."</remarks>
-    /// <param name="teamPerformanceDifference"></param>
-    /// <param name="drawMargin"></param>
-    /// <param name="c"></param>
-    /// <returns></returns>
+    /**
+     * The "W" function where the team performance difference is greater than the draw margin.
+     * 
+     * In the reference F# implementation, this is referred to as "the multiplicative
+     * correction of a single-sided truncated Gaussian with unit variance."
+     */
+    
     public static function wExceedsMarginScaled($teamPerformanceDifference, $drawMargin, $c)
     {
         return self::wExceedsMargin($teamPerformanceDifference/$c, $drawMargin/$c);

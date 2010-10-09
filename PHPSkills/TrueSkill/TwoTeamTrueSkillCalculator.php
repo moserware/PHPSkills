@@ -34,12 +34,11 @@ use Moserware\Skills\TeamsRange;
 
 use Moserware\Skills\Team;
 
-/// <summary>
-/// Calculates new ratings for only two teams where each team has 1 or more players.
-/// </summary>
-/// <remarks>
-/// When you only have two teams, the math is still simple: no factor graphs are used yet.
-/// </remarks>
+/**
+ * Calculates new ratings for only two teams where each team has 1 or more players.
+ * 
+ * When you only have two teams, the math is still simple: no factor graphs are used yet.
+ */
 class TwoTeamTrueSkillCalculator extends SkillCalculator
 {
     public function __construct()
@@ -165,7 +164,9 @@ class TwoTeamTrueSkillCalculator extends SkillCalculator
         }
     }
 
-    /// <inheritdoc/>
+    /**
+     * {@inheritdoc }
+     */
     public function calculateMatchQuality(GameInfo &$gameInfo,
                                           array &$teams)
     {

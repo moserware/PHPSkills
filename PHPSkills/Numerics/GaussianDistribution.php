@@ -1,30 +1,27 @@
 <?php
-/**
- * Computes Gaussian values.
- *
- * PHP version 5
- *
- * @category   Math
- * @package    PHPSkills
- * @author     Jeff Moser <jeff@moserware.com>
- * @copyright  2010 Jeff Moser 
- */
 
 namespace Moserware\Numerics;
 
 require_once(dirname(__FILE__) . "/basicmath.php");
 
+/**
+ * Computes Gaussian (bell curve) values.
+ *
+ * @package    PHPSkills
+ * @author     Jeff Moser <jeff@moserware.com>
+ * @copyright  2010 Jeff Moser
+ */
 class GaussianDistribution
 {
     private $_mean;
     private $_standardDeviation;
         
-    // Precision and PrecisionMean are used because they make multiplying and dividing simpler
+    // precision and precisionMean are used because they make multiplying and dividing simpler
     // (the the accompanying math paper for more details)
     private $_precision;
     private $_precisionMean;
     private $_variance;
-    
+
     function __construct($mean = 0.0, $standardDeviation = 1.0)
     {   
         $this->_mean = $mean;        

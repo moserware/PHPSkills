@@ -73,8 +73,7 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
     }
 
     public function createPosteriorSchedule()
-    {
-        // BLOG
+    {        
         $allFactors = array();
         $localFactors = &$this->getLocalFactors();
         foreach($localFactors as &$currentFactor)

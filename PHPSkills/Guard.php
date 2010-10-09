@@ -1,11 +1,11 @@
 <?php
 namespace Moserware\Skills;
 
-/// <summary>
-/// Verifies argument contracts.
-/// </summary>
-/// <remarks>These are used until .NET 4.0 ships with Contracts. For more information,
-/// see http://www.moserware.com/2008/01/borrowing-ideas-from-3-interesting.html</remarks>
+/**
+ * Verifies argument contracts.
+ * 
+ * @see http://www.moserware.com/2008/01/borrowing-ideas-from-3-interesting.html
+ */
 class Guard
 {
     public static function argumentNotNull($value, $parameterName)

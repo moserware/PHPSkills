@@ -1,22 +1,23 @@
 <?php
 namespace Moserware\Skills\TrueSkill\Factors;
 
-require_once(dirname(__FILE__) . "/GaussianFactor.php");
 require_once(dirname(__FILE__) . "/../../Guard.php");
 require_once(dirname(__FILE__) . "/../../FactorGraphs/Message.php");
 require_once(dirname(__FILE__) . "/../../FactorGraphs/Variable.php");
 require_once(dirname(__FILE__) . "/../../Numerics/GaussianDistribution.php");
 require_once(dirname(__FILE__) . "/../../Numerics/BasicMath.php");
+require_once(dirname(__FILE__) . "/GaussianFactor.php");
 
 use Moserware\Numerics\GaussianDistribution;
 use Moserware\Skills\Guard;
 use Moserware\Skills\FactorGraphs\Message;
 use Moserware\Skills\FactorGraphs\Variable;
 
-/// <summary>
-/// Factor that sums together multiple Gaussians.
-/// </summary>
-/// <remarks>See the accompanying math paper for more details.</remarks>
+/**
+ * Factor that sums together multiple Gaussians.
+ *  
+ * See the accompanying math paper for more details.s
+ */
 class GaussianWeightedSumFactor extends GaussianFactor
 {
     private $_variableIndexOrdersForWeights = array();
@@ -189,12 +190,12 @@ class GaussianWeightedSumFactor extends GaussianFactor
 
         $newMarginal = GaussianDistribution::multiply($oldMarginalWithoutMessage, $newMessage);
 
-        /// Update the message and marginal
+        // Update the message and marginal
 
         $messages[0]->setValue($newMessage);
         $variables[0]->setValue($newMarginal);
 
-        /// Return the difference in the new marginal
+        // Return the difference in the new marginal
         $finalDiff = GaussianDistribution::subtract($newMarginal, $marginal0);
         return $finalDiff;
     }

@@ -1,19 +1,20 @@
 <?php
 namespace Moserware\Skills\TrueSkill\Factors;
 
-require_once(dirname(__FILE__) . "/GaussianFactor.php");
 require_once(dirname(__FILE__) . "/../../FactorGraphs/Message.php");
 require_once(dirname(__FILE__) . "/../../FactorGraphs/Variable.php");
 require_once(dirname(__FILE__) . "/../../Numerics/GaussianDistribution.php");
+require_once(dirname(__FILE__) . "/GaussianFactor.php");
 
 use Moserware\Numerics\GaussianDistribution;
 use Moserware\Skills\FactorGraphs\Message;
 use Moserware\Skills\FactorGraphs\Variable;
 
-/// <summary>
-/// Connects two variables and adds uncertainty.
-/// </summary>
-/// <remarks>See the accompanying math paper for more details.</remarks>
+/**
+ * Connects two variables and adds uncertainty.
+ * 
+ * See the accompanying math paper for more details.
+ */
 class GaussianLikelihoodFactor extends GaussianFactor
 {
     private $_precision;
@@ -55,12 +56,12 @@ class GaussianLikelihoodFactor extends GaussianFactor
 
         $newMarginal = GaussianDistribution::multiply($oldMarginalWithoutMessage, $newMessage);
 
-        /// Update the message and marginal
+        // Update the message and marginal
 
         $message1->setValue($newMessage);
         $variable1->setValue($newMarginal);
 
-        /// Return the difference in the new marginal
+        // Return the difference in the new marginal
         return GaussianDistribution::subtract($newMarginal, $marginal1);
     }
 

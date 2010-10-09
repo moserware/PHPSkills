@@ -19,7 +19,9 @@ abstract class GaussianFactor extends Factor
         parent::__construct($name);
     }
 
-    /// Sends the factor-graph message with and returns the log-normalization constant
+    /**
+     * Sends the factor-graph message with and returns the log-normalization constant.
+     */
     protected function sendMessageVariable(Message &$message, Variable &$variable)
     {
         $marginal = &$variable->getValue();

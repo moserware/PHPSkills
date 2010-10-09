@@ -30,13 +30,13 @@ use Moserware\Skills\SkillCalculatorSupportedOptions;
 use Moserware\Skills\PlayersRange;
 use Moserware\Skills\TeamsRange;
 
-/// <summary>
-/// Calculates the new ratings for only two players.
-/// </summary>
-/// <remarks>
-/// When you only have two players, a lot of the math simplifies. The main purpose of this class
-/// is to show the bare minimum of what a TrueSkill implementation should have.
-/// </remarks>
+/**
+ * Calculates the new ratings for only two players.
+ * 
+ * When you only have two players, a lot of the math simplifies. The main purpose of this class
+ * is to show the bare minimum of what a TrueSkill implementation should have.
+ */
+
 class TwoPlayerTrueSkillCalculator extends SkillCalculator
 {
     public function __construct()
@@ -139,7 +139,9 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
         return new Rating($newMean, $newStdDev);
     }
 
-    /// <inheritdoc/>
+    /**
+     * {@inheritdoc }
+     */
     public function calculateMatchQuality(GameInfo &$gameInfo, array &$teams)
     {
         Guard::argumentNotNull($gameInfo, "gameInfo");

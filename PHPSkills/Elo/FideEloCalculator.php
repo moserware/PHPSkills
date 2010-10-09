@@ -2,8 +2,8 @@
 
 namespace Moserware\Skills\Elo;
 
-require_once(dirname(__FILE__) . "/TwoPlayerEloCalculator.php");
 require_once(dirname(__FILE__) . "/FideKFactor.php");
+require_once(dirname(__FILE__) . "/TwoPlayerEloCalculator.php");
 
 /** Including Elo's scheme as a simple comparison.
  *  See http://en.wikipedia.org/wiki/Elo_rating_system#Theory

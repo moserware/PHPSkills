@@ -2,6 +2,9 @@
 
 namespace Moserware\Skills;
 
+/**
+ * Basic hashmap that supports object keys.
+ */
 class HashMap
 {
     private $_hashToValue = array();
