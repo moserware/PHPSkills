@@ -1,10 +1,10 @@
 <?php
-require_once(dirname(__FILE__) . "/../../PHPSkills/GameInfo.php");
-require_once(dirname(__FILE__) . "/../../PHPSkills/Player.php");
-require_once(dirname(__FILE__) . "/../../PHPSkills/Rating.php");
-require_once(dirname(__FILE__) . "/../../PHPSkills/Team.php");
-require_once(dirname(__FILE__) . "/../../PHPSkills/Teams.php");
-require_once(dirname(__FILE__) . "/../../PHPSkills/SkillCalculator.php");
+require_once(dirname(__FILE__) . "/../../Skills/GameInfo.php");
+require_once(dirname(__FILE__) . "/../../Skills/Player.php");
+require_once(dirname(__FILE__) . "/../../Skills/Rating.php");
+require_once(dirname(__FILE__) . "/../../Skills/Team.php");
+require_once(dirname(__FILE__) . "/../../Skills/Teams.php");
+require_once(dirname(__FILE__) . "/../../Skills/SkillCalculator.php");
 
 use Moserware\Skills\GameInfo;
 use Moserware\Skills\Player;

@@ -4,7 +4,7 @@ namespace Moserware\Numerics;
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
-require_once(dirname(__FILE__) . '/../../PHPSkills/Numerics/GaussianDistribution.php');
+require_once(dirname(__FILE__) . '/../../Skills/Numerics/GaussianDistribution.php');
 
 
 use \PHPUnit_Framework_TestCase;

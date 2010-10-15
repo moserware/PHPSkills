@@ -1,9 +1,9 @@
 <?php
 namespace Moserware\Skills\Elo;
 
-require_once(dirname(__FILE__) . '/../../PHPSkills/Elo/EloRating.php');
-require_once(dirname(__FILE__) . '/../../PHPSkills/GameInfo.php');
-require_once(dirname(__FILE__) . '/../../PHPSkills/PairwiseComparison.php');
+require_once(dirname(__FILE__) . '/../../Skills/Elo/EloRating.php');
+require_once(dirname(__FILE__) . '/../../Skills/GameInfo.php');
+require_once(dirname(__FILE__) . '/../../Skills/PairwiseComparison.php');
 
 use Moserware\Skills\GameInfo;
 use Moserware\Skills\PairwiseComparison;

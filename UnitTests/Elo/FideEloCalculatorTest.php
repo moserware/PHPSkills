@@ -2,9 +2,9 @@
 namespace Moserware\Skills\Elo;
 
 require_once(dirname(__FILE__) . '/EloAssert.php');
-require_once(dirname(__FILE__) . '/../../PHPSkills/PairwiseComparison.php');
-require_once(dirname(__FILE__) . '/../../PHPSkills/Elo/FideEloCalculator.php');
-require_once(dirname(__FILE__) . '/../../PHPSkills/Elo/FideKFactor.php');
+require_once(dirname(__FILE__) . '/../../Skills/PairwiseComparison.php');
+require_once(dirname(__FILE__) . '/../../Skills/Elo/FideEloCalculator.php');
+require_once(dirname(__FILE__) . '/../../Skills/Elo/FideKFactor.php');
 
 use Moserware\Skills\PairwiseComparison;
 use \PHPUnit_Framework_TestCase;

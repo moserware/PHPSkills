@@ -2,7 +2,7 @@
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
-require_once(dirname(__FILE__) . '/../../PHPSkills/TrueSkill/FactorGraphTrueSkillCalculator.php');
+require_once(dirname(__FILE__) . '/../../Skills/TrueSkill/FactorGraphTrueSkillCalculator.php');
 require_once(dirname(__FILE__) . '/TrueSkillCalculatorTests.php');
 
 use \PHPUnit_Framework_TestCase;

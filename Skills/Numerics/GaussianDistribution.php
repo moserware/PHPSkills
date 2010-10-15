@@ -7,7 +7,6 @@ require_once(dirname(__FILE__) . "/basicmath.php");
 /**
  * Computes Gaussian (bell curve) values.
  *
- * @package    PHPSkills
  * @author     Jeff Moser <jeff@moserware.com>
  * @copyright  2010 Jeff Moser
  */

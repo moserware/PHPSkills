@@ -1,6 +1,6 @@
 <?php
 require_once 'PHPUnit/Framework.php';
-require_once(dirname(__FILE__) . '/../../PHPSkills/Numerics/BasicMath.php');
+require_once(dirname(__FILE__) . '/../../Skills/Numerics/BasicMath.php');
 
  
 class BasicMathTest extends PHPUnit_Framework_TestCase

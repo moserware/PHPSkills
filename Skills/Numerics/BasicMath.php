@@ -1,8 +1,7 @@
 <?php
 /**
  * Basic math functions.
- *
- * @package    PHPSkills
+ * 
  * @author     Jeff Moser <jeff@moserware.com>
  * @copyright  2010 Jeff Moser 
  */

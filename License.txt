@@ -1,4 +1,4 @@
-﻿The core ideas used in this PHPSkills project were described in 
+﻿The core ideas used in this Moserware.Skills for PHP project were described in 
 "TrueSkill (TM): A Bayesian Skill Rating System" available at 
 http://research.microsoft.com/apps/pubs/default.aspx?id=67956
 
@@ -12,7 +12,7 @@ http://blogs.technet.com/apg/archive/2008/06/16/trueskill-in-f.aspx
 This PHP code was ported from the C# Moserware.Skills project at 
 http://github.com/moserware/Skills
 
-Both the PHP code in this PHPSkills project and C# in Moserware.Skills are
+Both the PHP code in this project and C# in Moserware.Skills are
 Copyright (c) 2010 Jeff Moser <jeff@moserware.com>
  
 Redistribution and use in source and binary forms, with or without modification, are
