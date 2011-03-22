@@ -2,7 +2,7 @@
 
 namespace Moserware\Numerics;
 
-require_once(dirname(__FILE__) . "/basicmath.php");
+require_once(dirname(__FILE__) . "/BasicMath.php");
 
 /**
  * Computes Gaussian (bell curve) values.
