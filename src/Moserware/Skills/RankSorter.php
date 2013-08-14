@@ -13,7 +13,7 @@ class RankSorter
      * @param $items The items to sort according to the order specified by ranks.
      * @param $ranks The ranks for each item where 1 is first place.
      */
-    public static function sort(array &$teams, array &$teamRanks)
+    public static function sort(array $teams, array $teamRanks)
     {        
         array_multisort($teamRanks, $teams);
         return $teams;

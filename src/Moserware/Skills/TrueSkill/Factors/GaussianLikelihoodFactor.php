@@ -19,7 +19,7 @@ class GaussianLikelihoodFactor extends GaussianFactor
 {
     private $_precision;
 
-    public function __construct($betaSquared, Variable &$variable1, Variable &$variable2)
+    public function __construct($betaSquared, Variable $variable1, Variable $variable2)
     {
         parent::__construct(sprintf("Likelihood of %s going to %s", $variable2, $variable1));
         $this->_precision = 1.0/$betaSquared;
@@ -29,16 +29,16 @@ class GaussianLikelihoodFactor extends GaussianFactor
 
     public function getLogNormalization()
     {
-        $vars = &$this->getVariables();
-        $messages = &$this->getMessages();
+        $vars = $this->getVariables();
+        $messages = $this->getMessages();
 
         return GaussianDistribution::logRatioNormalization(
                 $vars[0]->getValue(),
                 $messages[0]->getValue());
     }
 
-    private function updateHelper(Message &$message1, Message &$message2,
-                                  Variable &$variable1, Variable &$variable2)
+    private function updateHelper(Message $message1, Message $message2,
+                                  Variable $variable1, Variable $variable2)
     {        
         $message1Value = clone $message1->getValue();
         $message2Value = clone $message2->getValue();        
@@ -67,8 +67,8 @@ class GaussianLikelihoodFactor extends GaussianFactor
 
     public function updateMessageIndex($messageIndex)
     {
-        $messages = &$this->getMessages();
-        $vars = &$this->getVariables();       
+        $messages = $this->getMessages();
+        $vars = $this->getVariables();
 
         switch ($messageIndex)
         {

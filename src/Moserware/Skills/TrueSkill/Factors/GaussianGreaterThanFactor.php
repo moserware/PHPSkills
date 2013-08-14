@@ -21,7 +21,7 @@ class GaussianGreaterThanFactor extends GaussianFactor
 {
     private $_epsilon;
 
-    public function __construct($epsilon, Variable &$variable)
+    public function __construct($epsilon, Variable $variable)
     {
         parent::__construct(\sprintf("%s > %.2f", $variable, $epsilon));
         $this->_epsilon = $epsilon;
@@ -30,10 +30,10 @@ class GaussianGreaterThanFactor extends GaussianFactor
 
     public function getLogNormalization()
     {
-        $vars = &$this->getVariables();
-        $marginal = &$vars[0]->getValue();
-        $messages = &$this->getMessages();
-        $message = &$messages[0]->getValue();
+        $vars = $this->getVariables();
+        $marginal = $vars[0]->getValue();
+        $messages = $this->getMessages();
+        $message = $messages[0]->getValue();
         $messageFromVariable = GaussianDistribution::divide($marginal, $message);
         return -GaussianDistribution::logProductNormalization($messageFromVariable, $message)
                +
@@ -43,7 +43,7 @@ class GaussianGreaterThanFactor extends GaussianFactor
 
     }
 
-    protected function updateMessageVariable(Message &$message, Variable &$variable)
+    protected function updateMessageVariable(Message $message, Variable $variable)
     {
         $oldMarginal = clone $variable->getValue();
         $oldMessage = clone $message->getValue();

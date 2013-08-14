@@ -21,7 +21,7 @@ class GaussianWithinFactor extends GaussianFactor
 {
     private $_epsilon;
 
-    public function __construct($epsilon, Variable &$variable)
+    public function __construct($epsilon, Variable $variable)
     {
         parent::__construct(sprintf("%s <= %.2f", $variable, $epsilon));
         $this->_epsilon = $epsilon;
@@ -30,11 +30,11 @@ class GaussianWithinFactor extends GaussianFactor
 
     public function getLogNormalization()
     {
-        $variables = &$this->getVariables();
-        $marginal = &$variables[0]->getValue();
+        $variables = $this->getVariables();
+        $marginal = $variables[0]->getValue();
 
-        $messages = &$this->getMessages();
-        $message = &$messages[0]->getValue();
+        $messages = $this->getMessages();
+        $message = $messages[0]->getValue();
         $messageFromVariable = GaussianDistribution::divide($marginal, $message);
         $mean = $messageFromVariable->getMean();
         $std = $messageFromVariable->getStandardDeviation();
@@ -45,7 +45,7 @@ class GaussianWithinFactor extends GaussianFactor
         return -GaussianDistribution::logProductNormalization($messageFromVariable, $message) + log($z);
     }
 
-    protected function updateMessageVariable(Message &$message, Variable &$variable)
+    protected function updateMessageVariable(Message $message, Variable $variable)
     {
         $oldMarginal = clone $variable->getValue();
         $oldMessage = clone $message->getValue();

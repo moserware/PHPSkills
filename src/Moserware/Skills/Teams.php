@@ -8,8 +8,8 @@ class Teams
         $args = \func_get_args();
         $result = array();
 
-        foreach ($args as &$currentTeam) {
-            $localCurrentTeam = &$currentTeam;
+        foreach ($args as $currentTeam) {
+            $localCurrentTeam = $currentTeam;
             $result[] = $localCurrentTeam;
         }
 

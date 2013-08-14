@@ -25,7 +25,7 @@ class ScheduleStep extends Schedule
     private $_factor;
     private $_index;
 
-    public function __construct($name, Factor &$factor, $index)
+    public function __construct($name, Factor $factor, $index)
     {
         parent::__construct($name);
         $this->_factor = $factor;
@@ -34,7 +34,7 @@ class ScheduleStep extends Schedule
 
     public function visit($depth = -1, $maxDepth = 0)
     {
-        $currentFactor = &$this->_factor;        
+        $currentFactor = $this->_factor;
         $delta = $currentFactor->updateMessageIndex($this->_index);
         return $delta;
     }
@@ -54,8 +54,8 @@ class ScheduleSequence extends Schedule
     {
         $maxDelta = 0;
 
-        $schedules = &$this->_schedules;
-        foreach ($schedules as &$currentSchedule)
+        $schedules = $this->_schedules;
+        foreach ($schedules as $currentSchedule)
         {
             $currentVisit = $currentSchedule->visit($depth + 1, $maxDepth);
             $maxDelta = max($currentVisit, $maxDelta);
@@ -70,7 +70,7 @@ class ScheduleLoop extends Schedule
     private $_maxDelta;
     private $_scheduleToLoop;
 
-    public function __construct($name, Schedule &$scheduleToLoop, $maxDelta)
+    public function __construct($name, Schedule $scheduleToLoop, $maxDelta)
     {
         parent::__construct($name);
         $this->_scheduleToLoop = $scheduleToLoop;

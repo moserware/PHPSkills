@@ -28,7 +28,7 @@ abstract class SkillCalculator
      * @param $teamRanks The ranks of the teams where 1 is first place. For a tie, repeat the number (e.g. 1, 2, 2).
      * @return All the players and their new ratings.
      */
-    public abstract function calculateNewRatings(GameInfo &$gameInfo,
+    public abstract function calculateNewRatings(GameInfo $gameInfo,
                                                  array $teamsOfPlayerToRatings,
                                                  array $teamRanks);
 
@@ -39,23 +39,23 @@ abstract class SkillCalculator
      * @param $teams A mapping of team players and their ratings.
      * @return The quality of the match between the teams as a percentage (0% = bad, 100% = well matched).
      */
-    public abstract function calculateMatchQuality(GameInfo &$gameInfo,
-                                                   array &$teamsOfPlayerToRatings);
+    public abstract function calculateMatchQuality(GameInfo $gameInfo,
+                                                   array $teamsOfPlayerToRatings);
 
     public function isSupported($option)
     {           
         return ($this->_supportedOptions & $option) == $option;             
     }    
 
-    protected function validateTeamCountAndPlayersCountPerTeam(array &$teamsOfPlayerToRatings)
+    protected function validateTeamCountAndPlayersCountPerTeam(array $teamsOfPlayerToRatings)
     {
         self::validateTeamCountAndPlayersCountPerTeamWithRanges($teamsOfPlayerToRatings, $this->_totalTeamsAllowed, $this->_playersPerTeamAllowed);
     }
 
     private static function validateTeamCountAndPlayersCountPerTeamWithRanges(
-        array &$teams,
-        TeamsRange &$totalTeams,
-        PlayersRange &$playersPerTeam)
+        array $teams,
+        TeamsRange $totalTeams,
+        PlayersRange $playersPerTeam)
     {        
         $countOfTeams = 0;
         

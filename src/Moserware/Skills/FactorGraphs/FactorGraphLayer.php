@@ -12,38 +12,38 @@ abstract class FactorGraphLayer
     private $_inputVariablesGroups = array();
     private $_parentFactorGraph;
 
-    protected function __construct(FactorGraph &$parentGraph)
+    protected function __construct(FactorGraph $parentGraph)
     {
-        $this->_parentFactorGraph = &$parentGraph;
+        $this->_parentFactorGraph = $parentGraph;
     }
 
-    protected function &getInputVariablesGroups()
+    protected function getInputVariablesGroups()
     {
-        $inputVariablesGroups = &$this->_inputVariablesGroups;
+        $inputVariablesGroups = $this->_inputVariablesGroups;
         return $inputVariablesGroups;
     }
 
     // HACK
 
-    public function &getParentFactorGraph()
+    public function getParentFactorGraph()
     {
-        $parentFactorGraph = &$this->_parentFactorGraph;
+        $parentFactorGraph = $this->_parentFactorGraph;
         return $parentFactorGraph;
     }
 
-    public function &getOutputVariablesGroups()
+    public function getOutputVariablesGroups()
     {
-        $outputVariablesGroups = &$this->_outputVariablesGroups;
+        $outputVariablesGroups = $this->_outputVariablesGroups;
         return $outputVariablesGroups;
     }
 
-    public function &getLocalFactors()
+    public function getLocalFactors()
     {
-        $localFactors = &$this->_localFactors;
+        $localFactors = $this->_localFactors;
         return $localFactors;
     }
 
-    public function setInputVariablesGroups(&$value)
+    public function setInputVariablesGroups($value)
     {
         $this->_inputVariablesGroups = $value;
     }
@@ -53,7 +53,7 @@ abstract class FactorGraphLayer
         return new ScheduleSequence($name, $itemsToSequence);
     }
 
-    protected function addLayerFactor(Factor &$factor)
+    protected function addLayerFactor(Factor $factor)
     {
         $this->_localFactors[] = $factor;
     }

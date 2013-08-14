@@ -39,12 +39,12 @@ abstract class Factor
         return count($this->_messages);
     }
     
-    protected function &getVariables()
+    protected function getVariables()
     {
         return $this->_variables;
     }
     
-    protected function &getMessages()
+    protected function getMessages()
     {
         return $this->_messages;
     }
@@ -55,8 +55,8 @@ abstract class Factor
     public function updateMessageIndex($messageIndex)
     {
         Guard::argumentIsValidIndex($messageIndex, count($this->_messages), "messageIndex");
-        $message = &$this->_messages[$messageIndex];
-        $variable = &$this->_messageToVariableBinding->getValue($message);        
+        $message = $this->_messages[$messageIndex];
+        $variable = $this->_messageToVariableBinding->getValue($message);
         return $this->updateMessageVariable($message, $variable);
     }
 
@@ -70,8 +70,8 @@ abstract class Factor
      */
     public function resetMarginals()
     {
-        $allValues = &$this->_messageToVariableBinding->getAllValues();
-        foreach ($allValues as &$currentVariable)
+        $allValues = $this->_messageToVariableBinding->getAllValues();
+        foreach ($allValues as $currentVariable)
         {
             $currentVariable->resetToPrior();
         }
@@ -84,23 +84,23 @@ abstract class Factor
     {
         Guard::argumentIsValidIndex($messageIndex, count($this->_messages), "messageIndex");
 
-        $message = &$this->_messages[$messageIndex];
-        $variable = &$this->_messageToVariableBinding->getValue($message);
+        $message = $this->_messages[$messageIndex];
+        $variable = $this->_messageToVariableBinding->getValue($message);
         return $this->sendMessageVariable($message, $variable);
     }
 
-    protected abstract function sendMessageVariable(Message &$message, Variable &$variable);
+    protected abstract function sendMessageVariable(Message $message, Variable $variable);
 
-    public abstract function &createVariableToMessageBinding(Variable &$variable);
+    public abstract function createVariableToMessageBinding(Variable $variable);
 
-    protected function &createVariableToMessageBindingWithMessage(Variable &$variable, Message &$message)
+    protected function createVariableToMessageBindingWithMessage(Variable $variable, Message $message)
     {
         $index = count($this->_messages);
-        $localMessages = &$this->_messages;
-        $localMessages[] = &$message;
+        $localMessages = $this->_messages;
+        $localMessages[] = $message;
         $this->_messageToVariableBinding->setValue($message, $variable);
-        $localVariables = &$this->_variables;
-        $localVariables[] = &$variable;
+        $localVariables = $this->_variables;
+        $localVariables[] = $variable;
         return $message;
     }
 

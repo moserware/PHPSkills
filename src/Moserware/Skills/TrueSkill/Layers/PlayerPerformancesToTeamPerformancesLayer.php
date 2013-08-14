@@ -18,33 +18,33 @@ use Moserware\Skills\TrueSkill\TrueSkillFactorGraph;
 
 class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLayer
 {
-    public function __construct(TrueSkillFactorGraph &$parentGraph)
+    public function __construct(TrueSkillFactorGraph $parentGraph)
     {
         parent::__construct($parentGraph);
     }
 
     public function buildLayer()
     {
-        $inputVariablesGroups = &$this->getInputVariablesGroups();
-        foreach ($inputVariablesGroups as &$currentTeam)
+        $inputVariablesGroups = $this->getInputVariablesGroups();
+        foreach ($inputVariablesGroups as $currentTeam)
         {
-            $localCurrentTeam = &$currentTeam;
-            $teamPerformance = &$this->createOutputVariable($localCurrentTeam);
+            $localCurrentTeam = $currentTeam;
+            $teamPerformance = $this->createOutputVariable($localCurrentTeam);
             $newSumFactor = $this->createPlayerToTeamSumFactor($localCurrentTeam, $teamPerformance);
             
             $this->addLayerFactor($newSumFactor);
 
             // REVIEW: Does it make sense to have groups of one?
-            $outputVariablesGroups = &$this->getOutputVariablesGroups();
+            $outputVariablesGroups = $this->getOutputVariablesGroups();
             $outputVariablesGroups[] = array($teamPerformance);
         }        
     }
 
     public function createPriorSchedule()
     {
-        $localFactors = &$this->getLocalFactors();
+        $localFactors = $this->getLocalFactors();
 
-        $sequence = &$this->scheduleSequence(
+        $sequence = $this->scheduleSequence(
                                             array_map(
                                                     function($weightedSumFactor)
                                                     {
@@ -55,12 +55,12 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
         return $sequence;
     }
 
-    protected function createPlayerToTeamSumFactor(&$teamMembers, &$sumVariable)
+    protected function createPlayerToTeamSumFactor($teamMembers, $sumVariable)
     {
         $weights = array_map(
                         function($v)
                         {
-                            $player = &$v->getKey();
+                            $player = $v->getKey();
                             return PartialPlay::getPartialPlayPercentage($player);
                         },
                         $teamMembers);
@@ -75,10 +75,10 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
     public function createPosteriorSchedule()
     {        
         $allFactors = array();
-        $localFactors = &$this->getLocalFactors();
-        foreach($localFactors as &$currentFactor)
+        $localFactors = $this->getLocalFactors();
+        foreach($localFactors as $currentFactor)
         {
-            $localCurrentFactor = &$currentFactor;
+            $localCurrentFactor = $currentFactor;
             $numberOfMessages = $localCurrentFactor->getNumberOfMessages();
             for($currentIteration = 1; $currentIteration < $numberOfMessages; $currentIteration++)
             {
@@ -89,7 +89,7 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
         return $this->scheduleSequence($allFactors, "all of the team's sum iterations");
     }
 
-    private function &createOutputVariable(&$team)
+    private function createOutputVariable($team)
     {
         $memberNames = \array_map(function ($currentPlayer)
                                   {
@@ -98,7 +98,7 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
                                   $team);
 
         $teamMemberNames = \join(", ", $memberNames);
-        $outputVariable = &$this->getParentFactorGraph()->getVariableFactory()->createBasicVariable("Team[" . $teamMemberNames . "]'s performance");
+        $outputVariable = $this->getParentFactorGraph()->getVariableFactory()->createBasicVariable("Team[" . $teamMemberNames . "]'s performance");
         return $outputVariable;
     }
 }
