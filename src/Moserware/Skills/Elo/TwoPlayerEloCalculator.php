@@ -2,13 +2,7 @@
 
 namespace Moserware\Skills\Elo;
 
-require_once(dirname(__FILE__) . "/../PairwiseComparison.php");
-require_once(dirname(__FILE__) . "/../RankSorter.php");
-require_once(dirname(__FILE__) . "/../SkillCalculator.php");
-
-require_once(dirname(__FILE__) . "/../PlayersRange.php");
-require_once(dirname(__FILE__) . "/../TeamsRange.php");
-
+use Moserware\Skills\GameInfo;
 use Moserware\Skills\PairwiseComparison;
 use Moserware\Skills\RankSorter;
 use Moserware\Skills\SkillCalculator;
@@ -27,7 +21,7 @@ abstract class TwoPlayerEloCalculator extends SkillCalculator
         $this->_kFactor = $kFactor;
     }
 
-    public function calculateNewRatings($gameInfo,
+    public function calculateNewRatings(GameInfo $gameInfo,
                                         array $teamsOfPlayerToRatings,
                                         array $teamRanks)
     {   
@@ -80,7 +74,7 @@ abstract class TwoPlayerEloCalculator extends SkillCalculator
 
     public abstract function getPlayerWinProbability($gameInfo, $playerRating, $opponentRating);
 
-    public function calculateMatchQuality($gameInfo, array $teamsOfPlayerToRatings)
+    public function calculateMatchQuality(GameInfo $gameInfo, array $teamsOfPlayerToRatings)
     {
         validateTeamCountAndPlayersCountPerTeam($teamsOfPlayerToRatings);
         $team1 = $teamsOfPlayerToRatings[0];
