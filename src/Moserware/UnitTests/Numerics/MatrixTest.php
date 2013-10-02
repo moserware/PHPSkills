@@ -1,13 +1,10 @@
 <?php
-require_once 'PHPUnit/Framework.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
+namespace Moserware\UnitTests\Numerics;
 
-require_once(dirname(__FILE__) . '/../../Skills/Numerics/Matrix.php');
-
+use Moserware\Skills\Numerics\Matrix\IdentityMatrix;
+use Moserware\Skills\Numerics\Matrix\SquareMatrix;
+use Moserware\Skills\Numerics\Matrix;
 use \PHPUnit_Framework_TestCase;
-use Moserware\Numerics\Matrix;
-use Moserware\Numerics\IdentityMatrix;
-use Moserware\Numerics\SquareMatrix;
 
 class MatrixTest extends PHPUnit_Framework_TestCase
 {
@@ -188,9 +185,4 @@ class MatrixTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($identity3x3->equals($ccInverse));
     }
 }
-
-$testSuite = new \PHPUnit_Framework_TestSuite();
-$testSuite->addTest( new MatrixTest("testInverse"));
-\PHPUnit_TextUI_TestRunner::run($testSuite);
-
 ?>

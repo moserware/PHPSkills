@@ -1,9 +1,7 @@
 <?php
 namespace Moserware\Skills\TrueSkill;
 
-require_once(dirname(__FILE__) . '/../Numerics/GaussianDistribution.php');
-
-use Moserware\Numerics\GaussianDistribution;
+use Moserware\Skills\Numerics\GaussianDistribution;
 
 class TruncatedGaussianCorrectionFunctions
 {

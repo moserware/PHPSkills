@@ -1,25 +1,9 @@
 <?php
-
 namespace Moserware\Skills\TrueSkill;
-
-require_once(dirname(__FILE__) . "/../GameInfo.php");
-require_once(dirname(__FILE__) . "/../Guard.php");
-require_once(dirname(__FILE__) . "/../PairwiseComparison.php");
-require_once(dirname(__FILE__) . "/../RankSorter.php");
-require_once(dirname(__FILE__) . "/../Rating.php");
-require_once(dirname(__FILE__) . "/../RatingContainer.php");
-require_once(dirname(__FILE__) . "/../SkillCalculator.php");
-
-require_once(dirname(__FILE__) . "/../PlayersRange.php");
-require_once(dirname(__FILE__) . "/../TeamsRange.php");
-
-require_once(dirname(__FILE__) . "/../Numerics/BasicMath.php");
-
-require_once(dirname(__FILE__) . "/DrawMargin.php");
-require_once(dirname(__FILE__) . "/TruncatedGaussianCorrectionFunctions.php");
 
 use Moserware\Skills\GameInfo;
 use Moserware\Skills\Guard;
+use Moserware\Skills\Numerics\BasicMath;
 use Moserware\Skills\PairwiseComparison;
 use Moserware\Skills\RankSorter;
 use Moserware\Skills\Rating;
@@ -91,11 +75,11 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
 
         $c =
             sqrt(
-                square($selfRating->getStandardDeviation())
+                BasicMath::square($selfRating->getStandardDeviation())
                 +
-                square($opponentRating->getStandardDeviation())
+                BasicMath::square($opponentRating->getStandardDeviation())
                 +
-                2*square($gameInfo->getBeta()));
+                2*BasicMath::square($gameInfo->getBeta()));
 
         $winningMean = $selfRating->getMean();
         $losingMean = $opponentRating->getMean();
@@ -128,10 +112,10 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
             $rankMultiplier = 1;
         }
 
-        $meanMultiplier = (square($selfRating->getStandardDeviation()) + square($gameInfo->getDynamicsFactor()))/$c;
+        $meanMultiplier = (BasicMath::square($selfRating->getStandardDeviation()) + BasicMath::square($gameInfo->getDynamicsFactor()))/$c;
 
-        $varianceWithDynamics = square($selfRating->getStandardDeviation()) + square($gameInfo->getDynamicsFactor());
-        $stdDevMultiplier = $varianceWithDynamics/square($c);
+        $varianceWithDynamics = BasicMath::square($selfRating->getStandardDeviation()) + BasicMath::square($gameInfo->getDynamicsFactor());
+        $stdDevMultiplier = $varianceWithDynamics/BasicMath::square($c);
 
         $newMean = $selfRating->getMean() + ($rankMultiplier*$meanMultiplier*$v);
         $newStdDev = sqrt($varianceWithDynamics*(1 - $w*$stdDevMultiplier));
@@ -142,7 +126,7 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
     /**
      * {@inheritdoc }
      */
-    public function calculateMatchQuality(GameInfo $gameInfo, array $teams)
+    public function calculateMatchQuality(GameInfo $gameInfo, array &$teams)
     {
         Guard::argumentNotNull($gameInfo, "gameInfo");
         $this->validateTeamCountAndPlayersCountPerTeam($teams);
@@ -157,9 +141,9 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
         $player2Rating = $team2Ratings[0];
 
         // We just use equation 4.1 found on page 8 of the TrueSkill 2006 paper:
-        $betaSquared = square($gameInfo->getBeta());
-        $player1SigmaSquared = square($player1Rating->getStandardDeviation());
-        $player2SigmaSquared = square($player2Rating->getStandardDeviation());
+        $betaSquared = BasicMath::square($gameInfo->getBeta());
+        $player1SigmaSquared = BasicMath::square($player1Rating->getStandardDeviation());
+        $player2SigmaSquared = BasicMath::square($player2Rating->getStandardDeviation());
 
         // This is the square root part of the equation:
         $sqrtPart =
@@ -171,7 +155,7 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
         // This is the exponent part of the equation:
         $expPart =
             exp(
-                (-1*square($player1Rating->getMean() - $player2Rating->getMean()))
+                (-1*BasicMath::square($player1Rating->getMean() - $player2Rating->getMean()))
                 /
                 (2*(2*$betaSquared + $player1SigmaSquared + $player2SigmaSquared)));
 

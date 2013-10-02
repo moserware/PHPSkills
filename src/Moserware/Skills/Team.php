@@ -1,10 +1,6 @@
 <?php
 namespace Moserware\Skills;
 
-require_once(dirname(__FILE__) . '/Player.php');
-require_once(dirname(__FILE__) . '/Rating.php');
-require_once(dirname(__FILE__) . '/RatingContainer.php');
-
 class Team extends RatingContainer
 {
     public function __construct(Player $player = null, Rating $rating = null)

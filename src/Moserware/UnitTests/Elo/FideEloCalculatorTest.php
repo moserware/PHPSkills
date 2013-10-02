@@ -1,11 +1,8 @@
 <?php
-namespace Moserware\Skills\Elo;
+namespace Moserware\UnitTests\Elo;
 
-require_once(dirname(__FILE__) . '/EloAssert.php');
-require_once(dirname(__FILE__) . '/../../Skills/PairwiseComparison.php');
-require_once(dirname(__FILE__) . '/../../Skills/Elo/FideEloCalculator.php');
-require_once(dirname(__FILE__) . '/../../Skills/Elo/FideKFactor.php');
-
+use Moserware\Skills\Elo\FideEloCalculator;
+use Moserware\Skills\Elo\ProvisionalFideKFactor;
 use Moserware\Skills\PairwiseComparison;
 use \PHPUnit_Framework_TestCase;
  
@@ -15,7 +12,7 @@ class FideEloCalculatorTest extends PHPUnit_Framework_TestCase
     {
         // verified against http://ratings.fide.com/calculator_rtd.phtml
         $calc = new FideEloCalculator(new ProvisionalFideKFactor());
-        
+
         EloAssert::assertChessRating($this, $calc, 1200, 1500, PairwiseComparison::WIN, 1221.25, 1478.75);
         EloAssert::assertChessRating($this, $calc, 1200, 1500, PairwiseComparison::DRAW, 1208.75, 1491.25);
         EloAssert::assertChessRating($this, $calc, 1200, 1500, PairwiseComparison::LOSE, 1196.25, 1503.75);

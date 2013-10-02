@@ -1,8 +1,6 @@
 <?php
 namespace Moserware\Skills;
 
-require_once(dirname(__FILE__) . "/ISupportPartialPlay.php");
-
 class PartialPlay
 {
     public static function getPartialPlayPercentage($player)

@@ -12,7 +12,7 @@ class Guard
     {
         if ($value == null)
         {
-            throw new Exception($parameterName . " can not be null");
+            throw new \Exception($parameterName . " can not be null");
         }
     }
 
@@ -20,7 +20,7 @@ class Guard
     {
         if (($index < 0) || ($index >= $count))
         {
-            throw new Exception($parameterName . " is an invalid index");
+            throw new \Exception($parameterName . " is an invalid index");
         }
     }
 
@@ -28,7 +28,7 @@ class Guard
     {
         if (($value < $min) || ($value > $max))
         {
-            throw new Exception($parameterName . " is not in the valid range [" . $min . ", " . $max . "]");
+            throw new \Exception($parameterName . " is not in the valid range [" . $min . ", " . $max . "]");
         }
     }
 }

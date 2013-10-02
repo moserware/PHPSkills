@@ -1,8 +1,6 @@
 <?php
 namespace Moserware\Skills;
 
-require_once(dirname(__FILE__) . '/../Skills/RankSorter.php');
-
 use \PHPUnit_Framework_TestCase;
  
 class RankSorterTest extends PHPUnit_Framework_TestCase

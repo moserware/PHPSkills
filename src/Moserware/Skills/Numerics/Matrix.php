@@ -1,5 +1,7 @@
 <?php
-namespace Moserware\Numerics;
+namespace Moserware\Skills\Numerics;
+
+use Moserware\Skills\Numerics\Matrix\SquareMatrix;
 
 class Matrix
 {
@@ -152,7 +154,7 @@ class Matrix
     {
         if (!$this->isSquare())
         {
-            throw new Exception("Matrix must be square!");
+            throw new \Exception("Matrix must be square!");
         }
 
         // See http://en.wikipedia.org/wiki/Adjugate_matrix
@@ -229,7 +231,7 @@ class Matrix
                 ($left->getColumnCount() != $right->getColumnCount())
            )
         {
-            throw new Exception("Matrices must be of the same size");
+            throw new \Exception("Matrices must be of the same size");
         }
 
         // simple addition of each item
@@ -257,7 +259,7 @@ class Matrix
 
         if ($left->getColumnCount() != $right->getRowCount())
         {
-            throw new Exception("The width of the left matrix must match the height of the right matrix");
+            throw new \Exception("The width of the left matrix must match the height of the right matrix");
         }
 
         $resultRows = $left->getRowCount();

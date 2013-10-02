@@ -2,26 +2,9 @@
 
 namespace Moserware\Skills\TrueSkill;
 
-require_once(dirname(__FILE__) . "/../GameInfo.php");
-require_once(dirname(__FILE__) . "/../Guard.php");
-require_once(dirname(__FILE__) . "/../PairwiseComparison.php");
-require_once(dirname(__FILE__) . "/../RankSorter.php");
-require_once(dirname(__FILE__) . "/../Rating.php");
-require_once(dirname(__FILE__) . "/../RatingContainer.php");
-require_once(dirname(__FILE__) . "/../SkillCalculator.php");
-
-require_once(dirname(__FILE__) . "/../Team.php");
-
-require_once(dirname(__FILE__) . "/../PlayersRange.php");
-require_once(dirname(__FILE__) . "/../TeamsRange.php");
-
-require_once(dirname(__FILE__) . "/../Numerics/BasicMath.php");
-
-require_once(dirname(__FILE__) . "/DrawMargin.php");
-require_once(dirname(__FILE__) . "/TruncatedGaussianCorrectionFunctions.php");
-
 use Moserware\Skills\GameInfo;
 use Moserware\Skills\Guard;
+use Moserware\Skills\Numerics\BasicMath;
 use Moserware\Skills\PairwiseComparison;
 use Moserware\Skills\RankSorter;
 use Moserware\Skills\Rating;
@@ -86,8 +69,8 @@ class TwoTeamTrueSkillCalculator extends SkillCalculator
         $drawMargin = DrawMargin::getDrawMarginFromDrawProbability($gameInfo->getDrawProbability(),
                                                                    $gameInfo->getBeta());
 
-        $betaSquared = square($gameInfo->getBeta());
-        $tauSquared = square($gameInfo->getDynamicsFactor());
+        $betaSquared = BasicMath::square($gameInfo->getBeta());
+        $tauSquared = BasicMath::square($gameInfo->getDynamicsFactor());
 
         $totalPlayers = $selfTeam->count() + $otherTeam->count();
 
@@ -97,19 +80,19 @@ class TwoTeamTrueSkillCalculator extends SkillCalculator
                 return $currentRating->getMean();
             };
 
-        $selfMeanSum = sum($selfTeam->getAllRatings(), $meanGetter);
-        $otherTeamMeanSum = sum($otherTeam->getAllRatings(), $meanGetter);
+        $selfMeanSum = BasicMath::sum($selfTeam->getAllRatings(), $meanGetter);
+        $otherTeamMeanSum = BasicMath::sum($otherTeam->getAllRatings(), $meanGetter);
 
         $varianceGetter =
             function($currentRating)
             {
-                return square($currentRating->getStandardDeviation());
+                return BasicMath::square($currentRating->getStandardDeviation());
             };
 
         $c = sqrt(
-                  sum($selfTeam->getAllRatings(), $varianceGetter)
+            BasicMath::sum($selfTeam->getAllRatings(), $varianceGetter)
                   +
-                  sum($otherTeam->getAllRatings(), $varianceGetter)
+            BasicMath::sum($otherTeam->getAllRatings(), $varianceGetter)
                   +
                   $totalPlayers*$betaSquared);
 
@@ -151,14 +134,14 @@ class TwoTeamTrueSkillCalculator extends SkillCalculator
             $localSelfTeamCurrentPlayer = $selfTeamCurrentPlayer;
             $previousPlayerRating = $selfTeam->getRating($localSelfTeamCurrentPlayer);
 
-            $meanMultiplier = (square($previousPlayerRating->getStandardDeviation()) + $tauSquared)/$c;
-            $stdDevMultiplier = (square($previousPlayerRating->getStandardDeviation()) + $tauSquared)/square($c);
+            $meanMultiplier = (BasicMath::square($previousPlayerRating->getStandardDeviation()) + $tauSquared)/$c;
+            $stdDevMultiplier = (BasicMath::square($previousPlayerRating->getStandardDeviation()) + $tauSquared)/BasicMath::square($c);
 
             $playerMeanDelta = ($rankMultiplier*$meanMultiplier*$v);
             $newMean = $previousPlayerRating->getMean() + $playerMeanDelta;
 
             $newStdDev =
-                sqrt((square($previousPlayerRating->getStandardDeviation()) + $tauSquared)*(1 - $w*$stdDevMultiplier));
+                sqrt((BasicMath::square($previousPlayerRating->getStandardDeviation()) + $tauSquared)*(1 - $w*$stdDevMultiplier));
 
             $newPlayerRatings->setRating($localSelfTeamCurrentPlayer, new Rating($newMean, $newStdDev));
         }
@@ -168,7 +151,7 @@ class TwoTeamTrueSkillCalculator extends SkillCalculator
      * {@inheritdoc }
      */
     public function calculateMatchQuality(GameInfo $gameInfo,
-                                          array $teams)
+                                          array &$teams)
     {
         Guard::argumentNotNull($gameInfo, "gameInfo");
         $this->validateTeamCountAndPlayersCountPerTeam($teams);
@@ -182,7 +165,7 @@ class TwoTeamTrueSkillCalculator extends SkillCalculator
 
         $totalPlayers = $team1Count + $team2Count;
 
-        $betaSquared = square($gameInfo->getBeta());
+        $betaSquared = BasicMath::square($gameInfo->getBeta());
 
         $meanGetter =
             function($currentRating)
@@ -193,14 +176,14 @@ class TwoTeamTrueSkillCalculator extends SkillCalculator
         $varianceGetter =
             function($currentRating)
             {
-                return square($currentRating->getStandardDeviation());
+                return BasicMath::square($currentRating->getStandardDeviation());
             };
 
-        $team1MeanSum = sum($team1Ratings, $meanGetter);
-        $team1StdDevSquared = sum($team1Ratings, $varianceGetter);
+        $team1MeanSum = BasicMath::sum($team1Ratings, $meanGetter);
+        $team1StdDevSquared = BasicMath::sum($team1Ratings, $varianceGetter);
 
-        $team2MeanSum = sum($team2Ratings, $meanGetter);
-        $team2SigmaSquared = sum($team2Ratings, $varianceGetter);
+        $team2MeanSum = BasicMath::sum($team2Ratings, $meanGetter);
+        $team2SigmaSquared = BasicMath::sum($team2Ratings, $varianceGetter);
 
         // This comes from equation 4.1 in the TrueSkill paper on page 8
         // The equation was broken up into the part under the square root sign and
@@ -215,7 +198,7 @@ class TwoTeamTrueSkillCalculator extends SkillCalculator
 
         $expPart
             = exp(
-                (-1*square($team1MeanSum - $team2MeanSum))
+                (-1*BasicMath::square($team1MeanSum - $team2MeanSum))
                 /
                 (2*($totalPlayers*$betaSquared + $team1StdDevSquared + $team2SigmaSquared))
                 );

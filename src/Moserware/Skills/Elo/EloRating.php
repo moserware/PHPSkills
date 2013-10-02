@@ -1,8 +1,6 @@
 <?php
 namespace Moserware\Skills\Elo;
 
-require_once(dirname(__FILE__) . '/../Rating.php');
-
 use Moserware\Skills\Rating;
 
 /**

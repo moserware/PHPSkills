@@ -1,7 +1,7 @@
 <?php
-namespace Moserware\Numerics\Matrix;
+namespace Moserware\Skills\Numerics\Matrix;
 
-use Moserware\Numerics\Matrix;
+use Moserware\Skills\Numerics\Matrix;
 
 class DiagonalMatrix extends Matrix
 {

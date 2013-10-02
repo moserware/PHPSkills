@@ -1,10 +1,6 @@
 <?php
 namespace Moserware\Skills;
 
-require_once(dirname(__FILE__) . "/Guard.php");
-require_once(dirname(__FILE__) . "/ISupportPartialPlay.php");
-require_once(dirname(__FILE__) . "/ISupportPartialUpdate.php");
-
 /**
  * Represents a player who has a Rating.
  */

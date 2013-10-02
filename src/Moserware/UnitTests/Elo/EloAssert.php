@@ -1,10 +1,7 @@
 <?php
-namespace Moserware\Skills\Elo;
+namespace Moserware\UnitTests\Elo;
 
-require_once(dirname(__FILE__) . '/../../Skills/Elo/EloRating.php');
-require_once(dirname(__FILE__) . '/../../Skills/GameInfo.php');
-require_once(dirname(__FILE__) . '/../../Skills/PairwiseComparison.php');
-
+use Moserware\Skills\Elo\EloRating;
 use Moserware\Skills\GameInfo;
 use Moserware\Skills\PairwiseComparison;
 

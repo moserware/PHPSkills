@@ -1,11 +1,6 @@
 <?php
 namespace Moserware\Skills\FactorGraphs;
 
-require_once(dirname(__FILE__) . "/../Guard.php");
-require_once(dirname(__FILE__) . "/../HashMap.php");
-require_once(dirname(__FILE__) . "/Message.php");
-require_once(dirname(__FILE__) . "/Variable.php");
-
 use Moserware\Skills\Guard;
 use Moserware\Skills\HashMap;
 

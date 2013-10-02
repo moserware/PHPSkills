@@ -1,11 +1,7 @@
 <?php
-namespace Moserware\Skills\TrueSkill;
+namespace Moserware\UnitTests\TrueSkill;
 
-require_once 'PHPUnit/Framework.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
-
-require_once(dirname(__FILE__) . '/../../Skills/TrueSkill/DrawMargin.php');
-
+use Moserware\Skills\TrueSkill\DrawMargin;
 use \PHPUnit_Framework_TestCase;
  
 class DrawMarginTest extends PHPUnit_Framework_TestCase
@@ -24,13 +20,8 @@ class DrawMarginTest extends PHPUnit_Framework_TestCase
     private function assertDrawMargin($drawProbability, $beta, $expected)
     {
         $actual = DrawMargin::getDrawMarginFromDrawProbability($drawProbability, $beta);
-        $this->assertEquals($expected, $actual, '', DrawMarginTest::ERROR_TOLERANCE);
+        $this->assertEquals($expected, $actual, '', self::ERROR_TOLERANCE);
     }    
 }
-
-$testSuite = new \PHPUnit_Framework_TestSuite();
-$testSuite->addTest( new DrawMarginTest( "testGetDrawMarginFromDrawProbability" ) );
-\PHPUnit_TextUI_TestRunner::run($testSuite);
-
 ?>
 

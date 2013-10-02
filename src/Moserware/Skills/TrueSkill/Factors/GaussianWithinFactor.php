@@ -1,13 +1,7 @@
 <?php
 namespace Moserware\Skills\TrueSkill\Factors;
 
-require_once(dirname(__FILE__) . "/../TruncatedGaussianCorrectionFunctions.php");
-require_once(dirname(__FILE__) . "/../../FactorGraphs/Message.php");
-require_once(dirname(__FILE__) . "/../../FactorGraphs/Variable.php");
-require_once(dirname(__FILE__) . "/../../Numerics/GaussianDistribution.php");
-require_once(dirname(__FILE__) . "/GaussianFactor.php");
-
-use Moserware\Numerics\GaussianDistribution;
+use Moserware\Skills\Numerics\GaussianDistribution;
 use Moserware\Skills\TrueSkill\TruncatedGaussianCorrectionFunctions;
 use Moserware\Skills\FactorGraphs\Message;
 use Moserware\Skills\FactorGraphs\Variable;

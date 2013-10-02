@@ -1,8 +1,5 @@
 <?php
-
 namespace Moserware\Skills\FactorGraphs;
-
-require_once(dirname(__FILE__) . "/Variable.php");
 
 class VariableFactory
 {

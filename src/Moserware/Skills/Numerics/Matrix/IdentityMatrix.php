@@ -1,5 +1,5 @@
 <?php
-namespace Moserware\Numerics\Matrix;
+namespace Moserware\Skills\Numerics\Matrix;
 
 class IdentityMatrix extends DiagonalMatrix
 {

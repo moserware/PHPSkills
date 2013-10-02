@@ -72,11 +72,11 @@ abstract class TwoPlayerEloCalculator extends SkillCalculator
         }
     }
 
-    public abstract function getPlayerWinProbability($gameInfo, $playerRating, $opponentRating);
+    public abstract function getPlayerWinProbability(GameInfo $gameInfo, $playerRating, $opponentRating);
 
-    public function calculateMatchQuality(GameInfo $gameInfo, array $teamsOfPlayerToRatings)
+    public function calculateMatchQuality(GameInfo $gameInfo, array &$teamsOfPlayerToRatings)
     {
-        validateTeamCountAndPlayersCountPerTeam($teamsOfPlayerToRatings);
+        self::validateTeamCountAndPlayersCountPerTeam($teamsOfPlayerToRatings);
         $team1 = $teamsOfPlayerToRatings[0];
         $team2 = $teamsOfPlayerToRatings[1];
         
