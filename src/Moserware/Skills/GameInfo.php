@@ -2,9 +2,6 @@
 
 namespace Moserware\Skills;
 
-require_once(dirname(__FILE__) . "/Rating.php");
-
-
 /**
  * Parameters about the game for calculating the TrueSkill.
  */

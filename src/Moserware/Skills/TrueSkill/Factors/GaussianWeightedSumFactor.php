@@ -1,17 +1,10 @@
 <?php
 namespace Moserware\Skills\TrueSkill\Factors;
 
-require_once(dirname(__FILE__) . "/../../Guard.php");
-require_once(dirname(__FILE__) . "/../../FactorGraphs/Message.php");
-require_once(dirname(__FILE__) . "/../../FactorGraphs/Variable.php");
-require_once(dirname(__FILE__) . "/../../Numerics/GaussianDistribution.php");
-require_once(dirname(__FILE__) . "/../../Numerics/BasicMath.php");
-require_once(dirname(__FILE__) . "/GaussianFactor.php");
-
-use Moserware\Numerics\GaussianDistribution;
 use Moserware\Skills\Guard;
-use Moserware\Skills\FactorGraphs\Message;
 use Moserware\Skills\FactorGraphs\Variable;
+use Moserware\Skills\Numerics\BasicMath;
+use Moserware\Skills\Numerics\GaussianDistribution;
 
 /**
  * Factor that sums together multiple Gaussians.
@@ -42,7 +35,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
         {
             $weight = $variableWeights[$i];
             $this->_weights[0][$i] = $weight;
-            $this->_weightsSquared[0][$i] = square($weight);
+            $this->_weightsSquared[0][$i] = BasicMath::square($weight);
         }
 
         $variablesToSumLength = count($variablesToSum);
@@ -108,7 +101,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
                 $finalWeight = 0;
             }
             $currentWeights[$currentDestinationWeightIndex] = $finalWeight;
-            $currentWeightsSquared[$currentDestinationWeightIndex] = square($finalWeight);
+            $currentWeightsSquared[$currentDestinationWeightIndex] = BasicMath::square($finalWeight);
             $variableIndices[count($variableWeights)] = 0;
             $this->_variableIndexOrdersForWeights[] = $variableIndices;
 

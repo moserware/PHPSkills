@@ -2,27 +2,14 @@
 
 namespace Moserware\Skills\TrueSkill;
 
-require_once(dirname(__FILE__) . "/../GameInfo.php");
-require_once(dirname(__FILE__) . "/../Guard.php");
-require_once(dirname(__FILE__) . "/../ISupportPartialPlay.php");
-require_once(dirname(__FILE__) . "/../ISupportPartialUpdate.php");
-require_once(dirname(__FILE__) . "/../PartialPlay.php");
-require_once(dirname(__FILE__) . "/../PlayersRange.php");
-require_once(dirname(__FILE__) . "/../RankSorter.php");
-require_once(dirname(__FILE__) . "/../SkillCalculator.php");
-require_once(dirname(__FILE__) . "/../TeamsRange.php");
-require_once(dirname(__FILE__) . "/../Numerics/BasicMath.php");
-require_once(dirname(__FILE__) . "/../Numerics/Matrix.php");
-require_once(dirname(__FILE__) . "/TrueSkillFactorGraph.php");
+use Moserware\Skills\Numerics\BasicMath;
+use Moserware\Skills\Numerics\Matrix;
 
-use Moserware\Numerics\DiagonalMatrix;
-use Moserware\Numerics\Matrix;
-use Moserware\Numerics\Vector;
+use Moserware\Skills\Numerics\Matrix\DiagonalMatrix;
+use Moserware\Skills\Numerics\Matrix\Vector;
 
 use Moserware\Skills\GameInfo;
 use Moserware\Skills\Guard;
-use Moserware\Skills\ISupportPartialPlay;
-use Moserware\Skills\ISupportPartialUpdate;
 use Moserware\Skills\PartialPlay;
 use Moserware\Skills\PlayersRange;
 use Moserware\Skills\RankSorter;
@@ -40,7 +27,7 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         parent::__construct(SkillCalculatorSupportedOptions::PARTIAL_PLAY | SkillCalculatorSupportedOptions::PARTIAL_UPDATE, TeamsRange::atLeast(2), PlayersRange::atLeast(1));
     }
 
-    public function calculateNewRatings(GameInfo &$gameInfo,
+    public function calculateNewRatings(GameInfo $gameInfo,
                                         array $teams,
                                         array $teamRanks)
     {
@@ -58,7 +45,7 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         return $factorGraph->getUpdatedRatings();
     }
 
-    public function calculateMatchQuality(GameInfo &$gameInfo,
+    public function calculateMatchQuality(GameInfo $gameInfo,
                                           array &$teams)
     {
         // We need to create the A matrix which is the player team assigments.
@@ -70,7 +57,7 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         $playerTeamAssignmentsMatrix = $this->createPlayerTeamAssignmentMatrix($teamAssignmentsList, $meanVector->getRowCount());
         $playerTeamAssignmentsMatrixTranspose = $playerTeamAssignmentsMatrix->getTranspose();
 
-        $betaSquared = square($gameInfo->getBeta());
+        $betaSquared = BasicMath::square($gameInfo->getBeta());
 
         $start = Matrix::multiply($meanVectorTranspose, $playerTeamAssignmentsMatrix);
         $aTa = Matrix::multiply(
@@ -118,7 +105,7 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
                         self::getPlayerRatingValues($teamAssignmentsList,
                                                     function($rating)
                                                     {
-                                                       return square($rating->getStandardDeviation());
+                                                       return BasicMath::square($rating->getStandardDeviation());
                                                     }));
     }
 

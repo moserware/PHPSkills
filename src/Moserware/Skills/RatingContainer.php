@@ -1,11 +1,9 @@
 <?php
 namespace Moserware\Skills;
 
-require_once(dirname(__FILE__) . "/HashMap.php");
-require_once(dirname(__FILE__) . "/Player.php");
-require_once(dirname(__FILE__) . "/Rating.php");
+use Countable;
 
-class RatingContainer
+class RatingContainer implements Countable
 {
     private $_playerToRating;
 

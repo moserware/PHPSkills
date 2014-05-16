@@ -1,5 +1,7 @@
 <?php
-namespace Moserware\Numerics;
+namespace Moserware\Skills\Numerics;
+
+use Moserware\Skills\Numerics\Matrix\SquareMatrix;
 
 class Matrix
 {
@@ -152,7 +154,7 @@ class Matrix
     {
         if (!$this->isSquare())
         {
-            throw new Exception("Matrix must be square!");
+            throw new \Exception("Matrix must be square!");
         }
 
         // See http://en.wikipedia.org/wiki/Adjugate_matrix
@@ -229,7 +231,7 @@ class Matrix
                 ($left->getColumnCount() != $right->getColumnCount())
            )
         {
-            throw new Exception("Matrices must be of the same size");
+            throw new \Exception("Matrices must be of the same size");
         }
 
         // simple addition of each item
@@ -257,7 +259,7 @@ class Matrix
 
         if ($left->getColumnCount() != $right->getRowCount())
         {
-            throw new Exception("The width of the left matrix must match the height of the right matrix");
+            throw new \Exception("The width of the left matrix must match the height of the right matrix");
         }
 
         $resultRows = $left->getRowCount();
@@ -368,77 +370,6 @@ class Matrix
         }
 
         return true;
-    }
-}
-
-class Vector extends Matrix
-{
-    public function __construct(array $vectorValues)
-    {
-        $columnValues = array();
-        foreach($vectorValues as $currentVectorValue)
-        {
-            $columnValues[] = array($currentVectorValue);
-        }
-        parent::__construct(count($vectorValues), 1, $columnValues);
-    }
-}
-
-class SquareMatrix extends Matrix
-{
-    public function __construct()
-    {
-        $allValues = \func_get_args();
-        $rows = (int) sqrt(count($allValues));
-        $cols = $rows;
-        
-        $matrixData = array();
-        $allValuesIndex = 0;
-
-        for ($currentRow = 0; $currentRow < $rows; $currentRow++)
-        {        
-            for ($currentColumn = 0; $currentColumn < $cols; $currentColumn++)
-            {
-                $matrixData[$currentRow][$currentColumn] = $allValues[$allValuesIndex++];
-            }
-        }
-                
-        parent::__construct($rows, $cols, $matrixData);
-    }
-}
-
-class DiagonalMatrix extends Matrix
-{
-    public function __construct(array $diagonalValues)
-    {
-        $diagonalCount = count($diagonalValues);
-        $rowCount = $diagonalCount;
-        $colCount = $rowCount;
-        
-        parent::__construct($rowCount, $colCount);
-        
-        for($currentRow = 0; $currentRow < $rowCount; $currentRow++)
-        {
-            for($currentCol = 0; $currentCol < $colCount; $currentCol++)
-            {
-                if($currentRow == $currentCol)
-                {
-                    $this->setValue($currentRow, $currentCol, $diagonalValues[$currentRow]);
-                }
-                else
-                {
-                    $this->setValue($currentRow, $currentCol, 0);
-                }                
-            }
-        }             
-    }
-}
-
-class IdentityMatrix extends DiagonalMatrix
-{
-    public function __construct($rows)
-    {
-        parent::__construct(\array_fill(0, $rows, 1));
     }
 }
 ?>

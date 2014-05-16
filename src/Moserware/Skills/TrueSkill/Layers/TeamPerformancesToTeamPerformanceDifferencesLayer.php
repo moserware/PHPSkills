@@ -1,11 +1,6 @@
 <?php
 namespace Moserware\Skills\TrueSkill\Layers;
 
-require_once(dirname(__FILE__) . "/../../FactorGraphs/Variable.php");
-require_once(dirname(__FILE__) . "/../TrueSkillFactorGraph.php");
-require_once(dirname(__FILE__) . "/../Factors/GaussianWeightedSumFactor.php");
-require_once(dirname(__FILE__) . "/TrueSkillFactorGraphLayer.php");
-
 use Moserware\Skills\FactorGraphs\Variable;
 use Moserware\Skills\TrueSkill\DrawMargin;
 use Moserware\Skills\TrueSkill\TrueSkillFactorGraph;

@@ -1,15 +1,9 @@
 <?php
 namespace Moserware\Skills\TrueSkill\Layers;
 
-require_once(dirname(__FILE__) . "/../../FactorGraphs/Schedule.php");
-require_once(dirname(__FILE__) . "/../../FactorGraphs/Variable.php");
-require_once(dirname(__FILE__) . "/../../Numerics/BasicMath.php");
-require_once(dirname(__FILE__) . "/../TrueSkillFactorGraph.php");
-require_once(dirname(__FILE__) . "/../Factors/GaussianLikelihoodFactor.php");
-require_once(dirname(__FILE__) . "/TrueSkillFactorGraphLayer.php");
-
 use Moserware\Skills\FactorGraphs\ScheduleStep;
 use Moserware\Skills\FactorGraphs\KeyedVariable;
+use Moserware\Skills\Numerics\BasicMath;
 use Moserware\Skills\TrueSkill\TrueSkillFactorGraph;
 use Moserware\Skills\TrueSkill\Factors\GaussianLikelihoodFactor;
 
@@ -45,7 +39,7 @@ class PlayerSkillsToPerformancesLayer extends TrueSkillFactorGraphLayer
 
     private function createLikelihood(KeyedVariable $playerSkill, KeyedVariable $playerPerformance)
     {
-        return new GaussianLikelihoodFactor(square($this->getParentFactorGraph()->getGameInfo()->getBeta()), $playerPerformance, $playerSkill);
+        return new GaussianLikelihoodFactor(BasicMath::square($this->getParentFactorGraph()->getGameInfo()->getBeta()), $playerPerformance, $playerSkill);
     }
 
     private function createOutputVariable($key)
