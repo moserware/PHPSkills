@@ -53,7 +53,7 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
         $this->validateTeamCountAndPlayersCountPerTeam($teams);
 
         // Make sure things are in order
-        RankSorter::sort($teams, $teamRanks);
+        $teams = RankSorter::sort($teams, $teamRanks);
         
         // Since we verified that each team has one player, we know the player is the first one
         $winningTeamPlayers = $teams[0]->getAllPlayers();
