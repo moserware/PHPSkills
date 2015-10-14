@@ -1,6 +1,8 @@
 <?php
+namespace Skills\Tests\TrueSkill;
 
 use Skills\TrueSkill\FactorGraphTrueSkillCalculator;
+use PHPUnit_Framework_TestCase;
 
 class FactorGraphTrueSkillCalculatorTest extends PHPUnit_Framework_TestCase
 {
@@ -14,9 +16,4 @@ class FactorGraphTrueSkillCalculatorTest extends PHPUnit_Framework_TestCase
         TrueSkillCalculatorTests::testPartialPlayScenarios($this, $calculator);
     }
 }
-
-$testSuite = new \PHPUnit_Framework_TestSuite();
-$testSuite->addTest( new FactorGraphTrueSkillCalculatorTest("testFactorGraphTrueSkillCalculator"));
-
-\PHPUnit_TextUI_TestRunner::run($testSuite);
 ?>

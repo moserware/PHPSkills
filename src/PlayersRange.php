@@ -1,4 +1,5 @@
 <?php
+
 namespace Skills;
 
 use Skills\Numerics\Range;

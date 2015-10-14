@@ -1,4 +1,5 @@
 <?php
+
 namespace Skills\TrueSkill;
 
 use Skills\Numerics\GaussianDistribution;

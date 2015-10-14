@@ -1,4 +1,5 @@
 <?php
+
 namespace Skills;
 
 /**
@@ -57,7 +58,7 @@ abstract class SkillCalculator
         
         foreach ($teams as $currentTeam)
         {
-            if (!$playersPerTeam->isInRange($currentTeam->count()))
+            if (!$playersPerTeam->isInRange(count($currentTeam)))
             {
                 throw new \Exception("Player count is not in range");
             }
@@ -71,10 +72,4 @@ abstract class SkillCalculator
     }
 }
 
-class SkillCalculatorSupportedOptions
-{
-    const NONE = 0x00;
-    const PARTIAL_PLAY = 0x01;
-    const PARTIAL_UPDATE = 0x02;
-}
 ?>

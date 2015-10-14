@@ -1,4 +1,5 @@
 <?php
+
 namespace Skills\TrueSkill\Layers;
 
 use Skills\Rating;
@@ -9,6 +10,7 @@ use Skills\FactorGraphs\Variable;
 use Skills\Numerics\GaussianDistribution;
 use Skills\TrueSkill\TrueSkillFactorGraph;
 use Skills\TrueSkill\Factors\GaussianPriorFactor;
+use Skills\Numerics\BasicMath;
 
 // We intentionally have no Posterior schedule since the only purpose here is to
 // start the process.
@@ -62,8 +64,8 @@ class PlayerPriorValuesToSkillsLayer extends TrueSkillFactorGraphLayer
     private function createPriorFactor($player, Rating $priorRating, Variable $skillsVariable)
     {
         return new GaussianPriorFactor($priorRating->getMean(),
-                                       square($priorRating->getStandardDeviation()) +
-                                       square($this->getParentFactorGraph()->getGameInfo()->getDynamicsFactor()),
+                                       BasicMath::square($priorRating->getStandardDeviation()) +
+                                       BasicMath::square($this->getParentFactorGraph()->getGameInfo()->getDynamicsFactor()),
                                        $skillsVariable);
     }
 

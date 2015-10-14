@@ -2,8 +2,6 @@
 
 namespace Skills\Numerics;
 
-use Skills\Numerics\BasicMath;
-
 /**
  * Computes Gaussian (bell curve) values.
  *

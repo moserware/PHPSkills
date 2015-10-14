@@ -1,7 +1,10 @@
 <?php
 namespace Skills\Tests\Elo;
 
+use Skills\Elo\ProvisionalFideKFactor;
 use Skills\PairwiseComparison;
+use PHPUnit_Framework_TestCase;
+use Skills\Elo\FideEloCalculator;
 
 class FideEloCalculatorTest extends PHPUnit_Framework_TestCase
 {       

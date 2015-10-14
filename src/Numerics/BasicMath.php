@@ -1,5 +1,7 @@
 <?php
+
 namespace Skills\Numerics;
+
 /**
  * Basic math functions.
  * 

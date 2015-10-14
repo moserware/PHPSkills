@@ -2,6 +2,7 @@
 
 namespace Skills\Elo;
 
+use Skills\GameInfo;
 
 /** Including Elo's scheme as a simple comparison.
  *  See http://en.wikipedia.org/wiki/Elo_rating_system#Theory
@@ -24,7 +25,7 @@ class FideEloCalculator extends TwoPlayerEloCalculator
         return new FideEloCalculator(new ProvisionalFideKFactor());
     }
 
-    public function getPlayerWinProbability($gameInfo, $playerRating, $opponentRating)
+    public function getPlayerWinProbability(GameInfo $gameInfo, $playerRating, $opponentRating)
     {
         $ratingDifference = $opponentRating - $playerRating;
 

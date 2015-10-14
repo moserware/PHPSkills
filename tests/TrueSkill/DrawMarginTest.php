@@ -1,6 +1,9 @@
 <?php
 namespace Skills\Tests\TrueSkill;
 
+use PHPUnit_Framework_TestCase;
+use Skills\TrueSkill\DrawMargin;
+
 class DrawMarginTest extends PHPUnit_Framework_TestCase
 {    
     const ERROR_TOLERANCE = 0.000001;
@@ -20,10 +23,5 @@ class DrawMarginTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual, '', DrawMarginTest::ERROR_TOLERANCE);
     }    
 }
-
-$testSuite = new \PHPUnit_Framework_TestSuite();
-$testSuite->addTest( new DrawMarginTest( "testGetDrawMarginFromDrawProbability" ) );
-\PHPUnit_TextUI_TestRunner::run($testSuite);
-
 ?>
 

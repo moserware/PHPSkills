@@ -2,11 +2,11 @@
 
 namespace Skills\Elo;
 
+use Skills\GameInfo;
 use Skills\PairwiseComparison;
 use Skills\RankSorter;
 use Skills\SkillCalculator;
 use Skills\SkillCalculatorSupportedOptions;
-
 use Skills\PlayersRange;
 use Skills\TeamsRange;
 
@@ -20,7 +20,7 @@ abstract class TwoPlayerEloCalculator extends SkillCalculator
         $this->_kFactor = $kFactor;
     }
 
-    public function calculateNewRatings($gameInfo,
+    public function calculateNewRatings(GameInfo $gameInfo,
                                         array $teamsOfPlayerToRatings,
                                         array $teamRanks)
     {   
@@ -71,9 +71,9 @@ abstract class TwoPlayerEloCalculator extends SkillCalculator
         }
     }
 
-    public abstract function getPlayerWinProbability($gameInfo, $playerRating, $opponentRating);
+    public abstract function getPlayerWinProbability(GameInfo $gameInfo, $playerRating, $opponentRating);
 
-    public function calculateMatchQuality($gameInfo, array $teamsOfPlayerToRatings)
+    public function calculateMatchQuality(GameInfo $gameInfo, array $teamsOfPlayerToRatings)
     {
         validateTeamCountAndPlayersCountPerTeam($teamsOfPlayerToRatings);
         $team1 = $teamsOfPlayerToRatings[0];

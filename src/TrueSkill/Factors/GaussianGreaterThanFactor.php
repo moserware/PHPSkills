@@ -1,4 +1,5 @@
 <?php
+
 namespace Skills\TrueSkill\Factors;
 
 use Skills\Numerics\GaussianDistribution;

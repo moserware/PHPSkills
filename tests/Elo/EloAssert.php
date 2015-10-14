@@ -3,6 +3,7 @@ namespace Skills\Tests\Elo;
 
 use Skills\GameInfo;
 use Skills\PairwiseComparison;
+use Skills\Elo\EloRating;
 
 class EloAssert
 {

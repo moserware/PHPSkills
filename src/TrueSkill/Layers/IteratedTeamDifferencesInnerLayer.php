@@ -1,10 +1,12 @@
 <?php
+
 namespace Skills\TrueSkill\Layers;
 
 use Skills\FactorGraphs\ScheduleLoop;
 use Skills\FactorGraphs\ScheduleSequence;
 use Skills\FactorGraphs\ScheduleStep;
 use Skills\TrueSkill\TrueSkillFactorGraph;
+use Skills\InvalidOperationException;
 
 // The whole purpose of this is to do a loop on the bottom
 class IteratedTeamDifferencesInnerLayer extends TrueSkillFactorGraphLayer

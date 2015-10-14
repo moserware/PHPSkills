@@ -1,4 +1,5 @@
 <?php
+
 namespace Skills;
 
 class PartialPlay

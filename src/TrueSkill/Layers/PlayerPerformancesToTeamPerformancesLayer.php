@@ -1,4 +1,5 @@
 <?php
+
 namespace Skills\TrueSkill\Layers;
 
 use Skills\PartialPlay;

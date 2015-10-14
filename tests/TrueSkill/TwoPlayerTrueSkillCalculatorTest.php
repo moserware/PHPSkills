@@ -2,6 +2,7 @@
 namespace Skills\Tests\TrueSkill;
 
 use Skills\TrueSkill\TwoPlayerTrueSkillCalculator;
+use PHPUnit_Framework_TestCase;
 
 class TwoPlayerTrueSkillCalculatorTest extends PHPUnit_Framework_TestCase
 {
@@ -13,9 +14,4 @@ class TwoPlayerTrueSkillCalculatorTest extends PHPUnit_Framework_TestCase
         TrueSkillCalculatorTests::testAllTwoPlayerScenarios($this, $calculator);
     }
 }
-
-$testSuite = new \PHPUnit_Framework_TestSuite();
-$testSuite->addTest( new TwoPlayerTrueSkillCalculatorTest("testTwoPlayerTrueSkillCalculator"));
-
-\PHPUnit_TextUI_TestRunner::run($testSuite);
 ?>

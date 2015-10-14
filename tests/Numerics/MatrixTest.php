@@ -4,6 +4,7 @@ namespace Skill\Tests\Numerics;
 use Skills\Numerics\Matrix;
 use Skills\Numerics\IdentityMatrix;
 use Skills\Numerics\SquareMatrix;
+use PHPUnit_Framework_TestCase;
 
 class MatrixTest extends PHPUnit_Framework_TestCase
 {
@@ -184,9 +185,4 @@ class MatrixTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($identity3x3->equals($ccInverse));
     }
 }
-
-$testSuite = new \PHPUnit_Framework_TestSuite();
-$testSuite->addTest( new MatrixTest("testInverse"));
-\PHPUnit_TextUI_TestRunner::run($testSuite);
-
 ?>

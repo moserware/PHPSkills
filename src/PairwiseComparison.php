@@ -1,9 +1,10 @@
 <?php
+
 namespace Skills;
 
 /**
  * Represents a comparison between two players.
- * @internal The actual values for the enum were chosen so that the also correspond to the multiplier for updates to means.
+ * @internal The actual values for the enum were chosen so that they also correspond to the multiplier for updates to means.
  */
 class PairwiseComparison
 {
