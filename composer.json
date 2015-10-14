@@ -9,11 +9,6 @@
       "name": "Jeff Moser",
       "email": "jeff@moserware.com",
       "role": "Maintainer"
-    },
-    {
-      "name": "Les Peabody",
-      "email": "lpeabody@gmail.com",
-      "role": "PHP Developer"
     }
   ],
   "require": {
