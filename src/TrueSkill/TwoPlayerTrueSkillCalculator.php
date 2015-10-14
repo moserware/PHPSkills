@@ -10,7 +10,7 @@ use Skills\Rating;
 use Skills\RatingContainer;
 use Skills\SkillCalculator;
 use Skills\SkillCalculatorSupportedOptions;
-
+use Skills\Numerics\BasicMath;
 use Skills\PlayersRange;
 use Skills\TeamsRange;
 
@@ -75,11 +75,11 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
 
         $c =
             sqrt(
-                square($selfRating->getStandardDeviation())
+                BasicMath::square($selfRating->getStandardDeviation())
                 +
-                square($opponentRating->getStandardDeviation())
+                BasicMath::square($opponentRating->getStandardDeviation())
                 +
-                2*square($gameInfo->getBeta()));
+                2*BasicMath::square($gameInfo->getBeta()));
 
         $winningMean = $selfRating->getMean();
         $losingMean = $opponentRating->getMean();
@@ -112,10 +112,10 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
             $rankMultiplier = 1;
         }
 
-        $meanMultiplier = (square($selfRating->getStandardDeviation()) + square($gameInfo->getDynamicsFactor()))/$c;
+        $meanMultiplier = (BasicMath::square($selfRating->getStandardDeviation()) + BasicMath::square($gameInfo->getDynamicsFactor()))/$c;
 
-        $varianceWithDynamics = square($selfRating->getStandardDeviation()) + square($gameInfo->getDynamicsFactor());
-        $stdDevMultiplier = $varianceWithDynamics/square($c);
+        $varianceWithDynamics = BasicMath::square($selfRating->getStandardDeviation()) + BasicMath::square($gameInfo->getDynamicsFactor());
+        $stdDevMultiplier = $varianceWithDynamics/BasicMath::square($c);
 
         $newMean = $selfRating->getMean() + ($rankMultiplier*$meanMultiplier*$v);
         $newStdDev = sqrt($varianceWithDynamics*(1 - $w*$stdDevMultiplier));
@@ -141,9 +141,9 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
         $player2Rating = $team2Ratings[0];
 
         // We just use equation 4.1 found on page 8 of the TrueSkill 2006 paper:
-        $betaSquared = square($gameInfo->getBeta());
-        $player1SigmaSquared = square($player1Rating->getStandardDeviation());
-        $player2SigmaSquared = square($player2Rating->getStandardDeviation());
+        $betaSquared = BasicMath::square($gameInfo->getBeta());
+        $player1SigmaSquared = BasicMath::square($player1Rating->getStandardDeviation());
+        $player2SigmaSquared = BasicMath::square($player2Rating->getStandardDeviation());
 
         // This is the square root part of the equation:
         $sqrtPart =
@@ -155,7 +155,7 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
         // This is the exponent part of the equation:
         $expPart =
             exp(
-                (-1*square($player1Rating->getMean() - $player2Rating->getMean()))
+                (-1*BasicMath::square($player1Rating->getMean() - $player2Rating->getMean()))
                 /
                 (2*(2*$betaSquared + $player1SigmaSquared + $player2SigmaSquared)));
 
