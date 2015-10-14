@@ -1,14 +1,30 @@
 {
-	"name": "moserware/skills",
-	"description": "Implementation of Microsoft's TrueSkill matchmaking system for PHP",
-	"keywords": ["trueskill","matchmaking"],
-	"homepage": "https://github.com/moserware/Skills",
-	"require": {
-		"php": ">=5.3.0"
-	},
-	"autoload": {
-		"psr-0": {
-			"Moserware\\Skills": "src"
-		}
-	}
+  "name": "moserware/skills",
+  "description": "Implementation of Microsoft's TrueSkill matchmaking system for PHP",
+  "keywords": ["trueskill","matchmaking"],
+  "homepage": "https://github.com/moserware/Skills",
+  "version": "1.0.0-alpha1",
+  "authors": [
+    {
+      "name": "Jeff Moser",
+      "email": "jeff@moserware.com",
+      "role": "Maintainer"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Skills\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Skills\\Tests\\": "tests/"
+    }
+  }
 }
