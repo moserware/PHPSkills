@@ -2,6 +2,7 @@
 
 use Exception;
 
+// XXX: This class is not used anywhere
 class DefaultVariable extends Variable
 {
     public function __construct()
@@ -9,12 +10,12 @@ class DefaultVariable extends Variable
         parent::__construct("Default", null);
     }
 
-    public function &getValue()
+    public function getValue()
     {
         return null;
     }
 
-    public function setValue(&$value)
+    public function setValue($value)
     {
         throw new Exception();
     }

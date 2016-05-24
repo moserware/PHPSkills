@@ -5,7 +5,7 @@ class ScheduleStep extends Schedule
     private $_factor;
     private $_index;
 
-    public function __construct($name, Factor &$factor, $index)
+    public function __construct($name, Factor $factor, $index)
     {
         parent::__construct($name);
         $this->_factor = $factor;
@@ -14,7 +14,7 @@ class ScheduleStep extends Schedule
 
     public function visit($depth = -1, $maxDepth = 0)
     {
-        $currentFactor = &$this->_factor;
+        $currentFactor = $this->_factor;
         $delta = $currentFactor->updateMessageIndex($this->_index);
         return $delta;
     }

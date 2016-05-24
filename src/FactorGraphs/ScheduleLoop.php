@@ -5,7 +5,7 @@ class ScheduleLoop extends Schedule
     private $_maxDelta;
     private $_scheduleToLoop;
 
-    public function __construct($name, Schedule &$scheduleToLoop, $maxDelta)
+    public function __construct($name, Schedule $scheduleToLoop, $maxDelta)
     {
         parent::__construct($name);
         $this->_scheduleToLoop = $scheduleToLoop;

@@ -14,7 +14,7 @@ class GaussianGreaterThanFactor extends GaussianFactor
 {
     private $_epsilon;
 
-    public function __construct($epsilon, Variable &$variable)
+    public function __construct($epsilon, Variable $variable)
     {
         parent::__construct(\sprintf("%s > %.2f", $variable, $epsilon));
         $this->_epsilon = $epsilon;
@@ -23,20 +23,26 @@ class GaussianGreaterThanFactor extends GaussianFactor
 
     public function getLogNormalization()
     {
-        $vars = &$this->getVariables();
-        $marginal = &$vars[0]->getValue();
-        $messages = &$this->getMessages();
-        $message = &$messages[0]->getValue();
+        /** @var Variable[] $vars */
+        $vars = $this->getVariables();
+        $marginal = $vars[0]->getValue();
+
+        /** @var Message[] $messages */
+        $messages = $this->getMessages();
+        $message = $messages[0]->getValue();
         $messageFromVariable = GaussianDistribution::divide($marginal, $message);
         return -GaussianDistribution::logProductNormalization($messageFromVariable, $message)
         +
         log(
-            GaussianDistribution::cumulativeTo(($messageFromVariable->getMean() - $this->_epsilon) /
-                $messageFromVariable->getStandardDeviation()));
+            GaussianDistribution::cumulativeTo(
+                ($messageFromVariable->getMean() - $this->_epsilon) /
+                $messageFromVariable->getStandardDeviation()
+            )
+        );
 
     }
 
-    protected function updateMessageVariable(Message &$message, Variable &$variable)
+    protected function updateMessageVariable(Message $message, Variable $variable)
     {
         $oldMarginal = clone $variable->getValue();
         $oldMessage = clone $message->getValue();
@@ -55,16 +61,18 @@ class GaussianGreaterThanFactor extends GaussianFactor
         $denom = 1.0 - TruncatedGaussianCorrectionFunctions::wExceedsMargin($dOnSqrtC, $epsilsonTimesSqrtC);
 
         $newPrecision = $c / $denom;
-        $newPrecisionMean = ($d +
+        $newPrecisionMean = (
+                $d +
                 $sqrtC *
-                TruncatedGaussianCorrectionFunctions::vExceedsMargin($dOnSqrtC, $epsilsonTimesSqrtC)) /
-            $denom;
+                TruncatedGaussianCorrectionFunctions::vExceedsMargin($dOnSqrtC, $epsilsonTimesSqrtC)
+            ) / $denom;
 
         $newMarginal = GaussianDistribution::fromPrecisionMean($newPrecisionMean, $newPrecision);
 
         $newMessage = GaussianDistribution::divide(
             GaussianDistribution::multiply($oldMessage, $newMarginal),
-            $oldMarginal);
+            $oldMarginal
+        );
 
         // Update the message and marginal
         $message->setValue($newMessage);

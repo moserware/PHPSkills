@@ -13,7 +13,7 @@ class PlayerPriorValuesToSkillsLayer extends TrueSkillFactorGraphLayer
 {
     private $_teams;
 
-    public function __construct(TrueSkillFactorGraph &$parentGraph, array &$teams)
+    public function __construct(TrueSkillFactorGraph $parentGraph, array $teams)
     {
         parent::__construct($parentGraph);
         $this->_teams = $teams;
@@ -21,17 +21,17 @@ class PlayerPriorValuesToSkillsLayer extends TrueSkillFactorGraphLayer
 
     public function buildLayer()
     {
-        $teams = &$this->_teams;
-        foreach ($teams as &$currentTeam) {
-            $localCurrentTeam = &$currentTeam;
+        $teams = $this->_teams;
+        foreach ($teams as $currentTeam) {
+            $localCurrentTeam = $currentTeam;
             $currentTeamSkills = array();
 
             $currentTeamAllPlayers = $localCurrentTeam->getAllPlayers();
-            foreach ($currentTeamAllPlayers as &$currentTeamPlayer) {
-                $localCurrentTeamPlayer = &$currentTeamPlayer;
+            foreach ($currentTeamAllPlayers as $currentTeamPlayer) {
+                $localCurrentTeamPlayer = $currentTeamPlayer;
                 $currentTeamPlayerRating = $currentTeam->getRating($localCurrentTeamPlayer);
-                $playerSkill = &$this->createSkillOutputVariable($localCurrentTeamPlayer);
-                $priorFactor = &$this->createPriorFactor($localCurrentTeamPlayer, $currentTeamPlayerRating, $playerSkill);
+                $playerSkill = $this->createSkillOutputVariable($localCurrentTeamPlayer);
+                $priorFactor = $this->createPriorFactor($localCurrentTeamPlayer, $currentTeamPlayerRating, $playerSkill);
                 $this->addLayerFactor($priorFactor);
                 $currentTeamSkills[] = $playerSkill;
             }
@@ -43,17 +43,17 @@ class PlayerPriorValuesToSkillsLayer extends TrueSkillFactorGraphLayer
 
     public function createPriorSchedule()
     {
-        $localFactors = &$this->getLocalFactors();
+        $localFactors = $this->getLocalFactors();
         return $this->scheduleSequence(
             array_map(
-                function (&$prior) {
+                function ($prior) {
                     return new ScheduleStep("Prior to Skill Step", $prior, 0);
                 },
                 $localFactors),
             "All priors");
     }
 
-    private function createPriorFactor(&$player, Rating &$priorRating, Variable &$skillsVariable)
+    private function createPriorFactor($player, Rating $priorRating, Variable $skillsVariable)
     {
         return new GaussianPriorFactor(
             $priorRating->getMean(),
@@ -63,11 +63,11 @@ class PlayerPriorValuesToSkillsLayer extends TrueSkillFactorGraphLayer
         );
     }
 
-    private function &createSkillOutputVariable(&$key)
+    private function createSkillOutputVariable($key)
     {
-        $parentFactorGraph = &$this->getParentFactorGraph();
-        $variableFactory = &$parentFactorGraph->getVariableFactory();
-        $skillOutputVariable = &$variableFactory->createKeyedVariable($key, $key . "'s skill");
+        $parentFactorGraph = $this->getParentFactorGraph();
+        $variableFactory = $parentFactorGraph->getVariableFactory();
+        $skillOutputVariable = $variableFactory->createKeyedVariable($key, $key . "'s skill");
         return $skillOutputVariable;
     }
 }

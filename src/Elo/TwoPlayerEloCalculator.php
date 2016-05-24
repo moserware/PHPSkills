@@ -6,7 +6,6 @@ use Moserware\Skills\PairwiseComparison;
 use Moserware\Skills\RankSorter;
 use Moserware\Skills\SkillCalculator;
 use Moserware\Skills\SkillCalculatorSupportedOptions;
-
 use Moserware\Skills\PlayersRange;
 use Moserware\Skills\TeamsRange;
 
@@ -20,10 +19,8 @@ abstract class TwoPlayerEloCalculator extends SkillCalculator
         $this->_kFactor = $kFactor;
     }
 
-    public function calculateNewRatings(GameInfo $gameInfo,
-                                        array $teamsOfPlayerToRatings,
-                                        array $teamRanks)
-    {   
+    public function calculateNewRatings(GameInfo $gameInfo, array $teamsOfPlayerToRatings, array $teamRanks)
+    {
         $this->validateTeamCountAndPlayersCountPerTeam($teamsOfPlayerToRatings);
         RankSorter::sort($teamsOfPlayerToRatings, $teamRanks);
         
@@ -71,9 +68,9 @@ abstract class TwoPlayerEloCalculator extends SkillCalculator
         }
     }
 
-    public abstract function getPlayerWinProbability($gameInfo, $playerRating, $opponentRating);
+    public abstract function getPlayerWinProbability(GameInfo $gameInfo, $playerRating, $opponentRating);
 
-    public function calculateMatchQuality(GameInfo $gameInfo, array &$teamsOfPlayerToRatings)
+    public function calculateMatchQuality(GameInfo $gameInfo, array $teamsOfPlayerToRatings)
     {
         $this->validateTeamCountAndPlayersCountPerTeam($teamsOfPlayerToRatings);
         $team1 = $teamsOfPlayerToRatings[0];

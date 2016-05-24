@@ -9,27 +9,24 @@ class RatingContainer
         $this->_playerToRating = new HashMap();
     }
 
-    public function &getRating(Player &$player)
+    public function getRating(Player $player)
     {
-        $rating = &$this->_playerToRating->getValue($player);
-        return $rating;
+        return $this->_playerToRating->getValue($player);
     }
 
-    public function setRating(Player &$player, Rating $rating)
+    public function setRating(Player $player, Rating $rating)
     {
         return $this->_playerToRating->setValue($player, $rating);
     }
 
-    public function &getAllPlayers()
+    public function getAllPlayers()
     {
-        $allPlayers = &$this->_playerToRating->getAllKeys();
-        return $allPlayers;
+        return $this->_playerToRating->getAllKeys();
     }
 
-    public function &getAllRatings()
+    public function getAllRatings()
     {
-        $allRatings = &$this->_playerToRating->getAllValues();
-        return $allRatings;
+        return $this->_playerToRating->getAllValues();
     }
 
     public function count()

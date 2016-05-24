@@ -9,7 +9,6 @@ use Moserware\Skills\Rating;
 use Moserware\Skills\RatingContainer;
 use Moserware\Skills\SkillCalculator;
 use Moserware\Skills\SkillCalculatorSupportedOptions;
-
 use Moserware\Skills\PlayersRange;
 use Moserware\Skills\TeamsRange;
 
@@ -126,7 +125,7 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
     /**
      * {@inheritdoc }
      */
-    public function calculateMatchQuality(GameInfo $gameInfo, array &$teams)
+    public function calculateMatchQuality(GameInfo $gameInfo, array $teams)
     {
         Guard::argumentNotNull($gameInfo, "gameInfo");
         $this->validateTeamCountAndPlayersCountPerTeam($teams);
@@ -146,18 +145,18 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
         $player2SigmaSquared = BasicMath::square($player2Rating->getStandardDeviation());
 
         // This is the square root part of the equation:
-        $sqrtPart =
-            sqrt(
-                (2*$betaSquared)
-                /
-                (2*$betaSquared + $player1SigmaSquared + $player2SigmaSquared));
+        $sqrtPart = sqrt(
+            (2*$betaSquared)
+            /
+            (2*$betaSquared + $player1SigmaSquared + $player2SigmaSquared)
+        );
 
         // This is the exponent part of the equation:
-        $expPart =
-            exp(
-                (-1*BasicMath::square($player1Rating->getMean() - $player2Rating->getMean()))
-                /
-                (2*(2*$betaSquared + $player1SigmaSquared + $player2SigmaSquared)));
+        $expPart = exp(
+            (-1*BasicMath::square($player1Rating->getMean() - $player2Rating->getMean()))
+            /
+            (2*(2*$betaSquared + $player1SigmaSquared + $player2SigmaSquared))
+        );
 
         return $sqrtPart*$expPart;
     }

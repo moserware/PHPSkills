@@ -57,7 +57,7 @@ class TwoTeamTrueSkillCalculator extends SkillCalculator
     }
 
     private static function updatePlayerRatings(GameInfo $gameInfo,
-                                                RatingContainer &$newPlayerRatings,
+                                                RatingContainer $newPlayerRatings,
                                                 Team $selfTeam,
                                                 Team $otherTeam,
                                                 $selfToOtherTeamComparison)
@@ -119,9 +119,9 @@ class TwoTeamTrueSkillCalculator extends SkillCalculator
             $rankMultiplier = 1;
         }
 
-        $selfTeamAllPlayers = &$selfTeam->getAllPlayers();
-        foreach ($selfTeamAllPlayers as &$selfTeamCurrentPlayer) {
-            $localSelfTeamCurrentPlayer = &$selfTeamCurrentPlayer;
+        $selfTeamAllPlayers = $selfTeam->getAllPlayers();
+        foreach ($selfTeamAllPlayers as $selfTeamCurrentPlayer) {
+            $localSelfTeamCurrentPlayer = $selfTeamCurrentPlayer;
             $previousPlayerRating = $selfTeam->getRating($localSelfTeamCurrentPlayer);
 
             $meanMultiplier = (BasicMath::square($previousPlayerRating->getStandardDeviation()) + $tauSquared) / $c;
@@ -141,7 +141,7 @@ class TwoTeamTrueSkillCalculator extends SkillCalculator
     /**
      * {@inheritdoc}
      */
-    public function calculateMatchQuality(GameInfo $gameInfo, array &$teams)
+    public function calculateMatchQuality(GameInfo $gameInfo, array $teams)
     {
         Guard::argumentNotNull($gameInfo, "gameInfo");
         $this->validateTeamCountAndPlayersCountPerTeam($teams);

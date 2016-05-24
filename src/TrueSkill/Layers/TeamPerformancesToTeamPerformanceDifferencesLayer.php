@@ -6,23 +6,23 @@ use Moserware\Skills\TrueSkill\Factors\GaussianWeightedSumFactor;
 
 class TeamPerformancesToTeamPerformanceDifferencesLayer extends TrueSkillFactorGraphLayer
 {
-    public function __construct(TrueSkillFactorGraph &$parentGraph)
+    public function __construct(TrueSkillFactorGraph $parentGraph)
     {
         parent::__construct($parentGraph);
     }
 
     public function buildLayer()
     {
-        $inputVariablesGroups = &$this->getInputVariablesGroups();
+        $inputVariablesGroups = $this->getInputVariablesGroups();
         $inputVariablesGroupsCount = count($inputVariablesGroups);
         $outputVariablesGroup = &$this->getOutputVariablesGroups();
 
         for ($i = 0; $i < $inputVariablesGroupsCount - 1; $i++)
         {
-            $strongerTeam = &$inputVariablesGroups[$i][0];
-            $weakerTeam = &$inputVariablesGroups[$i + 1][0];
+            $strongerTeam = $inputVariablesGroups[$i][0];
+            $weakerTeam = $inputVariablesGroups[$i + 1][0];
 
-            $currentDifference = &$this->createOutputVariable();
+            $currentDifference = $this->createOutputVariable();
             $newDifferencesFactor = $this->createTeamPerformanceToDifferenceFactor($strongerTeam, $weakerTeam, $currentDifference);
             $this->addLayerFactor($newDifferencesFactor);
 
@@ -31,17 +31,18 @@ class TeamPerformancesToTeamPerformanceDifferencesLayer extends TrueSkillFactorG
         }
     }
 
-    private function createTeamPerformanceToDifferenceFactor(
-        Variable &$strongerTeam, Variable &$weakerTeam, Variable &$output)
+    private function createTeamPerformanceToDifferenceFactor(Variable $strongerTeam,
+                                                             Variable $weakerTeam,
+                                                             Variable $output)
     {
         $teams = array($strongerTeam, $weakerTeam);
         $weights = array(1.0, -1.0);
         return new GaussianWeightedSumFactor($output, $teams, $weights);
     }
 
-    private function &createOutputVariable()
+    private function createOutputVariable()
     {
-        $outputVariable = &$this->getParentFactorGraph()->getVariableFactory()->createBasicVariable("Team performance difference");
+        $outputVariable = $this->getParentFactorGraph()->getVariableFactory()->createBasicVariable("Team performance difference");
         return $outputVariable;
     }
 }

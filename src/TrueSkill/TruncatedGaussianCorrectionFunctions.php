@@ -38,8 +38,12 @@ class TruncatedGaussianCorrectionFunctions
      *
      * In the reference F# implementation, this is referred to as "the multiplicative
      * correction of a single-sided truncated Gaussian with unit variance."
+     *
+     * @param $teamPerformanceDifference
+     * @param $drawMargin
+     * @param $c
+     * @return float
      */
-
     public static function wExceedsMarginScaled($teamPerformanceDifference, $drawMargin, $c)
     {
         return self::wExceedsMargin($teamPerformanceDifference / $c, $drawMargin / $c);

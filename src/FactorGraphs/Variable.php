@@ -7,22 +7,21 @@ class Variable
     private $_prior;
     private $_value;
 
-    public function __construct($name, &$prior)
+    public function __construct($name, $prior)
     {
         $this->_name = "Variable[" . $name . "]";
         $this->_prior = $prior;
         $this->resetToPrior();
     }
 
-    public function &getValue()
+    public function getValue()
     {
-        $value = &$this->_value;
-        return $value;
+        return $this->_value;
     }
 
-    public function setValue(&$value)
+    public function setValue($value)
     {
-        $this->_value = &$value;
+        $this->_value = $value;
     }
 
     public function resetToPrior()

@@ -37,23 +37,21 @@ abstract class SkillCalculator
      * @param array $teamsOfPlayerToRatings A mapping of team players and their ratings.
      * @return The quality of the match between the teams as a percentage (0% = bad, 100% = well matched).
      */
-    public abstract function calculateMatchQuality(GameInfo $gameInfo,
-                                                   array &$teamsOfPlayerToRatings);
+    public abstract function calculateMatchQuality(GameInfo $gameInfo, array $teamsOfPlayerToRatings);
 
     public function isSupported($option)
     {
         return ($this->_supportedOptions & $option) == $option;
     }
 
-    protected function validateTeamCountAndPlayersCountPerTeam(array &$teamsOfPlayerToRatings)
+    protected function validateTeamCountAndPlayersCountPerTeam(array $teamsOfPlayerToRatings)
     {
         self::validateTeamCountAndPlayersCountPerTeamWithRanges($teamsOfPlayerToRatings, $this->_totalTeamsAllowed, $this->_playersPerTeamAllowed);
     }
 
-    private static function validateTeamCountAndPlayersCountPerTeamWithRanges(
-        array &$teams,
-        TeamsRange &$totalTeams,
-        PlayersRange &$playersPerTeam)
+    private static function validateTeamCountAndPlayersCountPerTeamWithRanges(array $teams,
+                                                                              TeamsRange $totalTeams,
+                                                                              PlayersRange $playersPerTeam)
     {
         $countOfTeams = 0;
 

@@ -4,15 +4,14 @@ class KeyedVariable extends Variable
 {
     private $_key;
 
-    public function __construct(&$key, $name, &$prior)
+    public function __construct($key, $name, $prior)
     {
         parent::__construct($name, $prior);
-        $this->_key = &$key;
+        $this->_key = $key;
     }
 
-    public function &getKey()
+    public function getKey()
     {
-        $key = &$this->_key;
-        return $key;
+        return $this->_key;
     }
 }

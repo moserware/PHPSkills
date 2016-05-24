@@ -1,6 +1,7 @@
 <?php namespace Moserware\Skills\TrueSkill\Factors;
 
 use Exception;
+use Moserware\Skills\FactorGraphs\KeyedVariable;
 use Moserware\Skills\FactorGraphs\Message;
 use Moserware\Skills\FactorGraphs\Variable;
 use Moserware\Skills\Numerics\GaussianDistribution;
@@ -14,7 +15,7 @@ class GaussianLikelihoodFactor extends GaussianFactor
 {
     private $_precision;
 
-    public function __construct($betaSquared, Variable &$variable1, Variable &$variable2)
+    public function __construct($betaSquared, Variable $variable1, Variable $variable2)
     {
         parent::__construct(sprintf("Likelihood of %s going to %s", $variable2, $variable1));
         $this->_precision = 1.0 / $betaSquared;
@@ -24,16 +25,18 @@ class GaussianLikelihoodFactor extends GaussianFactor
 
     public function getLogNormalization()
     {
-        $vars = &$this->getVariables();
-        $messages = &$this->getMessages();
+        /** @var KeyedVariable[]|mixed $vars */
+        $vars = $this->getVariables();
+        /** @var Message[] $messages */
+        $messages = $this->getMessages();
 
         return GaussianDistribution::logRatioNormalization(
             $vars[0]->getValue(),
-            $messages[0]->getValue());
+            $messages[0]->getValue()
+        );
     }
 
-    private function updateHelper(Message &$message1, Message &$message2,
-                                  Variable &$variable1, Variable &$variable2)
+    private function updateHelper(Message $message1, Message $message2, Variable $variable1, Variable $variable2)
     {
         $message1Value = clone $message1->getValue();
         $message2Value = clone $message2->getValue();
@@ -45,7 +48,8 @@ class GaussianLikelihoodFactor extends GaussianFactor
 
         $newMessage = GaussianDistribution::fromPrecisionMean(
             $a * ($marginal2->getPrecisionMean() - $message2Value->getPrecisionMean()),
-            $a * ($marginal2->getPrecision() - $message2Value->getPrecision()));
+            $a * ($marginal2->getPrecision() - $message2Value->getPrecision())
+        );
 
         $oldMarginalWithoutMessage = GaussianDistribution::divide($marginal1, $message1Value);
 
@@ -62,8 +66,8 @@ class GaussianLikelihoodFactor extends GaussianFactor
 
     public function updateMessageIndex($messageIndex)
     {
-        $messages = &$this->getMessages();
-        $vars = &$this->getVariables();
+        $messages = $this->getMessages();
+        $vars = $this->getVariables();
 
         switch ($messageIndex) {
             case 0:

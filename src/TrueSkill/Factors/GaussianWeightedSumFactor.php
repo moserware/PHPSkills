@@ -20,7 +20,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
     private $_weights;
     private $_weightsSquared;
 
-    public function __construct(Variable &$sumVariable, array &$variablesToSum, array &$variableWeights = null)
+    public function __construct(Variable $sumVariable, array $variablesToSum, array $variableWeights = null)
     {
         parent::__construct(self::createName($sumVariable, $variablesToSum, $variableWeights));
         $this->_weights = array();
@@ -29,7 +29,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
         // The first weights are a straightforward copy
         // v_0 = a_1*v_1 + a_2*v_2 + ... + a_n * v_n
         $variableWeightsLength = count($variableWeights);
-        $this->_weights[0] = \array_fill(0, count($variableWeights), 0);
+        $this->_weights[0] = array_fill(0, count($variableWeights), 0);
 
         for ($i = 0; $i < $variableWeightsLength; $i++) {
             $weight = &$variableWeights[$i];
@@ -104,16 +104,16 @@ class GaussianWeightedSumFactor extends GaussianFactor
 
         $this->createVariableToMessageBinding($sumVariable);
 
-        foreach ($variablesToSum as &$currentVariable) {
-            $localCurrentVariable = &$currentVariable;
+        foreach ($variablesToSum as $currentVariable) {
+            $localCurrentVariable = $currentVariable;
             $this->createVariableToMessageBinding($localCurrentVariable);
         }
     }
 
     public function getLogNormalization()
     {
-        $vars = &$this->getVariables();
-        $messages = &$this->getMessages();
+        $vars = $this->getVariables();
+        $messages = $this->getMessages();
 
         $result = 0.0;
 
@@ -126,9 +126,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
         return $result;
     }
 
-    private function updateHelper(array &$weights, array &$weightsSquared,
-                                  array &$messages,
-                                  array &$variables)
+    private function updateHelper(array $weights, array $weightsSquared, array $messages, array $variables)
     {
         // Potentially look at http://mathworld.wolfram.com/NormalSumDistribution.html for clues as
         // to what it's doing
@@ -185,23 +183,23 @@ class GaussianWeightedSumFactor extends GaussianFactor
 
     public function updateMessageIndex($messageIndex)
     {
-        $allMessages = &$this->getMessages();
-        $allVariables = &$this->getVariables();
+        $allMessages = $this->getMessages();
+        $allVariables = $this->getVariables();
 
         Guard::argumentIsValidIndex($messageIndex, count($allMessages), "messageIndex");
 
         $updatedMessages = array();
         $updatedVariables = array();
 
-        $indicesToUse = &$this->_variableIndexOrdersForWeights[$messageIndex];
+        $indicesToUse = $this->_variableIndexOrdersForWeights[$messageIndex];
 
         // The tricky part here is that we have to put the messages and variables in the same
         // order as the weights. Thankfully, the weights and messages share the same index numbers,
         // so we just need to make sure they're consistent
         $allMessagesCount = count($allMessages);
         for ($i = 0; $i < $allMessagesCount; $i++) {
-            $updatedMessages[] = &$allMessages[$indicesToUse[$i]];
-            $updatedVariables[] = &$allVariables[$indicesToUse[$i]];
+            $updatedMessages[] = $allMessages[$indicesToUse[$i]];
+            $updatedVariables[] = $allVariables[$indicesToUse[$i]];
         }
 
         return $this->updateHelper($this->_weights[$messageIndex],

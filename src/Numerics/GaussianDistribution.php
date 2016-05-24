@@ -109,7 +109,8 @@ class GaussianDistribution
     {
         return max(
             abs($left->_precisionMean - $right->_precisionMean),
-            sqrt(abs($left->_precision - $right->_precision)));
+            sqrt(abs($left->_precision - $right->_precision))
+        );
     }
 
     // Computes the absolute difference between two Gaussians
@@ -133,8 +134,10 @@ class GaussianDistribution
 
     public static function divide(GaussianDistribution $numerator, GaussianDistribution $denominator)
     {
-        return GaussianDistribution::fromPrecisionMean($numerator->_precisionMean - $denominator->_precisionMean,
-            $numerator->_precision - $denominator->_precision);
+        return GaussianDistribution::fromPrecisionMean(
+            $numerator->_precisionMean - $denominator->_precisionMean,
+            $numerator->_precision - $denominator->_precision
+        );
     }
 
     public static function logRatioNormalization(GaussianDistribution $numerator, GaussianDistribution $denominator)

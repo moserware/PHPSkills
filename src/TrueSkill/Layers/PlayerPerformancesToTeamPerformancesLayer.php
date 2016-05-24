@@ -9,17 +9,17 @@ use Moserware\Skills\TrueSkill\TrueSkillFactorGraph;
 
 class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLayer
 {
-    public function __construct(TrueSkillFactorGraph &$parentGraph)
+    public function __construct(TrueSkillFactorGraph $parentGraph)
     {
         parent::__construct($parentGraph);
     }
 
     public function buildLayer()
     {
-        $inputVariablesGroups = &$this->getInputVariablesGroups();
-        foreach ($inputVariablesGroups as &$currentTeam) {
-            $localCurrentTeam = &$currentTeam;
-            $teamPerformance = &$this->createOutputVariable($localCurrentTeam);
+        $inputVariablesGroups = $this->getInputVariablesGroups();
+        foreach ($inputVariablesGroups as $currentTeam) {
+            $localCurrentTeam = $currentTeam;
+            $teamPerformance = $this->createOutputVariable($localCurrentTeam);
             $newSumFactor = $this->createPlayerToTeamSumFactor($localCurrentTeam, $teamPerformance);
 
             $this->addLayerFactor($newSumFactor);
@@ -32,9 +32,9 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
 
     public function createPriorSchedule()
     {
-        $localFactors = &$this->getLocalFactors();
+        $localFactors = $this->getLocalFactors();
 
-        $sequence = &$this->scheduleSequence(
+        $sequence = $this->scheduleSequence(
             array_map(
                 function ($weightedSumFactor) {
                     return new ScheduleStep("Perf to Team Perf Step", $weightedSumFactor, 0);
@@ -44,11 +44,11 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
         return $sequence;
     }
 
-    protected function createPlayerToTeamSumFactor(&$teamMembers, &$sumVariable)
+    protected function createPlayerToTeamSumFactor($teamMembers, $sumVariable)
     {
         $weights = array_map(
             function ($v) {
-                $player = &$v->getKey();
+                $player = $v->getKey();
                 return PartialPlay::getPartialPlayPercentage($player);
             },
             $teamMembers);
@@ -63,9 +63,9 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
     public function createPosteriorSchedule()
     {
         $allFactors = array();
-        $localFactors = &$this->getLocalFactors();
-        foreach ($localFactors as &$currentFactor) {
-            $localCurrentFactor = &$currentFactor;
+        $localFactors = $this->getLocalFactors();
+        foreach ($localFactors as $currentFactor) {
+            $localCurrentFactor = $currentFactor;
             $numberOfMessages = $localCurrentFactor->getNumberOfMessages();
             for ($currentIteration = 1; $currentIteration < $numberOfMessages; $currentIteration++) {
                 $allFactors[] = new ScheduleStep("team sum perf @" . $currentIteration,
@@ -75,15 +75,14 @@ class PlayerPerformancesToTeamPerformancesLayer extends TrueSkillFactorGraphLaye
         return $this->scheduleSequence($allFactors, "all of the team's sum iterations");
     }
 
-    private function &createOutputVariable(&$team)
+    private function createOutputVariable($team)
     {
-        $memberNames = \array_map(function ($currentPlayer) {
+        $memberNames = array_map(function ($currentPlayer) {
             return (string)($currentPlayer->getKey());
-        },
-            $team);
+        }, $team);
 
         $teamMemberNames = \join(", ", $memberNames);
-        $outputVariable = &$this->getParentFactorGraph()->getVariableFactory()->createBasicVariable("Team[" . $teamMemberNames . "]'s performance");
+        $outputVariable = $this->getParentFactorGraph()->getVariableFactory()->createBasicVariable("Team[" . $teamMemberNames . "]'s performance");
         return $outputVariable;
     }
 }

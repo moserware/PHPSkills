@@ -18,19 +18,19 @@ abstract class GaussianFactor extends Factor
      * @param Variable $variable
      * @return float|int
      */
-    protected function sendMessageVariable(Message &$message, Variable &$variable)
+    protected function sendMessageVariable(Message $message, Variable $variable)
     {
-        $marginal = &$variable->getValue();
-        $messageValue = &$message->getValue();
+        $marginal = $variable->getValue();
+        $messageValue = $message->getValue();
         $logZ = GaussianDistribution::logProductNormalization($marginal, $messageValue);
         $variable->setValue(GaussianDistribution::multiply($marginal, $messageValue));
         return $logZ;
     }
 
-    public function &createVariableToMessageBinding(Variable &$variable)
+    public function createVariableToMessageBinding(Variable $variable)
     {
         $newDistribution = GaussianDistribution::fromPrecisionMean(0, 0);
-        $binding = &parent::createVariableToMessageBindingWithMessage($variable,
+        $binding = parent::createVariableToMessageBindingWithMessage($variable,
             new Message(
                 $newDistribution,
                 sprintf("message from %s to %s", $this, $variable)));

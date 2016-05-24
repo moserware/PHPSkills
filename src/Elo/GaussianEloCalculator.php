@@ -1,7 +1,7 @@
 <?php namespace Moserware\Skills\Elo;
 
 use Moserware\Skills\GameInfo;
-use Moserware\Numerics\GaussianDistribution;
+use Moserware\Skills\Numerics\GaussianDistribution;
 
 class GaussianEloCalculator extends TwoPlayerEloCalculator
 {
@@ -21,6 +21,7 @@ class GaussianEloCalculator extends TwoPlayerEloCalculator
         return GaussianDistribution::cumulativeTo(
             $ratingDifference
             /
-            (sqrt(2) * $gameInfo->getBeta()));
+            (sqrt(2) * $gameInfo->getBeta())
+        );
     }
 }
