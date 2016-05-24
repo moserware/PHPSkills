@@ -19,5 +19,15 @@ class RankSorterTest extends TestCase
         $this->assertEquals($team2, $sortedRanks[0]);
         $this->assertEquals($team3, $sortedRanks[1]);
         $this->assertEquals($team1, $sortedRanks[2]);
+
+        // Since we are also using a return
+        $this->assertEquals($team2, $teams[0]);
+        $this->assertEquals($team3, $teams[1]);
+        $this->assertEquals($team1, $teams[2]);
+
+        // Since we're passing a reference, but also get a return
+        $this->assertEquals($teams[0], $sortedRanks[0]);
+        $this->assertEquals($teams[1], $sortedRanks[1]);
+        $this->assertEquals($teams[2], $sortedRanks[2]);
     }
 }
