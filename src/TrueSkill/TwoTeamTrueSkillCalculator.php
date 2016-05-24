@@ -169,7 +169,7 @@ class TwoTeamTrueSkillCalculator extends SkillCalculator
         $team1StdDevSquared = BasicMath::sum($team1Ratings, $varianceGetter);
 
         $team2MeanSum = BasicMath::sum($team2Ratings, $meanGetter);
-        $team2SigmaSquared = BasicMath::sum($team2Ratings, $varianceGetter);
+        $team2StdDevSquared = BasicMath::sum($team2Ratings, $varianceGetter);
 
         // This comes from equation 4.1 in the TrueSkill paper on page 8
         // The equation was broken up into the part under the square root sign and
@@ -178,13 +178,13 @@ class TwoTeamTrueSkillCalculator extends SkillCalculator
         $sqrtPart = sqrt(
             ($totalPlayers * $betaSquared)
             /
-            ($totalPlayers * $betaSquared + $team1StdDevSquared + $team2SigmaSquared)
+            ($totalPlayers * $betaSquared + $team1StdDevSquared + $team2StdDevSquared)
         );
 
         $expPart = exp(
             (-1 * BasicMath::square($team1MeanSum - $team2MeanSum))
             /
-            (2 * ($totalPlayers * $betaSquared + $team1StdDevSquared + $team2SigmaSquared))
+            (2 * ($totalPlayers * $betaSquared + $team1StdDevSquared + $team2StdDevSquared))
         );
 
         return $expPart * $sqrtPart;
