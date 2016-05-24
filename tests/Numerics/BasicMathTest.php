@@ -1,6 +1,8 @@
 <?php namespace Moserware\Skills\Tests\Numerics;
 
-class BasicMathTest extends PHPUnit_Framework_TestCase
+use Moserware\Skills\Tests\TestCase;
+
+class BasicMathTest extends TestCase
 {
     public function testSquare()
     {

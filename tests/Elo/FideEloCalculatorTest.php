@@ -3,8 +3,9 @@
 use Moserware\Skills\Elo\FideEloCalculator;
 use Moserware\Skills\Elo\ProvisionalFideKFactor;
 use Moserware\Skills\PairwiseComparison;
+use Moserware\Skills\Tests\TestCase;
 
-class FideEloCalculatorTest extends PHPUnit_Framework_TestCase
+class FideEloCalculatorTest extends TestCase
 {
     public function testFideProvisionalEloCalculator()
     {

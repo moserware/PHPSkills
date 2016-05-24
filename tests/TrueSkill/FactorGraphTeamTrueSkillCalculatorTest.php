@@ -1,9 +1,9 @@
 <?php namespace Moserware\Skills\Tests\TrueSkill;
 
-use \PHPUnit_Framework_TestCase;
+use Moserware\Skills\Tests\TestCase;
 use Moserware\Skills\TrueSkill\FactorGraphTrueSkillCalculator;
 
-class FactorGraphTrueSkillCalculatorTest extends PHPUnit_Framework_TestCase
+class FactorGraphTrueSkillCalculatorTest extends TestCase
 {
     public function testFactorGraphTrueSkillCalculator()
     {     

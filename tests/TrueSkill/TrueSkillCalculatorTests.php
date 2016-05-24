@@ -995,5 +995,3 @@ class TrueSkillCalculatorTests
         $testClass->assertEquals($expectedMatchQuality, $actualMatchQuality, '', self::ERROR_TOLERANCE_MATCH_QUALITY);
     }
 }
-
-?>

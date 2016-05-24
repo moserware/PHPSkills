@@ -1,8 +1,9 @@
 <?php namespace Moserware\Skills\Tests\TrueSkill;
 
-use \PHPUnit_Framework_TestCase;
- 
-class DrawMarginTest extends PHPUnit_Framework_TestCase
+use Moserware\Skills\Tests\TestCase;
+use Moserware\Skills\TrueSkill\DrawMargin;
+
+class DrawMarginTest extends TestCase
 {    
     const ERROR_TOLERANCE = 0.000001;
     

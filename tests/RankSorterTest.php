@@ -1,9 +1,8 @@
 <?php namespace Moserware\Skills\Tests;
 
 use Moserware\Skills\RankSorter;
-use \PHPUnit_Framework_TestCase;
- 
-class RankSorterTest extends PHPUnit_Framework_TestCase
+
+class RankSorterTest extends TestCase
 {
     public function testSort()
     {
@@ -20,6 +19,5 @@ class RankSorterTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($team2, $sortedRanks[0]);        
         $this->assertEquals($team3, $sortedRanks[1]);
         $this->assertEquals($team1, $sortedRanks[2]);
-        
     }
 }

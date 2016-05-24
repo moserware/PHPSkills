@@ -1,8 +1,10 @@
 <?php namespace Moserware\Skills\Tests\Numerics;
 
-use \PHPUnit_Framework_TestCase;
- 
-class GaussianDistributionTest extends PHPUnit_Framework_TestCase
+
+use Moserware\Numerics\GaussianDistribution;
+use Moserware\Skills\Tests\TestCase;
+
+class GaussianDistributionTest extends TestCase
 {    
     const ERROR_TOLERANCE = 0.000001;
     
