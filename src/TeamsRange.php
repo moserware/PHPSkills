@@ -1,9 +1,6 @@
-<?php
-namespace Moserware\Skills;
+<?php namespace Moserware\Skills;
 
-require_once(dirname(__FILE__) . "/Numerics/Range.php");
-
-use Moserware\Numerics\Range;
+use Moserware\Skills\Numerics\Range;
 
 class TeamsRange extends Range
 {
@@ -17,5 +14,3 @@ class TeamsRange extends Range
         return new TeamsRange($min, $max);
     }
 }
-
-?>

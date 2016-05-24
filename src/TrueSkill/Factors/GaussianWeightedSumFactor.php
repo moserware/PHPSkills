@@ -1,21 +1,14 @@
-<?php
-namespace Moserware\Skills\TrueSkill\Factors;
+<?php namespace Moserware\Skills\TrueSkill\Factors;
 
-require_once(dirname(__FILE__) . "/../../Guard.php");
-require_once(dirname(__FILE__) . "/../../FactorGraphs/Message.php");
-require_once(dirname(__FILE__) . "/../../FactorGraphs/Variable.php");
-require_once(dirname(__FILE__) . "/../../Numerics/GaussianDistribution.php");
-require_once(dirname(__FILE__) . "/../../Numerics/BasicMath.php");
-require_once(dirname(__FILE__) . "/GaussianFactor.php");
-
-use Moserware\Numerics\GaussianDistribution;
 use Moserware\Skills\Guard;
 use Moserware\Skills\FactorGraphs\Message;
 use Moserware\Skills\FactorGraphs\Variable;
+use Moserware\Skills\Numerics\BasicMatch;
+use Moserware\Skills\Numerics\GaussianDistribution;
 
 /**
  * Factor that sums together multiple Gaussians.
- *  
+ *
  * See the accompanying math paper for more details.s
  */
 class GaussianWeightedSumFactor extends GaussianFactor
@@ -37,20 +30,18 @@ class GaussianWeightedSumFactor extends GaussianFactor
         // v_0 = a_1*v_1 + a_2*v_2 + ... + a_n * v_n
         $variableWeightsLength = count($variableWeights);
         $this->_weights[0] = \array_fill(0, count($variableWeights), 0);
-        
-        for($i = 0; $i < $variableWeightsLength; $i++)
-        {
+
+        for ($i = 0; $i < $variableWeightsLength; $i++) {
             $weight = &$variableWeights[$i];
             $this->_weights[0][$i] = $weight;
-            $this->_weightsSquared[0][$i] = square($weight);
+            $this->_weightsSquared[0][$i] = BasicMatch::square($weight);
         }
 
         $variablesToSumLength = count($variablesToSum);
 
         // 0..n-1
         $this->_variableIndexOrdersForWeights[0] = array();
-        for($i = 0; $i < ($variablesToSumLength + 1); $i++)
-        {
+        for ($i = 0; $i < ($variablesToSumLength + 1); $i++) {
             $this->_variableIndexOrdersForWeights[0][] = $i;
         }
 
@@ -62,10 +53,9 @@ class GaussianWeightedSumFactor extends GaussianFactor
         // By convention, we'll put the v_0 term at the end
 
         $weightsLength = $variableWeightsLength + 1;
-        for ($weightsIndex = 1; $weightsIndex < $weightsLength; $weightsIndex++)
-        {
+        for ($weightsIndex = 1; $weightsIndex < $weightsLength; $weightsIndex++) {
             $currentWeights = \array_fill(0, $variableWeightsLength, 0);
-            
+
             $variableIndices = \array_fill(0, $variableWeightsLength + 1, 0);
             $variableIndices[0] = $weightsIndex;
 
@@ -73,42 +63,38 @@ class GaussianWeightedSumFactor extends GaussianFactor
 
             // keep a single variable to keep track of where we are in the array.
             // This is helpful since we skip over one of the spots
-            $currentDestinationWeightIndex = 0;            
+            $currentDestinationWeightIndex = 0;
 
             for ($currentWeightSourceIndex = 0;
                  $currentWeightSourceIndex < $variableWeightsLength;
-                 $currentWeightSourceIndex++)
-            {
-                if ($currentWeightSourceIndex == ($weightsIndex - 1))
-                {
+                 $currentWeightSourceIndex++) {
+                if ($currentWeightSourceIndex == ($weightsIndex - 1)) {
                     continue;
                 }
 
-                $currentWeight = (-$variableWeights[$currentWeightSourceIndex]/$variableWeights[$weightsIndex - 1]);
+                $currentWeight = (-$variableWeights[$currentWeightSourceIndex] / $variableWeights[$weightsIndex - 1]);
 
-                if ($variableWeights[$weightsIndex - 1] == 0)
-                {
+                if ($variableWeights[$weightsIndex - 1] == 0) {
                     // HACK: Getting around division by zero
                     $currentWeight = 0;
                 }
 
                 $currentWeights[$currentDestinationWeightIndex] = $currentWeight;
-                $currentWeightsSquared[$currentDestinationWeightIndex] = $currentWeight*$currentWeight;
+                $currentWeightsSquared[$currentDestinationWeightIndex] = $currentWeight * $currentWeight;
 
                 $variableIndices[$currentDestinationWeightIndex + 1] = $currentWeightSourceIndex + 1;
                 $currentDestinationWeightIndex++;
             }
 
             // And the final one
-            $finalWeight = 1.0/$variableWeights[$weightsIndex - 1];
+            $finalWeight = 1.0 / $variableWeights[$weightsIndex - 1];
 
-            if ($variableWeights[$weightsIndex - 1] == 0)
-            {
+            if ($variableWeights[$weightsIndex - 1] == 0) {
                 // HACK: Getting around division by zero
                 $finalWeight = 0;
             }
             $currentWeights[$currentDestinationWeightIndex] = $finalWeight;
-            $currentWeightsSquared[$currentDestinationWeightIndex] = square($finalWeight);
+            $currentWeightsSquared[$currentDestinationWeightIndex] = BasicMatch::square($finalWeight);
             $variableIndices[count($variableWeights)] = 0;
             $this->_variableIndexOrdersForWeights[] = $variableIndices;
 
@@ -118,11 +104,10 @@ class GaussianWeightedSumFactor extends GaussianFactor
 
         $this->createVariableToMessageBinding($sumVariable);
 
-        foreach ($variablesToSum as &$currentVariable)
-        {
+        foreach ($variablesToSum as &$currentVariable) {
             $localCurrentVariable = &$currentVariable;
             $this->createVariableToMessageBinding($localCurrentVariable);
-        }        
+        }
     }
 
     public function getLogNormalization()
@@ -134,8 +119,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
 
         // We start at 1 since offset 0 has the sum
         $varCount = count($vars);
-        for ($i = 1; $i < $varCount; $i++)
-        {
+        for ($i = 1; $i < $varCount; $i++) {
             $result += GaussianDistribution::logRatioNormalization($vars[$i]->getValue(), $messages[$i]->getValue());
         }
 
@@ -160,30 +144,29 @@ class GaussianWeightedSumFactor extends GaussianFactor
 
         $weightsSquaredLength = count($weightsSquared);
 
-        for ($i = 0; $i < $weightsSquaredLength; $i++)
-        {
+        for ($i = 0; $i < $weightsSquaredLength; $i++) {
             // These flow directly from the paper
 
-            $inverseOfNewPrecisionSum += $weightsSquared[$i]/
-                                         ($variables[$i + 1]->getValue()->getPrecision() - $messages[$i + 1]->getValue()->getPrecision());
+            $inverseOfNewPrecisionSum += $weightsSquared[$i] /
+                ($variables[$i + 1]->getValue()->getPrecision() - $messages[$i + 1]->getValue()->getPrecision());
 
             $diff = GaussianDistribution::divide($variables[$i + 1]->getValue(), $messages[$i + 1]->getValue());
-            $anotherInverseOfNewPrecisionSum += $weightsSquared[$i]/$diff->getPrecision();
+            $anotherInverseOfNewPrecisionSum += $weightsSquared[$i] / $diff->getPrecision();
 
             $weightedMeanSum += $weights[$i]
-                                *
-                                ($variables[$i + 1]->getValue()->getPrecisionMean() - $messages[$i + 1]->getValue()->getPrecisionMean())
-                                /
-                                ($variables[$i + 1]->getValue()->getPrecision() - $messages[$i + 1]->getValue()->getPrecision());
+                *
+                ($variables[$i + 1]->getValue()->getPrecisionMean() - $messages[$i + 1]->getValue()->getPrecisionMean())
+                /
+                ($variables[$i + 1]->getValue()->getPrecision() - $messages[$i + 1]->getValue()->getPrecision());
 
-            $anotherWeightedMeanSum += $weights[$i]*$diff->getPrecisionMean()/$diff->getPrecision();
+            $anotherWeightedMeanSum += $weights[$i] * $diff->getPrecisionMean() / $diff->getPrecision();
         }
 
-        $newPrecision = 1.0/$inverseOfNewPrecisionSum;
-        $anotherNewPrecision = 1.0/$anotherInverseOfNewPrecisionSum;
+        $newPrecision = 1.0 / $inverseOfNewPrecisionSum;
+        $anotherNewPrecision = 1.0 / $anotherInverseOfNewPrecisionSum;
 
-        $newPrecisionMean = $newPrecision*$weightedMeanSum;
-        $anotherNewPrecisionMean = $anotherNewPrecision*$anotherWeightedMeanSum;
+        $newPrecisionMean = $newPrecision * $weightedMeanSum;
+        $anotherNewPrecisionMean = $anotherNewPrecision * $anotherWeightedMeanSum;
 
         $newMessage = GaussianDistribution::fromPrecisionMean($newPrecisionMean, $newPrecision);
         $oldMarginalWithoutMessage = GaussianDistribution::divide($marginal0, $message0);
@@ -201,7 +184,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
     }
 
     public function updateMessageIndex($messageIndex)
-    {        
+    {
         $allMessages = &$this->getMessages();
         $allVariables = &$this->getVariables();
 
@@ -216,16 +199,15 @@ class GaussianWeightedSumFactor extends GaussianFactor
         // order as the weights. Thankfully, the weights and messages share the same index numbers,
         // so we just need to make sure they're consistent
         $allMessagesCount = count($allMessages);
-        for ($i = 0; $i < $allMessagesCount; $i++)
-        {
+        for ($i = 0; $i < $allMessagesCount; $i++) {
             $updatedMessages[] = &$allMessages[$indicesToUse[$i]];
             $updatedVariables[] = &$allVariables[$indicesToUse[$i]];
         }
-        
+
         return $this->updateHelper($this->_weights[$messageIndex],
-                                   $this->_weightsSquared[$messageIndex],
-                                   $updatedMessages,
-                                   $updatedVariables);
+            $this->_weightsSquared[$messageIndex],
+            $updatedMessages,
+            $updatedVariables);
     }
 
     private static function createName($sumVariable, $variablesToSum, $weights)
@@ -233,14 +215,12 @@ class GaussianWeightedSumFactor extends GaussianFactor
         // TODO: Perf? Use PHP equivalent of StringBuilder? implode on arrays?
         $result = (string)$sumVariable;
         $result .= ' = ';
-        
+
         $totalVars = count($variablesToSum);
-        for($i = 0; $i < $totalVars; $i++)
-        {
+        for ($i = 0; $i < $totalVars; $i++) {
             $isFirst = ($i == 0);
-            
-            if($isFirst && ($weights[$i] < 0))
-            {
+
+            if ($isFirst && ($weights[$i] < 0)) {
                 $result .= '-';
             }
 
@@ -249,24 +229,18 @@ class GaussianWeightedSumFactor extends GaussianFactor
             $result .= "*[";
             $result .= (string)$variablesToSum[$i];
             $result .= ']';
-            
+
             $isLast = ($i == ($totalVars - 1));
-            
-            if(!$isLast)
-            {
-                if($weights[$i + 1] >= 0)
-                {
+
+            if (!$isLast) {
+                if ($weights[$i + 1] >= 0) {
                     $result .= ' + ';
-                }
-                else
-                {
+                } else {
                     $result .= ' - ';
                 }
-            }                
+            }
         }
-        
+
         return $result;
     }
 }
-
-?>

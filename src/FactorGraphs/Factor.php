@@ -1,11 +1,6 @@
-<?php
-namespace Moserware\Skills\FactorGraphs;
+<?php namespace Moserware\Skills\FactorGraphs;
 
-require_once(dirname(__FILE__) . "/../Guard.php");
-require_once(dirname(__FILE__) . "/../HashMap.php");
-require_once(dirname(__FILE__) . "/Message.php");
-require_once(dirname(__FILE__) . "/Variable.php");
-
+use Exception;
 use Moserware\Skills\Guard;
 use Moserware\Skills\HashMap;
 
@@ -38,12 +33,12 @@ abstract class Factor
     {
         return count($this->_messages);
     }
-    
+
     protected function &getVariables()
     {
         return $this->_variables;
     }
-    
+
     protected function &getMessages()
     {
         return $this->_messages;
@@ -56,7 +51,7 @@ abstract class Factor
     {
         Guard::argumentIsValidIndex($messageIndex, count($this->_messages), "messageIndex");
         $message = &$this->_messages[$messageIndex];
-        $variable = &$this->_messageToVariableBinding->getValue($message);        
+        $variable = &$this->_messageToVariableBinding->getValue($message);
         return $this->updateMessageVariable($message, $variable);
     }
 
@@ -71,8 +66,7 @@ abstract class Factor
     public function resetMarginals()
     {
         $allValues = &$this->_messageToVariableBinding->getAllValues();
-        foreach ($allValues as &$currentVariable)
-        {
+        foreach ($allValues as &$currentVariable) {
             $currentVariable->resetToPrior();
         }
     }
@@ -109,5 +103,3 @@ abstract class Factor
         return ($this->_name != null) ? $this->_name : base::__toString();
     }
 }
-
-?>

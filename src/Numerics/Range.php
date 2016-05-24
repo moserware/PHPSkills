@@ -1,9 +1,9 @@
-<?php
-
-namespace Moserware\Numerics;
+<?php namespace Moserware\Skills\Numerics;
 
 // The whole purpose of this class is to make the code for the SkillCalculator(s)
 // look a little cleaner
+
+use Exception;
 
 class Range
 {
@@ -58,5 +58,3 @@ class Range
         return ($this->_min <= $value) && ($value <= $this->_max);
     }
 }
-
-?>

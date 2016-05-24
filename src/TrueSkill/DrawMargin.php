@@ -1,9 +1,6 @@
-<?php
-namespace Moserware\Skills\TrueSkill;
+<?php namespace Moserware\Skills\TrueSkill;
 
-require_once(dirname(__FILE__) . "/../Numerics/GaussianDistribution.php");
-
-use Moserware\Numerics\GaussianDistribution;
+use Moserware\Skills\Numerics\GaussianDistribution;
 
 final class DrawMargin
 {
@@ -17,10 +14,6 @@ final class DrawMargin
         //
         // margin = inversecdf((draw probability + 1)/2) * sqrt(n1+n2) * beta
         // n1 and n2 are the number of players on each team
-        $margin = GaussianDistribution::inverseCumulativeTo(.5*($drawProbability + 1), 0, 1)*sqrt(1 + 1)*
-                        $beta;
-        return $margin;
+        return GaussianDistribution::inverseCumulativeTo(.5 * ($drawProbability + 1), 0, 1) * sqrt(1 + 1) * $beta;
     }
 }
-
-?>

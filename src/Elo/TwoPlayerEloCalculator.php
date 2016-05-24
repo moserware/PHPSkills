@@ -1,13 +1,4 @@
-<?php
-
-namespace Moserware\Skills\Elo;
-
-require_once(dirname(__FILE__) . "/../PairwiseComparison.php");
-require_once(dirname(__FILE__) . "/../RankSorter.php");
-require_once(dirname(__FILE__) . "/../SkillCalculator.php");
-
-require_once(dirname(__FILE__) . "/../PlayersRange.php");
-require_once(dirname(__FILE__) . "/../TeamsRange.php");
+<?php namespace Moserware\Skills\Elo;
 
 use Moserware\Skills\PairwiseComparison;
 use Moserware\Skills\RankSorter;
@@ -101,5 +92,3 @@ abstract class TwoPlayerEloCalculator extends SkillCalculator
         return (0.5 - $deltaFrom50Percent) / 0.5;
     }
 }
-
-?>

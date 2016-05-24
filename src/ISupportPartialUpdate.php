@@ -1,5 +1,4 @@
-<?php
-namespace Moserware\Skills;
+<?php namespace Moserware\Skills;
 
 interface ISupportPartialUpdate
 {
@@ -8,4 +7,3 @@ interface ISupportPartialUpdate
      */
     public function getPartialUpdatePercentage();
 }
-?>

@@ -1,12 +1,12 @@
-<?php
-
-namespace Moserware\Skills;
+<?php namespace Moserware\Skills;
 
 // Container for a player's rating.
-class Rating 
+use Moserware\Skills\Numerics\GaussianDistribution;
+
+class Rating
 {
     const CONSERVATIVE_STANDARD_DEVIATION_MULTIPLIER = 3;
-    
+
     private $_conservativeStandardDeviationMultiplier;
     private $_mean;
     private $_standardDeviation;
@@ -15,7 +15,7 @@ class Rating
      * Constructs a rating.
      * @param double $mean The statistical mean value of the rating (also known as mu).
      * @param double $standardDeviation The standard deviation of the rating (also known as s).
-     * @param double $conservativeStandardDeviationMultiplier optional The number of standardDeviations to subtract from the mean to achieve a conservative rating.
+     * @param float|int $conservativeStandardDeviationMultiplier optional The number of standardDeviations to subtract from the mean to achieve a conservative rating.
      */
     public function __construct($mean, $standardDeviation, $conservativeStandardDeviationMultiplier = self::CONSERVATIVE_STANDARD_DEVIATION_MULTIPLIER)
     {
@@ -29,7 +29,7 @@ class Rating
      */
     public function getMean()
     {
-        return $this->_mean;        
+        return $this->_mean;
     }
 
     /**
@@ -45,27 +45,28 @@ class Rating
      */
     public function getConservativeRating()
     {
-        return $this->_mean - $this->_conservativeStandardDeviationMultiplier*$this->_standardDeviation;
+        return $this->_mean - $this->_conservativeStandardDeviationMultiplier * $this->_standardDeviation;
     }
 
     public function getPartialUpdate(Rating $prior, Rating $fullPosterior, $updatePercentage)
     {
         $priorGaussian = new GaussianDistribution($prior->getMean(), $prior->getStandardDeviation());
-        $posteriorGaussian = new GaussianDistribution($fullPosterior->getMean(), $fullPosterior.getStandardDeviation());
+        $posteriorGaussian = new GaussianDistribution($fullPosterior->getMean(), $fullPosterior . getStandardDeviation());
 
         // From a clarification email from Ralf Herbrich:
         // "the idea is to compute a linear interpolation between the prior and posterior skills of each player 
         //  ... in the canonical space of parameters"
 
         $precisionDifference = $posteriorGaussian->getPrecision() - $priorGaussian->getPrecision();
-        $partialPrecisionDifference = $updatePercentage*$precisionDifference;
+        $partialPrecisionDifference = $updatePercentage * $precisionDifference;
 
-        $precisionMeanDifference = $posteriorGaussian->getPrecisionMean() - $priorGaussian.getPrecisionMean();
-        $partialPrecisionMeanDifference = $updatePercentage*$precisionMeanDifference;
+        $precisionMeanDifference = $posteriorGaussian->getPrecisionMean() - $priorGaussian . getPrecisionMean();
+        $partialPrecisionMeanDifference = $updatePercentage * $precisionMeanDifference;
 
         $partialPosteriorGaussion = GaussianDistribution::fromPrecisionMean(
             $priorGaussian->getPrecisionMean() + $partialPrecisionMeanDifference,
-            $priorGaussian->getPrecision() + $partialPrecisionDifference);
+            $priorGaussian->getPrecision() + $partialPrecisionDifference
+        );
 
         return new Rating($partialPosteriorGaussion->getMean(), $partialPosteriorGaussion->getStandardDeviation(), $prior->_conservativeStandardDeviationMultiplier);
     }
@@ -73,7 +74,5 @@ class Rating
     public function __toString()
     {
         return sprintf("mean=%.4f, standardDeviation=%.4f", $this->_mean, $this->_standardDeviation);
-    }  
+    }
 }
-
-?>

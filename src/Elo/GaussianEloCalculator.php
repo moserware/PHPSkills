@@ -1,10 +1,4 @@
-<?php
-namespace Moserware\Skills\Elo;
-
-require_once(dirname(__FILE__) . "/../GameInfo.php");
-require_once(dirname(__FILE__) . "/../Numerics/GaussianDistribution.php");
-require_once(dirname(__FILE__) . "/KFactor.php");
-require_once(dirname(__FILE__) . "/TwoPlayerEloCalculator.php");
+<?php namespace Moserware\Skills\Elo;
 
 use Moserware\Skills\GameInfo;
 use Moserware\Numerics\GaussianDistribution;
@@ -30,5 +24,3 @@ class GaussianEloCalculator extends TwoPlayerEloCalculator
             (sqrt(2) * $gameInfo->getBeta()));
     }
 }
-
-?>

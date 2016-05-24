@@ -1,13 +1,6 @@
-<?php
-namespace Moserware\Skills\TrueSkill\Factors;
+<?php namespace Moserware\Skills\TrueSkill\Factors;
 
-require_once(dirname(__FILE__) . "/../TruncatedGaussianCorrectionFunctions.php");
-require_once(dirname(__FILE__) . "/../../FactorGraphs/Message.php");
-require_once(dirname(__FILE__) . "/../../FactorGraphs/Variable.php");
-require_once(dirname(__FILE__) . "/../../Numerics/GaussianDistribution.php");
-require_once(dirname(__FILE__) . "/GaussianFactor.php");
-
-use Moserware\Numerics\GaussianDistribution;
+use Moserware\Skills\Numerics\GaussianDistribution;
 use Moserware\Skills\TrueSkill\TruncatedGaussianCorrectionFunctions;
 use Moserware\Skills\FactorGraphs\Message;
 use Moserware\Skills\FactorGraphs\Variable;
@@ -38,9 +31,9 @@ class GaussianWithinFactor extends GaussianFactor
         $messageFromVariable = GaussianDistribution::divide($marginal, $message);
         $mean = $messageFromVariable->getMean();
         $std = $messageFromVariable->getStandardDeviation();
-        $z = GaussianDistribution::cumulativeTo(($this->_epsilon - $mean)/$std)
-             -
-             GaussianDistribution::cumulativeTo((-$this->_epsilon - $mean)/$std);
+        $z = GaussianDistribution::cumulativeTo(($this->_epsilon - $mean) / $std)
+            -
+            GaussianDistribution::cumulativeTo((-$this->_epsilon - $mean) / $std);
 
         return -GaussianDistribution::logProductNormalization($messageFromVariable, $message) + log($z);
     }
@@ -55,22 +48,22 @@ class GaussianWithinFactor extends GaussianFactor
         $d = $messageFromVariable->getPrecisionMean();
 
         $sqrtC = sqrt($c);
-        $dOnSqrtC = $d/$sqrtC;
+        $dOnSqrtC = $d / $sqrtC;
 
-        $epsilonTimesSqrtC = $this->_epsilon*$sqrtC;
+        $epsilonTimesSqrtC = $this->_epsilon * $sqrtC;
         $d = $messageFromVariable->getPrecisionMean();
 
         $denominator = 1.0 - TruncatedGaussianCorrectionFunctions::wWithinMargin($dOnSqrtC, $epsilonTimesSqrtC);
-        $newPrecision = $c/$denominator;
+        $newPrecision = $c / $denominator;
         $newPrecisionMean = ($d +
-                                   $sqrtC*
-                                   TruncatedGaussianCorrectionFunctions::vWithinMargin($dOnSqrtC, $epsilonTimesSqrtC))/
-                                  $denominator;
+                $sqrtC *
+                TruncatedGaussianCorrectionFunctions::vWithinMargin($dOnSqrtC, $epsilonTimesSqrtC)) /
+            $denominator;
 
         $newMarginal = GaussianDistribution::fromPrecisionMean($newPrecisionMean, $newPrecision);
         $newMessage = GaussianDistribution::divide(
-                        GaussianDistribution::multiply($oldMessage, $newMarginal),
-                        $oldMarginal);
+            GaussianDistribution::multiply($oldMessage, $newMarginal),
+            $oldMarginal);
 
         // Update the message and marginal
         $message->setValue($newMessage);
@@ -80,5 +73,3 @@ class GaussianWithinFactor extends GaussianFactor
         return GaussianDistribution::subtract($newMarginal, $oldMarginal);
     }
 }
-
-?>

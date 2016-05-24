@@ -1,15 +1,8 @@
-<?php
-namespace Moserware\Skills\TrueSkill\Layers;
-
-require_once(dirname(__FILE__) . "/../../FactorGraphs/Schedule.php");
-require_once(dirname(__FILE__) . "/../../FactorGraphs/Variable.php");
-require_once(dirname(__FILE__) . "/../../Numerics/BasicMath.php");
-require_once(dirname(__FILE__) . "/../TrueSkillFactorGraph.php");
-require_once(dirname(__FILE__) . "/../Factors/GaussianLikelihoodFactor.php");
-require_once(dirname(__FILE__) . "/TrueSkillFactorGraphLayer.php");
+<?php namespace Moserware\Skills\TrueSkill\Layers;
 
 use Moserware\Skills\FactorGraphs\ScheduleStep;
 use Moserware\Skills\FactorGraphs\KeyedVariable;
+use Moserware\Skills\Numerics\BasicMatch;
 use Moserware\Skills\TrueSkill\TrueSkillFactorGraph;
 use Moserware\Skills\TrueSkill\Factors\GaussianLikelihoodFactor;
 
@@ -25,27 +18,29 @@ class PlayerSkillsToPerformancesLayer extends TrueSkillFactorGraphLayer
         $inputVariablesGroups = &$this->getInputVariablesGroups();
         $outputVariablesGroups = &$this->getOutputVariablesGroups();
 
-        foreach ($inputVariablesGroups as &$currentTeam)
-        {
+        foreach ($inputVariablesGroups as &$currentTeam) {
             $currentTeamPlayerPerformances = array();
 
-            foreach ($currentTeam as &$playerSkillVariable)
-            {
+            foreach ($currentTeam as &$playerSkillVariable) {
                 $localPlayerSkillVariable = &$playerSkillVariable;
                 $currentPlayer = &$localPlayerSkillVariable->getKey();
                 $playerPerformance = &$this->createOutputVariable($currentPlayer);
                 $newLikelihoodFactor = $this->createLikelihood($localPlayerSkillVariable, $playerPerformance);
                 $this->addLayerFactor($newLikelihoodFactor);
                 $currentTeamPlayerPerformances[] = $playerPerformance;
-            }            
-            
+            }
+
             $outputVariablesGroups[] = $currentTeamPlayerPerformances;
         }
     }
 
     private function createLikelihood(KeyedVariable &$playerSkill, KeyedVariable &$playerPerformance)
     {
-        return new GaussianLikelihoodFactor(square($this->getParentFactorGraph()->getGameInfo()->getBeta()), $playerPerformance, $playerSkill);
+        return new GaussianLikelihoodFactor(
+            BasicMatch::square($this->getParentFactorGraph()->getGameInfo()->getBeta()),
+            $playerPerformance,
+            $playerSkill
+        );
     }
 
     private function &createOutputVariable(&$key)
@@ -58,27 +53,23 @@ class PlayerSkillsToPerformancesLayer extends TrueSkillFactorGraphLayer
     {
         $localFactors = &$this->getLocalFactors();
         return $this->scheduleSequence(
-                array_map(
-                        function($likelihood)
-                        {
-                            return new ScheduleStep("Skill to Perf step", $likelihood, 0);
-                        },
-                        $localFactors),
-                "All skill to performance sending");
+            array_map(
+                function ($likelihood) {
+                    return new ScheduleStep("Skill to Perf step", $likelihood, 0);
+                },
+                $localFactors),
+            "All skill to performance sending");
     }
 
     public function createPosteriorSchedule()
     {
         $localFactors = &$this->getLocalFactors();
         return $this->scheduleSequence(
-                array_map(
-                        function($likelihood)
-                        {
-                            return new ScheduleStep("name", $likelihood, 1);                    
-                        },
-                        $localFactors),
-                "All skill to performance sending");
+            array_map(
+                function ($likelihood) {
+                    return new ScheduleStep("name", $likelihood, 1);
+                },
+                $localFactors),
+            "All skill to performance sending");
     }
 }
-
-?>

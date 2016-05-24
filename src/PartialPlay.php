@@ -1,7 +1,4 @@
-<?php
-namespace Moserware\Skills;
-
-require_once(dirname(__FILE__) . "/ISupportPartialPlay.php");
+<?php namespace Moserware\Skills;
 
 class PartialPlay
 {
@@ -9,8 +6,7 @@ class PartialPlay
     {
         // If the player doesn't support the interface, assume 1.0 == 100%
         $supportsPartialPlay = $player instanceof ISupportPartialPlay;
-        if (!$supportsPartialPlay)
-        {
+        if (!$supportsPartialPlay) {
             return 1.0;
         }
 
@@ -18,13 +14,10 @@ class PartialPlay
 
         // HACK to get around bug near 0
         $smallestPercentage = 0.0001;
-        if ($partialPlayPercentage < $smallestPercentage)
-        {
+        if ($partialPlayPercentage < $smallestPercentage) {
             $partialPlayPercentage = $smallestPercentage;
         }
 
         return $partialPlayPercentage;
     }
 }
-
-?>

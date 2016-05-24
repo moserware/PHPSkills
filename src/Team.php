@@ -1,9 +1,4 @@
-<?php
-namespace Moserware\Skills;
-
-require_once(dirname(__FILE__) . '/Player.php');
-require_once(dirname(__FILE__) . '/Rating.php');
-require_once(dirname(__FILE__) . '/RatingContainer.php');
+<?php namespace Moserware\Skills;
 
 class Team extends RatingContainer
 {
@@ -11,7 +6,7 @@ class Team extends RatingContainer
     {
         parent::__construct();
         
-        if(!\is_null($player))
+        if(!is_null($player))
         {
             $this->addPlayer($player, $rating);
         }
@@ -23,5 +18,3 @@ class Team extends RatingContainer
         return $this;
     }    
 }
-
-?>

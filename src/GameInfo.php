@@ -1,9 +1,4 @@
-<?php
-
-namespace Moserware\Skills;
-
-require_once(dirname(__FILE__) . "/Rating.php");
-
+<?php namespace Moserware\Skills;
 
 /**
  * Parameters about the game for calculating the TrueSkill.
@@ -20,12 +15,12 @@ class GameInfo
     private $_initialStandardDeviation;
     private $_beta;
     private $_dynamicsFactor;
-    private $_drawProbability;    
-    
-    public function __construct($initialMean = self::DEFAULT_INITIAL_MEAN, 
-                                $initialStandardDeviation = self::DEFAULT_INITIAL_STANDARD_DEVIATION, 
-                                $beta = self::DEFAULT_BETA, 
-                                $dynamicsFactor = self::DEFAULT_DYNAMICS_FACTOR, 
+    private $_drawProbability;
+
+    public function __construct($initialMean = self::DEFAULT_INITIAL_MEAN,
+                                $initialStandardDeviation = self::DEFAULT_INITIAL_STANDARD_DEVIATION,
+                                $beta = self::DEFAULT_BETA,
+                                $dynamicsFactor = self::DEFAULT_DYNAMICS_FACTOR,
                                 $drawProbability = self::DEFAULT_DRAW_PROBABILITY)
     {
         $this->_initialMean = $initialMean;
@@ -33,19 +28,19 @@ class GameInfo
         $this->_beta = $beta;
         $this->_dynamicsFactor = $dynamicsFactor;
         $this->_drawProbability = $drawProbability;
-    }   
-    
+    }
+
 
     public function getInitialMean()
-    { 
+    {
         return $this->_initialMean;
     }
-    
+
     public function getInitialStandardDeviation()
     {
         return $this->_initialStandardDeviation;
     }
-    
+
     public function getBeta()
     {
         return $this->_beta;
@@ -55,7 +50,7 @@ class GameInfo
     {
         return $this->_dynamicsFactor;
     }
-    
+
     public function getDrawProbability()
     {
         return $this->_drawProbability;
@@ -66,5 +61,3 @@ class GameInfo
         return new Rating($this->_initialMean, $this->_initialStandardDeviation);
     }
 }
-
-?>

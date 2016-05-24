@@ -1,8 +1,4 @@
-<?php
-
-namespace Moserware\Skills\FactorGraphs;
-
-require_once(dirname(__FILE__) . "/Factor.php");
+<?php namespace Moserware\Skills\FactorGraphs;
 
 /**
  * Helper class for computing the factor graph's normalization constant.
@@ -14,8 +10,7 @@ class FactorList
     public function getLogNormalization()
     {
         $list = &$this->_list;
-        foreach($list as &$currentFactor)
-        {
+        foreach ($list as &$currentFactor) {
             $currentFactor->resetMarginals();
         }
 
@@ -23,22 +18,19 @@ class FactorList
 
         $listCount = count($this->_list);
 
-        for ($i = 0; $i < $listCount; $i++)
-        {
+        for ($i = 0; $i < $listCount; $i++) {
             $f = $this->_list[$i];
 
             $numberOfMessages = $f->getNumberOfMessages();
 
-            for ($j = 0; $j < $numberOfMessages; $j++)
-            {
+            for ($j = 0; $j < $numberOfMessages; $j++) {
                 $sumLogZ += $f->sendMessageIndex($j);
             }
         }
 
         $sumLogS = 0;
 
-        foreach($list as &$currentFactor)
-        {
+        foreach ($list as &$currentFactor) {
             $sumLogS = $sumLogS + $currentFactor->getLogNormalization();
         }
 
@@ -56,5 +48,3 @@ class FactorList
         return $factor;
     }
 }
-
-?>

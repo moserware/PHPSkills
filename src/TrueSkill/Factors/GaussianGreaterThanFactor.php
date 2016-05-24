@@ -1,13 +1,6 @@
-<?php
-namespace Moserware\Skills\TrueSkill\Factors;
+<?php namespace Moserware\Skills\TrueSkill\Factors;
 
-require_once(dirname(__FILE__) . "/../../FactorGraphs/Message.php");
-require_once(dirname(__FILE__) . "/../../FactorGraphs/Variable.php");
-require_once(dirname(__FILE__) . "/../../Numerics/GaussianDistribution.php");
-require_once(dirname(__FILE__) . "/../TruncatedGaussianCorrectionFunctions.php");
-require_once(dirname(__FILE__) . "/GaussianFactor.php");
-
-use Moserware\Numerics\GaussianDistribution;
+use Moserware\Skills\Numerics\GaussianDistribution;
 use Moserware\Skills\TrueSkill\TruncatedGaussianCorrectionFunctions;
 use Moserware\Skills\FactorGraphs\Message;
 use Moserware\Skills\FactorGraphs\Variable;
@@ -36,10 +29,10 @@ class GaussianGreaterThanFactor extends GaussianFactor
         $message = &$messages[0]->getValue();
         $messageFromVariable = GaussianDistribution::divide($marginal, $message);
         return -GaussianDistribution::logProductNormalization($messageFromVariable, $message)
-               +
-               log(
-                   GaussianDistribution::cumulativeTo(($messageFromVariable->getMean() - $this->_epsilon)/
-                                                     $messageFromVariable->getStandardDeviation()));
+        +
+        log(
+            GaussianDistribution::cumulativeTo(($messageFromVariable->getMean() - $this->_epsilon) /
+                $messageFromVariable->getStandardDeviation()));
 
     }
 
@@ -54,24 +47,24 @@ class GaussianGreaterThanFactor extends GaussianFactor
 
         $sqrtC = sqrt($c);
 
-        $dOnSqrtC = $d/$sqrtC;
+        $dOnSqrtC = $d / $sqrtC;
 
-        $epsilsonTimesSqrtC = $this->_epsilon*$sqrtC;
+        $epsilsonTimesSqrtC = $this->_epsilon * $sqrtC;
         $d = $messageFromVar->getPrecisionMean();
 
         $denom = 1.0 - TruncatedGaussianCorrectionFunctions::wExceedsMargin($dOnSqrtC, $epsilsonTimesSqrtC);
 
-        $newPrecision = $c/$denom;
+        $newPrecision = $c / $denom;
         $newPrecisionMean = ($d +
-                             $sqrtC*
-                             TruncatedGaussianCorrectionFunctions::vExceedsMargin($dOnSqrtC, $epsilsonTimesSqrtC))/
-                             $denom;
+                $sqrtC *
+                TruncatedGaussianCorrectionFunctions::vExceedsMargin($dOnSqrtC, $epsilsonTimesSqrtC)) /
+            $denom;
 
         $newMarginal = GaussianDistribution::fromPrecisionMean($newPrecisionMean, $newPrecision);
 
         $newMessage = GaussianDistribution::divide(
-                              GaussianDistribution::multiply($oldMessage, $newMarginal),
-                              $oldMarginal);
+            GaussianDistribution::multiply($oldMessage, $newMarginal),
+            $oldMarginal);
 
         // Update the message and marginal
         $message->setValue($newMessage);
@@ -82,4 +75,3 @@ class GaussianGreaterThanFactor extends GaussianFactor
         return GaussianDistribution::subtract($newMarginal, $oldMarginal);
     }
 }
-?>

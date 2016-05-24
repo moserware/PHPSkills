@@ -1,6 +1,4 @@
-<?php
-
-namespace Moserware\Skills;
+<?php namespace Moserware\Skills;
 
 /**
  * Basic hashmap that supports object keys.
@@ -27,29 +25,27 @@ class HashMap
 
     public function &getAllKeys()
     {
-        $keys = &\array_values($this->_hashToKey);
+        $keys = &array_values($this->_hashToKey);
         return $keys;
     }
 
     public function getAllValues()
     {
-        $values = &\array_values($this->_hashToValue);
+        $values = &array_values($this->_hashToValue);
         return $values;
     }
 
     public function count()
-    {        
-        return \count($this->_hashToKey);
+    {
+        return count($this->_hashToKey);
     }
 
     private static function getHash(&$key)
     {
-        if(\is_object($key))
-        {
-            return \spl_object_hash($key);
+        if (is_object($key)) {
+            return spl_object_hash($key);
         }
 
         return $key;
     }
 }
-?>

@@ -1,28 +1,13 @@
-<?php
-
-namespace Moserware\Skills\TrueSkill;
-
-require_once(dirname(__FILE__) . "/../GameInfo.php");
-require_once(dirname(__FILE__) . "/../Guard.php");
-require_once(dirname(__FILE__) . "/../ISupportPartialPlay.php");
-require_once(dirname(__FILE__) . "/../ISupportPartialUpdate.php");
-require_once(dirname(__FILE__) . "/../PartialPlay.php");
-require_once(dirname(__FILE__) . "/../PlayersRange.php");
-require_once(dirname(__FILE__) . "/../RankSorter.php");
-require_once(dirname(__FILE__) . "/../SkillCalculator.php");
-require_once(dirname(__FILE__) . "/../TeamsRange.php");
-require_once(dirname(__FILE__) . "/../Numerics/BasicMath.php");
-require_once(dirname(__FILE__) . "/../Numerics/Matrix.php");
-require_once(dirname(__FILE__) . "/TrueSkillFactorGraph.php");
-
-use Moserware\Numerics\DiagonalMatrix;
-use Moserware\Numerics\Matrix;
-use Moserware\Numerics\Vector;
+<?php namespace Moserware\Skills\TrueSkill;
 
 use Moserware\Skills\GameInfo;
 use Moserware\Skills\Guard;
 use Moserware\Skills\ISupportPartialPlay;
 use Moserware\Skills\ISupportPartialUpdate;
+use Moserware\Skills\Numerics\BasicMatch;
+use Moserware\Skills\Numerics\DiagonalMatrix;
+use Moserware\Skills\Numerics\Matrix;
+use Moserware\Skills\Numerics\Vector;
 use Moserware\Skills\PartialPlay;
 use Moserware\Skills\PlayersRange;
 use Moserware\Skills\RankSorter;
@@ -52,7 +37,7 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         $factorGraph = new TrueSkillFactorGraph($gameInfo, $teams, $teamRanks);
         $factorGraph->buildGraph();
         $factorGraph->runSchedule();
-        
+
         $probabilityOfOutcome = $factorGraph->getProbabilityOfRanking();
 
         return $factorGraph->getUpdatedRatings();
@@ -70,17 +55,19 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         $playerTeamAssignmentsMatrix = $this->createPlayerTeamAssignmentMatrix($teamAssignmentsList, $meanVector->getRowCount());
         $playerTeamAssignmentsMatrixTranspose = $playerTeamAssignmentsMatrix->getTranspose();
 
-        $betaSquared = square($gameInfo->getBeta());
+        $betaSquared = BasicMatch::square($gameInfo->getBeta());
 
         $start = Matrix::multiply($meanVectorTranspose, $playerTeamAssignmentsMatrix);
+
         $aTa = Matrix::multiply(
-                        Matrix::scalarMultiply($betaSquared,
-                                               $playerTeamAssignmentsMatrixTranspose),
-                        $playerTeamAssignmentsMatrix);
+            Matrix::scalarMultiply($betaSquared, $playerTeamAssignmentsMatrixTranspose),
+            $playerTeamAssignmentsMatrix
+        );
 
         $aTSA = Matrix::multiply(
-                    Matrix::multiply($playerTeamAssignmentsMatrixTranspose, $skillsMatrix),
-                    $playerTeamAssignmentsMatrix);
+            Matrix::multiply($playerTeamAssignmentsMatrixTranspose, $skillsMatrix),
+            $playerTeamAssignmentsMatrix
+        );
 
         $middle = Matrix::add($aTa, $aTSA);
 
@@ -104,10 +91,9 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
     {
         // A simple vector of all the player means.
         return new Vector(self::getPlayerRatingValues($teamAssignmentsList,
-                                                      function($rating) 
-                                                      { 
-                                                           return $rating->getMean();
-                                                      }));
+            function ($rating) {
+                return $rating->getMean();
+            }));
     }
 
     private static function getPlayerCovarianceMatrix(array &$teamAssignmentsList)
@@ -115,11 +101,10 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         // This is a square matrix whose diagonal values represent the variance (square of standard deviation) of all
         // players.
         return new DiagonalMatrix(
-                        self::getPlayerRatingValues($teamAssignmentsList,
-                                                    function($rating)
-                                                    {
-                                                       return square($rating->getStandardDeviation());
-                                                    }));
+            self::getPlayerRatingValues($teamAssignmentsList,
+                function ($rating) {
+                    return BasicMatch::square($rating->getStandardDeviation());
+                }));
     }
 
     // Helper function that gets a list of values for all player ratings
@@ -128,10 +113,8 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
     {
         $playerRatingValues = array();
 
-        foreach ($teamAssignmentsList as $currentTeam)
-        {
-            foreach ($currentTeam->getAllRatings() as $currentRating)
-            {
+        foreach ($teamAssignmentsList as $currentTeam) {
+            foreach ($currentTeam->getAllRatings() as $currentRating) {
                 $playerRatingValues[] = $playerRatingFunction($currentRating);
             }
         }
@@ -164,16 +147,14 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
 
         $currentColumn = 0;
 
-        for ($i = 0; $i < $teamAssignmentsListCount - 1; $i++)
-        {
+        for ($i = 0; $i < $teamAssignmentsListCount - 1; $i++) {
             $currentTeam = $teamAssignmentsList[$i];
 
             // Need to add in 0's for all the previous players, since they're not
             // on this team
             $playerAssignments[$currentColumn] = ($totalPreviousPlayers > 0) ? \array_fill(0, $totalPreviousPlayers, 0) : array();
 
-            foreach ($currentTeam->getAllPlayers() as $currentPlayer)
-            {
+            foreach ($currentTeam->getAllPlayers() as $currentPlayer) {
                 $playerAssignments[$currentColumn][] = PartialPlay::getPartialPlayPercentage($currentPlayer);
                 // indicates the player is on the team
                 $totalPreviousPlayers++;
@@ -182,15 +163,13 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
             $rowsRemaining = $totalPlayers - $totalPreviousPlayers;
 
             $nextTeam = $teamAssignmentsList[$i + 1];
-            foreach ($nextTeam->getAllPlayers() as $nextTeamPlayer)
-            {
+            foreach ($nextTeam->getAllPlayers() as $nextTeamPlayer) {
                 // Add a -1 * playing time to represent the difference
                 $playerAssignments[$currentColumn][] = -1 * PartialPlay::getPartialPlayPercentage($nextTeamPlayer);
                 $rowsRemaining--;
             }
 
-            for ($ixAdditionalRow = 0; $ixAdditionalRow < $rowsRemaining; $ixAdditionalRow++)
-            {
+            for ($ixAdditionalRow = 0; $ixAdditionalRow < $rowsRemaining; $ixAdditionalRow++) {
                 // Pad with zeros
                 $playerAssignments[$currentColumn][] = 0;
             }
@@ -203,5 +182,3 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         return $playerTeamAssignmentsMatrix;
     }
 }
-
-?>

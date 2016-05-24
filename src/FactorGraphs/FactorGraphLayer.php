@@ -1,9 +1,4 @@
-<?php
-namespace Moserware\Skills\FactorGraphs;
-
-require_once(dirname(__FILE__) . "/Factor.php");
-require_once(dirname(__FILE__) . "/FactorGraph.php");
-require_once(dirname(__FILE__) . "/Schedule.php");
+<?php namespace Moserware\Skills\FactorGraphs;
 
 abstract class FactorGraphLayer
 {
@@ -70,5 +65,3 @@ abstract class FactorGraphLayer
         return null;
     }
 }
-
-?>

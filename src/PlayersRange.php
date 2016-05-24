@@ -1,9 +1,6 @@
-<?php
-namespace Moserware\Skills;
+<?php namespace Moserware\Skills;
 
-require_once(dirname(__FILE__) . "/Numerics/Range.php");
-
-use Moserware\Numerics\Range;
+use Moserware\Skills\Numerics\Range;
 
 class PlayersRange extends Range
 {
@@ -11,11 +8,9 @@ class PlayersRange extends Range
     {
         parent::__construct($min, $max);
     }
-    
+
     protected static function create($min, $max)
     {
         return new PlayersRange($min, $max);
     }
 }
-
-?>

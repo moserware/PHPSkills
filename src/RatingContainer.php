@@ -1,9 +1,4 @@
-<?php
-namespace Moserware\Skills;
-
-require_once(dirname(__FILE__) . "/HashMap.php");
-require_once(dirname(__FILE__) . "/Player.php");
-require_once(dirname(__FILE__) . "/Rating.php");
+<?php namespace Moserware\Skills;
 
 class RatingContainer
 {
@@ -24,13 +19,13 @@ class RatingContainer
     {
         return $this->_playerToRating->setValue($player, $rating);
     }
-    
+
     public function &getAllPlayers()
     {
         $allPlayers = &$this->_playerToRating->getAllKeys();
         return $allPlayers;
     }
-    
+
     public function &getAllRatings()
     {
         $allRatings = &$this->_playerToRating->getAllValues();
@@ -40,6 +35,5 @@ class RatingContainer
     public function count()
     {
         return $this->_playerToRating->count();
-    }    
+    }
 }
-?>

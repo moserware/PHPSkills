@@ -1,11 +1,4 @@
-<?php
-namespace Moserware\Skills\TrueSkill\Layers;
-
-require_once(dirname(__FILE__) . "/../DrawMargin.php");
-require_once(dirname(__FILE__) . "/../TrueSkillFactorGraph.php");
-require_once(dirname(__FILE__) . "/../Factors/GaussianGreaterThanFactor.php");
-require_once(dirname(__FILE__) . "/../Factors/GaussianWithinFactor.php");
-require_once(dirname(__FILE__) . "/TrueSkillFactorGraphLayer.php");
+<?php namespace Moserware\Skills\TrueSkill\Layers;
 
 use Moserware\Skills\TrueSkill\DrawMargin;
 use Moserware\Skills\TrueSkill\TrueSkillFactorGraph;
@@ -30,8 +23,7 @@ class TeamDifferencesComparisonLayer extends TrueSkillFactorGraphLayer
         $inputVarGroups = &$this->getInputVariablesGroups();
         $inputVarGroupsCount = count($inputVarGroups);
 
-        for ($i = 0; $i < $inputVarGroupsCount; $i++)
-        {
+        for ($i = 0; $i < $inputVarGroupsCount; $i++) {
             $isDraw = ($this->_teamRanks[$i] == $this->_teamRanks[$i + 1]);
             $teamDifference = &$inputVarGroups[$i][0];
 
@@ -44,5 +36,3 @@ class TeamDifferencesComparisonLayer extends TrueSkillFactorGraphLayer
         }
     }
 }
-
-?>

@@ -1,6 +1,5 @@
 <?php namespace Moserware\Skills\Tests\Numerics;
 
-
 use Moserware\Numerics\GaussianDistribution;
 use Moserware\Skills\Tests\TestCase;
 
@@ -37,10 +36,10 @@ class GaussianDistributionTest extends TestCase
 
         $product2 = GaussianDistribution::multiply($m4s5, $m6s7);
         
-        $expectedMean = (4 * square(7) + 6 * square(5)) / (square(5) + square(7));
+        $expectedMean = (4 * BasicMatch::square(7) + 6 * BasicMatch::square(5)) / (BasicMatch::square(5) + BasicMatch::square(7));
         $this->assertEquals($expectedMean, $product2->getMean(), '', GaussianDistributionTest::ERROR_TOLERANCE);
 
-        $expectedSigma = sqrt(((square(5) * square(7)) / (square(5) + square(7))));
+        $expectedSigma = sqrt(((BasicMatch::square(5) * BasicMatch::square(7)) / (BasicMatch::square(5) + BasicMatch::square(7))));
         $this->assertEquals($expectedSigma, $product2->getStandardDeviation(), '', GaussianDistributionTest::ERROR_TOLERANCE);
     }
     
@@ -54,7 +53,7 @@ class GaussianDistributionTest extends TestCase
         $this->assertEquals(2.0, $productDividedByStandardNormal->getMean(), '', GaussianDistributionTest::ERROR_TOLERANCE);
         $this->assertEquals(3.0, $productDividedByStandardNormal->getStandardDeviation(),'', GaussianDistributionTest::ERROR_TOLERANCE);
         
-        $product2 = new GaussianDistribution((4 * square(7) + 6 * square(5)) / (square(5) + square(7)), sqrt(((square(5) * square(7)) / (square(5) + square(7)))));
+        $product2 = new GaussianDistribution((4 * BasicMatch::square(7) + 6 * BasicMatch::square(5)) / (BasicMatch::square(5) + BasicMatch::square(7)), sqrt(((BasicMatch::square(5) * BasicMatch::square(7)) / (BasicMatch::square(5) + BasicMatch::square(7)))));
         $m4s5 = new GaussianDistribution(4,5);
         $product2DividedByM4S5 = GaussianDistribution::divide($product2, $m4s5);
         $this->assertEquals(6.0, $product2DividedByM4S5->getMean(), '', GaussianDistributionTest::ERROR_TOLERANCE);

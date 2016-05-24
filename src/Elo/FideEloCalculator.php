@@ -1,17 +1,13 @@
-<?php
+<?php namespace Moserware\Skills\Elo;
 
-namespace Moserware\Skills\Elo;
-
-require_once(dirname(__FILE__) . "/FideKFactor.php");
-require_once(dirname(__FILE__) . "/TwoPlayerEloCalculator.php");
-
-/** Including Elo's scheme as a simple comparison.
- *  See http://en.wikipedia.org/wiki/Elo_rating_system#Theory
- *  for more details
+/**
+ * Including Elo's scheme as a simple comparison.
+ * See http://en.wikipedia.org/wiki/Elo_rating_system#Theory
+ * for more details
  */
 class FideEloCalculator extends TwoPlayerEloCalculator
 {
-    public function __construct(FideKFactor $kFactor)        
+    public function __construct(FideKFactor $kFactor)
     {
         parent::__construct($kFactor);
     }
@@ -31,11 +27,9 @@ class FideEloCalculator extends TwoPlayerEloCalculator
         $ratingDifference = $opponentRating - $playerRating;
 
         return 1.0
-               /
-               (
-                   1.0 + pow(10.0, $ratingDifference / (2 * $gameInfo->getBeta()))
-               );
-    }        
+        /
+        (
+            1.0 + pow(10.0, $ratingDifference / (2 * $gameInfo->getBeta()))
+        );
+    }
 }
-
-?>

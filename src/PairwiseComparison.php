@@ -1,5 +1,4 @@
-<?php
-namespace Moserware\Skills;
+<?php namespace Moserware\Skills;
 
 /**
  * Represents a comparison between two players.
@@ -15,13 +14,11 @@ class PairwiseComparison
     {
         switch ($comparison) {
             case PairwiseComparison::WIN:
-                return array(1,2);
+                return array(1, 2);
             case PairwiseComparison::LOSE:
-                return array(2,1);
+                return array(2, 1);
             default:
-                return array(1,1);
+                return array(1, 1);
         }
     }
 }
-
-?>

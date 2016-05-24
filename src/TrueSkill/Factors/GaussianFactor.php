@@ -1,16 +1,9 @@
-<?php
+<?php namespace Moserware\Skills\TrueSkill\Factors;
 
-namespace Moserware\Skills\TrueSkill\Factors;
-
-require_once(dirname(__FILE__) . "/../../FactorGraphs/Factor.php");
-require_once(dirname(__FILE__) . "/../../FactorGraphs/Message.php");
-require_once(dirname(__FILE__) . "/../../FactorGraphs/Variable.php");
-require_once(dirname(__FILE__) . "/../../Numerics/GaussianDistribution.php");
-
-use Moserware\Numerics\GaussianDistribution;
 use Moserware\Skills\FactorGraphs\Factor;
 use Moserware\Skills\FactorGraphs\Message;
 use Moserware\Skills\FactorGraphs\Variable;
+use Moserware\Skills\Numerics\GaussianDistribution;
 
 abstract class GaussianFactor extends Factor
 {
@@ -21,6 +14,9 @@ abstract class GaussianFactor extends Factor
 
     /**
      * Sends the factor-graph message with and returns the log-normalization constant.
+     * @param Message $message
+     * @param Variable $variable
+     * @return float|int
      */
     protected function sendMessageVariable(Message &$message, Variable &$variable)
     {
@@ -35,11 +31,9 @@ abstract class GaussianFactor extends Factor
     {
         $newDistribution = GaussianDistribution::fromPrecisionMean(0, 0);
         $binding = &parent::createVariableToMessageBindingWithMessage($variable,
-                                                      new Message(
-                                                          $newDistribution,
-                                                          sprintf("message from %s to %s", $this, $variable)));
+            new Message(
+                $newDistribution,
+                sprintf("message from %s to %s", $this, $variable)));
         return $binding;
     }
 }
-
-?>
