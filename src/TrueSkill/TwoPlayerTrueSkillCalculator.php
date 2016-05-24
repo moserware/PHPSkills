@@ -2,7 +2,7 @@
 
 use Moserware\Skills\GameInfo;
 use Moserware\Skills\Guard;
-use Moserware\Skills\Numerics\BasicMatch;
+use Moserware\Skills\Numerics\BasicMath;
 use Moserware\Skills\PairwiseComparison;
 use Moserware\Skills\RankSorter;
 use Moserware\Skills\Rating;
@@ -26,7 +26,7 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
         parent::__construct(SkillCalculatorSupportedOptions::NONE, TeamsRange::exactly(2), PlayersRange::exactly(1));
     }
 
-    public function calculateNewRatings(GameInfo &$gameInfo,
+    public function calculateNewRatings(GameInfo $gameInfo,
                                         array $teams,
                                         array $teamRanks)
     {
@@ -74,11 +74,11 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
         );
 
         $c = sqrt(
-            BasicMatch::square($selfRating->getStandardDeviation())
+            BasicMath::square($selfRating->getStandardDeviation())
             +
-            BasicMatch::square($opponentRating->getStandardDeviation())
+            BasicMath::square($opponentRating->getStandardDeviation())
             +
-            2 * BasicMatch::square($gameInfo->getBeta())
+            2 * BasicMath::square($gameInfo->getBeta())
         );
 
         $winningMean = $selfRating->getMean();
@@ -112,10 +112,10 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
             $rankMultiplier = 1;
         }
 
-        $meanMultiplier = (BasicMatch::square($selfRating->getStandardDeviation()) + BasicMatch::square($gameInfo->getDynamicsFactor()))/$c;
+        $meanMultiplier = (BasicMath::square($selfRating->getStandardDeviation()) + BasicMath::square($gameInfo->getDynamicsFactor()))/$c;
 
-        $varianceWithDynamics = BasicMatch::square($selfRating->getStandardDeviation()) + BasicMatch::square($gameInfo->getDynamicsFactor());
-        $stdDevMultiplier = $varianceWithDynamics/BasicMatch::square($c);
+        $varianceWithDynamics = BasicMath::square($selfRating->getStandardDeviation()) + BasicMath::square($gameInfo->getDynamicsFactor());
+        $stdDevMultiplier = $varianceWithDynamics/BasicMath::square($c);
 
         $newMean = $selfRating->getMean() + ($rankMultiplier*$meanMultiplier*$v);
         $newStdDev = sqrt($varianceWithDynamics*(1 - $w*$stdDevMultiplier));
@@ -126,7 +126,7 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
     /**
      * {@inheritdoc }
      */
-    public function calculateMatchQuality(GameInfo &$gameInfo, array &$teams)
+    public function calculateMatchQuality(GameInfo $gameInfo, array &$teams)
     {
         Guard::argumentNotNull($gameInfo, "gameInfo");
         $this->validateTeamCountAndPlayersCountPerTeam($teams);
@@ -141,9 +141,9 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
         $player2Rating = $team2Ratings[0];
 
         // We just use equation 4.1 found on page 8 of the TrueSkill 2006 paper:
-        $betaSquared = BasicMatch::square($gameInfo->getBeta());
-        $player1SigmaSquared = BasicMatch::square($player1Rating->getStandardDeviation());
-        $player2SigmaSquared = BasicMatch::square($player2Rating->getStandardDeviation());
+        $betaSquared = BasicMath::square($gameInfo->getBeta());
+        $player1SigmaSquared = BasicMath::square($player1Rating->getStandardDeviation());
+        $player2SigmaSquared = BasicMath::square($player2Rating->getStandardDeviation());
 
         // This is the square root part of the equation:
         $sqrtPart =
@@ -155,7 +155,7 @@ class TwoPlayerTrueSkillCalculator extends SkillCalculator
         // This is the exponent part of the equation:
         $expPart =
             exp(
-                (-1*BasicMatch::square($player1Rating->getMean() - $player2Rating->getMean()))
+                (-1*BasicMath::square($player1Rating->getMean() - $player2Rating->getMean()))
                 /
                 (2*(2*$betaSquared + $player1SigmaSquared + $player2SigmaSquared)));
 

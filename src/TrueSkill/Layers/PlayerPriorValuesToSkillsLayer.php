@@ -1,6 +1,6 @@
 <?php namespace Moserware\Skills\TrueSkill\Layers;
 
-use Moserware\Skills\Numerics\BasicMatch;
+use Moserware\Skills\Numerics\BasicMath;
 use Moserware\Skills\Rating;
 use Moserware\Skills\FactorGraphs\ScheduleStep;
 use Moserware\Skills\FactorGraphs\Variable;
@@ -57,8 +57,8 @@ class PlayerPriorValuesToSkillsLayer extends TrueSkillFactorGraphLayer
     {
         return new GaussianPriorFactor(
             $priorRating->getMean(),
-            BasicMatch::square($priorRating->getStandardDeviation()) +
-            BasicMatch::square($this->getParentFactorGraph()->getGameInfo()->getDynamicsFactor()),
+            BasicMath::square($priorRating->getStandardDeviation()) +
+            BasicMath::square($this->getParentFactorGraph()->getGameInfo()->getDynamicsFactor()),
             $skillsVariable
         );
     }

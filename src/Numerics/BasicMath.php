@@ -6,7 +6,7 @@
  * @author     Jeff Moser <jeff@moserware.com>
  * @copyright  2010 Jeff Moser 
  */
-class BasicMatch {
+class BasicMath {
 
     /**
      * Squares the input (x^2 = x * x)

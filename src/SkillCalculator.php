@@ -26,7 +26,7 @@ abstract class SkillCalculator
      *
      * @return All the players and their new ratings.
      */
-    public abstract function calculateNewRatings(GameInfo &$gameInfo,
+    public abstract function calculateNewRatings(GameInfo $gameInfo,
                                                  array $teamsOfPlayerToRatings,
                                                  array $teamRanks);
 
@@ -37,7 +37,7 @@ abstract class SkillCalculator
      * @param array $teamsOfPlayerToRatings A mapping of team players and their ratings.
      * @return The quality of the match between the teams as a percentage (0% = bad, 100% = well matched).
      */
-    public abstract function calculateMatchQuality(GameInfo &$gameInfo,
+    public abstract function calculateMatchQuality(GameInfo $gameInfo,
                                                    array &$teamsOfPlayerToRatings);
 
     public function isSupported($option)
@@ -58,7 +58,7 @@ abstract class SkillCalculator
         $countOfTeams = 0;
 
         foreach ($teams as $currentTeam) {
-            if (!$playersPerTeam->isInRange($currentTeam->count())) {
+            if (!$playersPerTeam->isInRange(count($currentTeam))) {
                 throw new Exception("Player count is not in range");
             }
             $countOfTeams++;

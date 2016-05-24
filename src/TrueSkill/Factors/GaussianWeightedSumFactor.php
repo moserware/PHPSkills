@@ -3,7 +3,7 @@
 use Moserware\Skills\Guard;
 use Moserware\Skills\FactorGraphs\Message;
 use Moserware\Skills\FactorGraphs\Variable;
-use Moserware\Skills\Numerics\BasicMatch;
+use Moserware\Skills\Numerics\BasicMath;
 use Moserware\Skills\Numerics\GaussianDistribution;
 
 /**
@@ -34,7 +34,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
         for ($i = 0; $i < $variableWeightsLength; $i++) {
             $weight = &$variableWeights[$i];
             $this->_weights[0][$i] = $weight;
-            $this->_weightsSquared[0][$i] = BasicMatch::square($weight);
+            $this->_weightsSquared[0][$i] = BasicMath::square($weight);
         }
 
         $variablesToSumLength = count($variablesToSum);
@@ -94,7 +94,7 @@ class GaussianWeightedSumFactor extends GaussianFactor
                 $finalWeight = 0;
             }
             $currentWeights[$currentDestinationWeightIndex] = $finalWeight;
-            $currentWeightsSquared[$currentDestinationWeightIndex] = BasicMatch::square($finalWeight);
+            $currentWeightsSquared[$currentDestinationWeightIndex] = BasicMath::square($finalWeight);
             $variableIndices[count($variableWeights)] = 0;
             $this->_variableIndexOrdersForWeights[] = $variableIndices;
 

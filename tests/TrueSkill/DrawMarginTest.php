@@ -4,9 +4,9 @@ use Moserware\Skills\Tests\TestCase;
 use Moserware\Skills\TrueSkill\DrawMargin;
 
 class DrawMarginTest extends TestCase
-{    
+{
     const ERROR_TOLERANCE = 0.000001;
-    
+
     public function testGetDrawMarginFromDrawProbability()
     {
         $beta = 25.0 / 6.0;
@@ -20,5 +20,5 @@ class DrawMarginTest extends TestCase
     {
         $actual = DrawMargin::getDrawMarginFromDrawProbability($drawProbability, $beta);
         $this->assertEquals($expected, $actual, '', DrawMarginTest::ERROR_TOLERANCE);
-    }    
+    }
 }

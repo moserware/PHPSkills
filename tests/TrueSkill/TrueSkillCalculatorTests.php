@@ -17,14 +17,14 @@ class TrueSkillCalculatorTests
     public static function testAllTwoPlayerScenarios($testClass, SkillCalculator $calculator)
     {
         self::twoPlayerTestNotDrawn($testClass, $calculator);
-        self::twoPlayerTestDrawn($testClass, $calculator);        
+        self::twoPlayerTestDrawn($testClass, $calculator);
         self::twoPlayerChessTestNotDrawn($testClass, $calculator);
         self::oneOnOneMassiveUpsetDrawTest($testClass, $calculator);
     }
-    
+
     public static function testAllTwoTeamScenarios($testClass, SkillCalculator $calculator)
     {
-        self::oneOnTwoSimpleTest($testClass, $calculator);        
+        self::oneOnTwoSimpleTest($testClass, $calculator);
         self::oneOnTwoSomewhatBalanced($testClass, $calculator);
         self::oneOnTwoDrawTest($testClass, $calculator);
         self::oneOnThreeDrawTest($testClass, $calculator);
@@ -75,7 +75,7 @@ class TrueSkillCalculatorTests
     private static function twoPlayerTestNotDrawn($testClass, SkillCalculator $calculator)
     {
         $player1 = new Player(1);
-        $player2 = new Player(2);        
+        $player2 = new Player(2);
         $gameInfo = new GameInfo();
 
         $team1 = new Team($player1, $gameInfo->getDefaultRating());
@@ -621,7 +621,7 @@ class TrueSkillCalculatorTests
         $team1 = new Team($player1, $gameInfo->getDefaultRating());
         $team2 = new Team($player2, $gameInfo->getDefaultRating());
         $team3 = new Team($player3, $gameInfo->getDefaultRating());
-        
+
         $teams = Teams::concat($team1, $team2, $team3);
         $newRatings = $calculator->calculateNewRatings($gameInfo, $teams, array(1, 1, 1));
 
@@ -847,14 +847,14 @@ class TrueSkillCalculatorTests
         $team16 = new Team($player16, $gameInfo->getDefaultRating());
 
         $teams = Teams::concat(
-                    $team1, $team2, $team3, $team4, $team5,
-                    $team6, $team7, $team8, $team9, $team10,
-                    $team11, $team12, $team13, $team14, $team15,
-                    $team16);
+            $team1, $team2, $team3, $team4, $team5,
+            $team6, $team7, $team8, $team9, $team10,
+            $team11, $team12, $team13, $team14, $team15,
+            $team16);
 
         $newRatings = $calculator->calculateNewRatings(
-                        $gameInfo, $teams,
-                        array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
+            $gameInfo, $teams,
+            array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
 
         $player1NewRating = $newRatings->getRating($player1);
         self::assertRating($testClass, 40.53945776946920, 5.27581643889050, $player1NewRating);
@@ -913,8 +913,8 @@ class TrueSkillCalculatorTests
         $gameInfo = new GameInfo();
 
         $team1 = new Team();
-        $team1->addPlayer($player1, new Rating(40,4));
-        $team1->addPlayer($player2, new Rating(45,3));
+        $team1->addPlayer($player1, new Rating(40, 4));
+        $team1->addPlayer($player2, new Rating(45, 3));
 
         $player3 = new Player(3);
         $player4 = new Player(4);
@@ -931,8 +931,8 @@ class TrueSkillCalculatorTests
         $player8 = new Player(8);
 
         $team3 = new Team();
-        $team3->addPlayer($player7, new Rating(50,5));
-        $team3->addPlayer($player8, new Rating(30,2));
+        $team3->addPlayer($player7, new Rating(50, 5));
+        $team3->addPlayer($player8, new Rating(30, 2));
 
         $teams = Teams::concat($team1, $team2, $team3);
         $newRatingsWinLose = $calculator->calculateNewRatings($gameInfo, $teams, array(1, 2, 2));
@@ -986,7 +986,7 @@ class TrueSkillCalculatorTests
 
     private static function assertRating($testClass, $expectedMean, $expectedStandardDeviation, $actual)
     {
-        $testClass->assertEquals($expectedMean, $actual->getMean(), '',  self::ERROR_TOLERANCE_TRUESKILL);
+        $testClass->assertEquals($expectedMean, $actual->getMean(), '', self::ERROR_TOLERANCE_TRUESKILL);
         $testClass->assertEquals($expectedStandardDeviation, $actual->getStandardDeviation(), '', self::ERROR_TOLERANCE_TRUESKILL);
     }
 

@@ -21,7 +21,7 @@ class GaussianDistribution
     {
         $this->_mean = $mean;
         $this->_standardDeviation = $standardDeviation;
-        $this->_variance = BasicMatch::square($standardDeviation);
+        $this->_variance = BasicMath::square($standardDeviation);
 
         if ($this->_variance != 0) {
             $this->_precision = 1.0 / $this->_variance;
@@ -128,7 +128,7 @@ class GaussianDistribution
         $meanDifference = $left->_mean - $right->_mean;
 
         $logSqrt2Pi = log(sqrt(2 * M_PI));
-        return -$logSqrt2Pi - (log($varianceSum) / 2.0) - (BasicMatch::square($meanDifference) / (2.0 * $varianceSum));
+        return -$logSqrt2Pi - (log($varianceSum) / 2.0) - (BasicMath::square($meanDifference) / (2.0 * $varianceSum));
     }
 
     public static function divide(GaussianDistribution $numerator, GaussianDistribution $denominator)
@@ -149,7 +149,7 @@ class GaussianDistribution
         $logSqrt2Pi = log(sqrt(2 * M_PI));
 
         return log($denominator->_variance) + $logSqrt2Pi - log($varianceDifference) / 2.0 +
-        BasicMatch::square($meanDifference) / (2 * $varianceDifference);
+        BasicMath::square($meanDifference) / (2 * $varianceDifference);
     }
 
     public static function at($x, $mean = 0.0, $standardDeviation = 1.0)
@@ -160,7 +160,7 @@ class GaussianDistribution
         //        stdDev * sqrt(2*pi)
 
         $multiplier = 1.0 / ($standardDeviation * sqrt(2 * M_PI));
-        $expPart = exp((-1.0 * BasicMatch::square($x - $mean)) / (2 * BasicMatch::square($standardDeviation)));
+        $expPart = exp((-1.0 * BasicMath::square($x - $mean)) / (2 * BasicMath::square($standardDeviation)));
         $result = $multiplier * $expPart;
         return $result;
     }
@@ -241,7 +241,7 @@ class GaussianDistribution
 
         for ($j = 0; $j < 2; $j++) {
             $err = GaussianDistribution::errorFunctionCumulativeTo($x) - $pp;
-            $x += $err / (1.12837916709551257 * exp(-BasicMatch::square($x)) - $x * $err); // Halley
+            $x += $err / (1.12837916709551257 * exp(-BasicMath::square($x)) - $x * $err); // Halley
         }
 
         return ($p < 1.0) ? $x : -$x;

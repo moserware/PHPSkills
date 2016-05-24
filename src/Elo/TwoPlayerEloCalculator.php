@@ -1,5 +1,7 @@
 <?php namespace Moserware\Skills\Elo;
 
+use Exception;
+use Moserware\Skills\GameInfo;
 use Moserware\Skills\PairwiseComparison;
 use Moserware\Skills\RankSorter;
 use Moserware\Skills\SkillCalculator;
@@ -18,7 +20,7 @@ abstract class TwoPlayerEloCalculator extends SkillCalculator
         $this->_kFactor = $kFactor;
     }
 
-    public function calculateNewRatings($gameInfo,
+    public function calculateNewRatings(GameInfo $gameInfo,
                                         array $teamsOfPlayerToRatings,
                                         array $teamRanks)
     {   
@@ -71,9 +73,9 @@ abstract class TwoPlayerEloCalculator extends SkillCalculator
 
     public abstract function getPlayerWinProbability($gameInfo, $playerRating, $opponentRating);
 
-    public function calculateMatchQuality($gameInfo, array $teamsOfPlayerToRatings)
+    public function calculateMatchQuality(GameInfo $gameInfo, array &$teamsOfPlayerToRatings)
     {
-        validateTeamCountAndPlayersCountPerTeam($teamsOfPlayerToRatings);
+        $this->validateTeamCountAndPlayersCountPerTeam($teamsOfPlayerToRatings);
         $team1 = $teamsOfPlayerToRatings[0];
         $team2 = $teamsOfPlayerToRatings[1];
         
@@ -88,7 +90,7 @@ abstract class TwoPlayerEloCalculator extends SkillCalculator
         // The TrueSkill paper mentions that they used s1 - s2 (rating difference) to
         // determine match quality. I convert that to a percentage as a delta from 50%
         // using the cumulative density function of the specific curve being used
-        $deltaFrom50Percent = abs(getPlayerWinProbability($gameInfo, $player1Rating, $player2Rating) - 0.5);
+        $deltaFrom50Percent = abs($this->getPlayerWinProbability($gameInfo, $player1Rating, $player2Rating) - 0.5);
         return (0.5 - $deltaFrom50Percent) / 0.5;
     }
 }

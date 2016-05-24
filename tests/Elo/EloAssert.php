@@ -1,15 +1,18 @@
 <?php namespace Moserware\Skills\Tests\Elo;
 
+use Moserware\Skills\Elo\EloRating;
+use Moserware\Skills\Elo\FideEloCalculator;
 use Moserware\Skills\GameInfo;
 use Moserware\Skills\PairwiseComparison;
+use Moserware\Skills\Tests\TestCase;
 
 class EloAssert
 {
     const ERROR_TOLERANCE = 0.1;
 
     public static function assertChessRating(
-        $testClass,
-        $twoPlayerEloCalculator,
+        TestCase $testClass,
+        FideEloCalculator $twoPlayerEloCalculator,
         $player1BeforeRating,
         $player2BeforeRating,
         $player1Result,
@@ -31,7 +34,8 @@ class EloAssert
         $result = $twoPlayerEloCalculator->calculateNewRatings(
             $chessGameInfo,
             $teams,
-            $ranks);
+            $ranks
+        );
 
         $testClass->assertEquals($player1AfterRating, $result[$player1]->getMean(), '', self::ERROR_TOLERANCE);
         $testClass->assertEquals($player2AfterRating, $result[$player2]->getMean(), '', self::ERROR_TOLERANCE);

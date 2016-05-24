@@ -2,7 +2,7 @@
 
 use Moserware\Skills\FactorGraphs\ScheduleStep;
 use Moserware\Skills\FactorGraphs\KeyedVariable;
-use Moserware\Skills\Numerics\BasicMatch;
+use Moserware\Skills\Numerics\BasicMath;
 use Moserware\Skills\TrueSkill\TrueSkillFactorGraph;
 use Moserware\Skills\TrueSkill\Factors\GaussianLikelihoodFactor;
 
@@ -37,7 +37,7 @@ class PlayerSkillsToPerformancesLayer extends TrueSkillFactorGraphLayer
     private function createLikelihood(KeyedVariable &$playerSkill, KeyedVariable &$playerPerformance)
     {
         return new GaussianLikelihoodFactor(
-            BasicMatch::square($this->getParentFactorGraph()->getGameInfo()->getBeta()),
+            BasicMath::square($this->getParentFactorGraph()->getGameInfo()->getBeta()),
             $playerPerformance,
             $playerSkill
         );

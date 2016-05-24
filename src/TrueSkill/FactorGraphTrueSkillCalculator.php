@@ -4,7 +4,7 @@ use Moserware\Skills\GameInfo;
 use Moserware\Skills\Guard;
 use Moserware\Skills\ISupportPartialPlay;
 use Moserware\Skills\ISupportPartialUpdate;
-use Moserware\Skills\Numerics\BasicMatch;
+use Moserware\Skills\Numerics\BasicMath;
 use Moserware\Skills\Numerics\DiagonalMatrix;
 use Moserware\Skills\Numerics\Matrix;
 use Moserware\Skills\Numerics\Vector;
@@ -25,7 +25,7 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         parent::__construct(SkillCalculatorSupportedOptions::PARTIAL_PLAY | SkillCalculatorSupportedOptions::PARTIAL_UPDATE, TeamsRange::atLeast(2), PlayersRange::atLeast(1));
     }
 
-    public function calculateNewRatings(GameInfo &$gameInfo,
+    public function calculateNewRatings(GameInfo $gameInfo,
                                         array $teams,
                                         array $teamRanks)
     {
@@ -43,7 +43,7 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         return $factorGraph->getUpdatedRatings();
     }
 
-    public function calculateMatchQuality(GameInfo &$gameInfo,
+    public function calculateMatchQuality(GameInfo $gameInfo,
                                           array &$teams)
     {
         // We need to create the A matrix which is the player team assigments.
@@ -55,7 +55,7 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         $playerTeamAssignmentsMatrix = $this->createPlayerTeamAssignmentMatrix($teamAssignmentsList, $meanVector->getRowCount());
         $playerTeamAssignmentsMatrixTranspose = $playerTeamAssignmentsMatrix->getTranspose();
 
-        $betaSquared = BasicMatch::square($gameInfo->getBeta());
+        $betaSquared = BasicMath::square($gameInfo->getBeta());
 
         $start = Matrix::multiply($meanVectorTranspose, $playerTeamAssignmentsMatrix);
 
@@ -103,7 +103,7 @@ class FactorGraphTrueSkillCalculator extends SkillCalculator
         return new DiagonalMatrix(
             self::getPlayerRatingValues($teamAssignmentsList,
                 function ($rating) {
-                    return BasicMatch::square($rating->getStandardDeviation());
+                    return BasicMath::square($rating->getStandardDeviation());
                 }));
     }
 
