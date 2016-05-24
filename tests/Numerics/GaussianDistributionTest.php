@@ -1,11 +1,4 @@
-<?php
-namespace Moserware\Numerics;
-
-require_once 'PHPUnit/Framework.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
-
-require_once(dirname(__FILE__) . '/../../Skills/Numerics/GaussianDistribution.php');
-
+<?php namespace Moserware\Skills\Tests\Numerics;
 
 use \PHPUnit_Framework_TestCase;
  
@@ -101,6 +94,3 @@ class GaussianDistributionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0.4330127018922193, $absDiff2, '', GaussianDistributionTest::ERROR_TOLERANCE);
     }
 }
-
-?>
-

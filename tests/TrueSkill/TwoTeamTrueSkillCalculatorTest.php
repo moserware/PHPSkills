@@ -1,9 +1,4 @@
-<?php
-require_once 'PHPUnit/Framework.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
-
-require_once(dirname(__FILE__) . '/../../Skills/TrueSkill/TwoTeamTrueSkillCalculator.php');
-require_once(dirname(__FILE__) . '/TrueSkillCalculatorTests.php');
+<?php namespace Moserware\Skills\Tests\TrueSkill;
 
 use \PHPUnit_Framework_TestCase;
 use Moserware\Skills\TrueSkill\TwoTeamTrueSkillCalculator;
@@ -19,9 +14,3 @@ class TwoTeamTrueSkillCalculatorTest extends PHPUnit_Framework_TestCase
         TrueSkillCalculatorTests::testAllTwoTeamScenarios($this, $calculator);
     }
 }
-
-$testSuite = new \PHPUnit_Framework_TestSuite();
-$testSuite->addTest( new TwoTeamTrueSkillCalculatorTest("testTwoTeamTrueSkillCalculator"));
-
-\PHPUnit_TextUI_TestRunner::run($testSuite);
-?>

@@ -1,12 +1,6 @@
-<?php
-namespace Moserware\Skills;
+<?php namespace Moserware\Skills\Tests;
 
-require_once 'PHPUnit/Framework.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
-
-require_once(dirname(__FILE__) . '/../Skills/RankSorter.php');
-
-
+use Moserware\Skills\RankSorter;
 use \PHPUnit_Framework_TestCase;
  
 class RankSorterTest extends PHPUnit_Framework_TestCase
@@ -29,5 +23,3 @@ class RankSorterTest extends PHPUnit_Framework_TestCase
         
     }
 }
-
-?>

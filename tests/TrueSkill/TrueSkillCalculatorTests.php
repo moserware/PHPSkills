@@ -1,10 +1,4 @@
-<?php
-require_once(dirname(__FILE__) . "/../../Skills/GameInfo.php");
-require_once(dirname(__FILE__) . "/../../Skills/Player.php");
-require_once(dirname(__FILE__) . "/../../Skills/Rating.php");
-require_once(dirname(__FILE__) . "/../../Skills/Team.php");
-require_once(dirname(__FILE__) . "/../../Skills/Teams.php");
-require_once(dirname(__FILE__) . "/../../Skills/SkillCalculator.php");
+<?php namespace Moserware\Skills\Tests\TrueSkill;
 
 use Moserware\Skills\GameInfo;
 use Moserware\Skills\Player;
