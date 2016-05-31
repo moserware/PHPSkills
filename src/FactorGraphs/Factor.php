@@ -19,7 +19,7 @@ abstract class Factor
     }
 
     /**
-     * @return The log-normalization constant of that factor
+     * @return mixed The log-normalization constant of that factor
      */
     public function getLogNormalization()
     {
@@ -27,7 +27,7 @@ abstract class Factor
     }
 
     /**
-     * @return The number of messages that the factor has
+     * @return int The number of messages that the factor has
      */
     public function getNumberOfMessages()
     {
@@ -102,6 +102,6 @@ abstract class Factor
 
     public function __toString()
     {
-        return ($this->_name != null) ? $this->_name : null;
+        return $this->_name;
     }
 }
