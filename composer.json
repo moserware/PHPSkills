@@ -1,7 +1,7 @@
 {
-  "name": "moserware/trueskill",
+  "name": "phpskills/phpskills",
   "description": "Implementation of Microsoft's TrueSkill matchmaking system for PHP",
-  "keywords": ["trueskill","matchmaking"],
+  "keywords": ["trueskill", "matchmaking", "ranking", "skill", "elo"],
   "homepage": "https://github.com/moserware/PHPSkills",
   "version": "1.0.0",
   "authors": [
