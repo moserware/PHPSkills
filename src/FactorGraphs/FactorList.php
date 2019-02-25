@@ -1,9 +1,11 @@
 <?php namespace Moserware\Skills\FactorGraphs;
 
+use Countable;
+
 /**
  * Helper class for computing the factor graph's normalization constant.
  */
-class FactorList
+class FactorList implements Countable
 {
     private $_list = array();
 

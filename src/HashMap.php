@@ -1,9 +1,11 @@
 <?php namespace Moserware\Skills;
 
+use Countable;
+
 /**
  * Basic hashmap that supports object keys.
  */
-class HashMap
+class HashMap implements Countable
 {
     private $_hashToValue = array();
     private $_hashToKey = array();
