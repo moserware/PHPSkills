@@ -1,6 +1,8 @@
 <?php namespace Moserware\Skills;
 
-class RatingContainer
+use Countable;
+
+class RatingContainer implements Countable
 {
     private $_playerToRating;
 
