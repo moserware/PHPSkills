@@ -19,6 +19,6 @@ class DrawMarginTest extends TestCase
     private function assertDrawMargin($drawProbability, $beta, $expected)
     {
         $actual = DrawMargin::getDrawMarginFromDrawProbability($drawProbability, $beta);
-        $this->assertEquals($expected, $actual, '', DrawMarginTest::ERROR_TOLERANCE);
+        $this->assertEqualsWithDelta($expected, $actual, DrawMarginTest::ERROR_TOLERANCE);
     }
 }

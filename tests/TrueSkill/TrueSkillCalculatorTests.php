@@ -6,11 +6,12 @@ use Moserware\Skills\Rating;
 use Moserware\Skills\Team;
 use Moserware\Skills\Teams;
 use Moserware\Skills\SkillCalculator;
+use Moserware\Skills\Tests\TestCase;
 
 class TrueSkillCalculatorTests
 {
     const ERROR_TOLERANCE_TRUESKILL = 0.085;
-    const ERROR_TOLERANCE_MATCH_QUALITY = 0.0005;
+    const ERROR_TOLERANCE_MATCH_QUALITY = 0.0015;
 
     // These are the roll-up ones
 
@@ -984,14 +985,14 @@ class TrueSkillCalculatorTests
         self::assertMatchQuality($testClass, 0.44721358745011336, $matchQuality);
     }
 
-    private static function assertRating($testClass, $expectedMean, $expectedStandardDeviation, $actual)
+    private static function assertRating(TestCase $testClass, $expectedMean, $expectedStandardDeviation, $actual)
     {
-        $testClass->assertEquals($expectedMean, $actual->getMean(), '', self::ERROR_TOLERANCE_TRUESKILL);
-        $testClass->assertEquals($expectedStandardDeviation, $actual->getStandardDeviation(), '', self::ERROR_TOLERANCE_TRUESKILL);
+        $testClass::assertEqualsWithDelta($expectedMean, $actual->getMean(), self::ERROR_TOLERANCE_TRUESKILL);
+        $testClass::assertEqualsWithDelta($expectedStandardDeviation, $actual->getStandardDeviation(), self::ERROR_TOLERANCE_TRUESKILL);
     }
 
-    private static function assertMatchQuality($testClass, $expectedMatchQuality, $actualMatchQuality)
+    private static function assertMatchQuality(TestCase $testClass, $expectedMatchQuality, $actualMatchQuality)
     {
-        $testClass->assertEquals($expectedMatchQuality, $actualMatchQuality, '', self::ERROR_TOLERANCE_MATCH_QUALITY);
+        $testClass::assertEqualsWithDelta($expectedMatchQuality, $actualMatchQuality, self::ERROR_TOLERANCE_MATCH_QUALITY);
     }
 }

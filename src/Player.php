@@ -61,6 +61,6 @@ class Player implements ISupportPartialPlay, ISupportPartialUpdate
             return (string)$this->_Id;
         }
 
-        return parent::__toString();
+        return "Unidentified ({$this->_PartialPlayPercentage}, $this->_PartialUpdatePercentage})";
     }
 }

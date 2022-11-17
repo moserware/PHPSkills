@@ -29,10 +29,10 @@ abstract class TwoPlayerEloCalculator extends SkillCalculator
 
         $team1 = $teamsOfPlayerToRatings[0];
         $team2 = $teamsOfPlayerToRatings[1];
-        
-        $player1 = each($team1);
-        $player2 = each($team2);
-        
+
+        $player1 = ['key' => key($team1), 'value' => current($team1)];
+        $player2 = ['key' => key($team2), 'value' => current($team2)];
+
         $player1Rating = $player1["value"]->getMean();
         $player2Rating = $player2["value"]->getMean();
 

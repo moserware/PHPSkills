@@ -3,3 +3,4 @@ nbproject
 .idea
 vendor
 bin
+.phpunit.result.cache
