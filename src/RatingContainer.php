@@ -1,6 +1,6 @@
 <?php namespace Moserware\Skills;
 
-class RatingContainer
+class RatingContainer implements \Countable
 {
     private $_playerToRating;
 
@@ -29,7 +29,7 @@ class RatingContainer
         return $this->_playerToRating->getAllValues();
     }
 
-    public function count()
+    public function count(): int
     {
         return $this->_playerToRating->count();
     }

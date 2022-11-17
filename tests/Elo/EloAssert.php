@@ -37,7 +37,7 @@ class EloAssert
             $ranks
         );
 
-        $testClass->assertEquals($player1AfterRating, $result[$player1]->getMean(), '', self::ERROR_TOLERANCE);
-        $testClass->assertEquals($player2AfterRating, $result[$player2]->getMean(), '', self::ERROR_TOLERANCE);
+        $testClass->assertEqualsWithDelta($player1AfterRating, $result[$player1]->getMean(), self::ERROR_TOLERANCE);
+        $testClass->assertEqualsWithDelta($player2AfterRating, $result[$player2]->getMean(), self::ERROR_TOLERANCE);
     }
 }
